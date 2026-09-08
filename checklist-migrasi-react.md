@@ -1,0 +1,77 @@
+# Checklist Migrasi ke React — Sistem Percetakan
+
+Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di sidebar), dari yang paling sederhana ke paling kompleks. Total **30 unit kerja** dari 6 fase.
+
+**Legenda kompleksitas:** 🟢 Ringan · 🟡 Sedang · 🔴 Berat
+
+---
+
+## Fase 0 — Fondasi (wajib sebelum modul manapun)
+
+- [ ] Routing (React Router — 1 route per key halaman)
+- [ ] Store/state global (pengganti object `DUMMY` — Context API / Zustand)
+- [ ] Sistem tema Day/Night (CSS variables → tetap bisa dipakai)
+- [ ] Komponen generik: `<DataTable>` (cari/urut/paginasi/export), `<Modal>`, `<FormField>`
+- [ ] Sidebar + accordion grup (yang barusan dibuat collapsible)
+
+---
+
+## Fase 1 — Data Master (paling sederhana, buat bentuk pola dulu)
+
+- [ ] 🟢 Pelanggan *(tab dari "Pelanggan & Supplier")*
+- [ ] 🟢 Supplier *(tab dari "Pelanggan & Supplier")*
+- [ ] 🟢 Produk *(tab dari "Produk & Bahan Baku")*
+- [ ] 🟢 Bahan Baku *(tab dari "Produk & Bahan Baku" — kolom Stok Saat Ini readonly)*
+- [ ] 🟢 Promosi & Diskon
+- [ ] 🟢 Kampanye Pelanggan
+- [ ] 🟢 Sumber Leads
+
+## Fase 2 — Pengaturan Sistem (4 tab)
+
+- [ ] 🟡 Tab **Perusahaan** (upload logo, identitas usaha, checklist penempatan logo)
+- [ ] 🟡 Tab **Keuangan** (rekening bank ×3, upload gambar QRIS)
+- [ ] 🟡 Tab **User** (daftar Pengguna + matriks Hak Akses per role)
+- [ ] 🟡 Tab **Sistem** (Notifikasi & Pengingat + Backup & Audit Trail)
+
+## Fase 3 — Laporan & Sistem Stok
+
+- [ ] 🟢 Laporan Penjualan
+- [ ] 🟢 Laporan Produksi
+- [ ] 🟡 Stok Opname (Stok Sistem otomatis, Selisih real-time)
+- [ ] 🔴 **Kartu Stok / Ledger** *(infrastruktur inti — dipakai banyak modul lain: `addStokMovement`)*
+
+## Fase 4 — Transaksi Inti
+
+- [ ] 🟡 Pembelian — tab Order Pembelian (keranjang bahan, auto update stok + Buku Kas)
+- [ ] 🟢 Pembelian — tab Laporan (filter tanggal, ringkasan per supplier/bulan)
+- [ ] 🔴 **Kasir (POS)** *(paling kompleks: keranjang, matriks harga, DP/Lunas, QRIS, cetak struk, cek stok bahan)*
+
+## Fase 5 — Alur SPK & Produksi
+
+- [ ] 🔴 Alur SPK — Kartu (Kanban 5 tahap, Back/Done wajib catatan, over-hand)
+- [ ] 🟡 Alur SPK — Tabel
+- [ ] 🟡 Alur SPK — Arsip SPK (Selesai) + mekanisme Tutup SPK
+- [ ] 🟡 Alur SPK — SPK Batal + mekanisme Batalkan
+- [ ] 🟢 Status Pengerjaan
+- [ ] 🔴 **Kalkulasi HPP** *(akses terbatas, keranjang biaya stok/jasa, tarik Harga Jual otomatis dari Nota, hitung margin)*
+
+## Fase 6 — Marketing
+
+- [ ] 🟡 Dashboard Marketing (leaderboard 2 tab: Bulan Ini/Akumulasi, 4 kartu statistik)
+- [ ] 🔴 Tampilan personal Marketing ("Lihat Sebagai", data terfilter per user)
+- [ ] 🟡 Strategi Marketing + alur pengajuan & persetujuan anggaran
+
+## Fase 7 — Laporan Keuangan
+
+- [ ] 🟢 Buku Kas
+- [ ] 🟢 Dashboard (kartu ringkasan utama)
+- [ ] 🟡 Laporan Laba Rugi ⚠️ *masih statis di versi HTML, belum hitung otomatis dari transaksi riil*
+- [ ] 🟡 Laporan Neraca ⚠️ *sama, masih statis*
+
+---
+
+## Catatan Penting
+
+1. **Kartu Stok (Fase 3)** dan **Kasir/POS (Fase 4)** sebaiknya tidak dilompati — banyak modul lain (Pembelian, HPP, Pengurangan Manual) bergantung ke situ.
+2. **Kalkulasi HPP** dan **Dashboard Marketing** butuh data dari POS (No. Nota, Kode Marketing) sudah ada duluan — jangan dikerjakan sebelum Fase 4 selesai.
+3. Modul bertanda ⚠️ (Laba Rugi, Neraca) memang belum "benar" secara logika bahkan di versi HTML — kalau mau dibetulkan sekalian saat migrasi, itu kerjaan tambahan di luar migrasi murni.
