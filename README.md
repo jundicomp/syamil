@@ -7,41 +7,62 @@ npm run dev
 ```
 Lalu buka alamat yang muncul di terminal (biasanya `http://localhost:5173`).
 
-Untuk build produksi:
-```bash
-npm run build
-```
-
 ## Status migrasi
+Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 
-### ✅ Fase 0 — Fondasi (selesai)
-- Routing (React Router, mode Hash supaya aman dibuka dari file manapun)
-- State global (`DataContext` — pengganti object `DUMMY`)
-- Tema Day/Night (`ThemeContext`)
-- Komponen generik: `DataTable` (cari/urut/paginasi), `FormModal` (tambah/edit), `Badge`
-- Sidebar accordion (grup otomatis buka/tutup sesuai halaman aktif) + Topbar
+### ✅ Selesai
+- Fase 0 — Fondasi (routing, state global, tema, komponen generik, sidebar accordion)
+- Fase 1 — 7 modul data master (Pelanggan & Supplier, Produk & Bahan Baku, Promosi, Kampanye, Leads)
 
-### ✅ Fase 1 — Data Master (selesai, 7 modul)
-- Pelanggan & Supplier (2 tab)
-- Produk & Bahan Baku (2 tab)
-- Promosi & Diskon
-- Kampanye Pelanggan
-- Sumber Leads
+### ⏳ Belum
+Menu lain masih alert "belum dimigrasi" kalau diklik.
 
-### ⏳ Belum dimigrasi
-Semua menu lain di sidebar (Kasir POS, Alur SPK, Kalkulasi HPP, Dashboard Marketing, dst) — kalau diklik akan muncul alert "belum dimigrasi". Lihat `checklist-migrasi-react.md` untuk urutan Fase 2 dan seterusnya.
+---
+
+## Bagian 1 — Push ke GitHub (repo publik)
+
+Saya sudah siapkan repo Git **lokal** (sudah `git init` + 1 commit pertama) — tapi membuat repo di GitHub.com dan push butuh akun Anda sendiri, jadi bagian ini perlu dilakukan manual:
+
+1. Buka [github.com/new](https://github.com/new), buat repo baru:
+   - Nama bebas, misal `percetakan-jaya-react`
+   - Pilih **Public**
+   - **Jangan** centang "Add a README" (biar tidak bentrok dengan yang sudah ada)
+2. Setelah repo dibuat, GitHub akan kasih URL-nya. Di terminal, masuk ke folder proyek ini lalu jalankan:
+   ```bash
+   git remote add origin https://github.com/USERNAME_ANDA/percetakan-jaya-react.git
+   git push -u origin main
+   ```
+3. Selesai — repo publik Anda sudah berisi kode Fase 0+1 ini.
+
+Setiap kali saya lanjutkan fase berikutnya, saya akan commit lagi di repo lokal — tinggal `git push` lagi dari sisi Anda.
+
+---
+
+## Bagian 2 — Menyalakan Google Sheets sebagai Database
+
+Ini **belum aktif** — proyek masih pakai data di memori (`src/data/seedData.js`). Sudah saya siapkan kerangkanya (backend + adapter), tapi Sheet-nya sendiri cuma bisa dibuat di akun Google Anda. Langkahnya:
+
+1. **Buat Google Sheet baru**, buat 7 tab dengan nama & kolom header persis seperti ini (lihat komentar di `google-apps-script/Code.gs` untuk daftar lengkap kolomnya):
+   `Pelanggan`, `Supplier`, `Produk`, `BahanBaku`, `Promosi`, `Kampanye`, `Leads`
+2. Buka **Extensions > Apps Script** dari Sheet itu, hapus kode default, **paste isi file `google-apps-script/Code.gs`** dari proyek ini.
+3. Klik **Deploy > New deployment** → pilih tipe **Web app** → Execute as: **Me**, Who has access: **Anyone**. Deploy, lalu salin URL yang muncul (`https://script.google.com/macros/s/xxx/exec`).
+4. Di proyek React, buat file `.env` (copy dari `.env.example`), isi:
+   ```
+   VITE_SHEETS_API_URL=https://script.google.com/macros/s/xxx/exec
+   ```
+5. **Beri tahu saya** setelah langkah di atas selesai — saya akan sambungkan `DataContext.jsx` supaya benar-benar memanggil `src/data/sheetsAdapter.js`, gantikan data lokal. Ini sengaja belum saya sambungkan otomatis karena saya tidak bisa mengetes terhadap Sheet Anda yang sungguhan dari sini.
 
 ## Struktur folder
 ```
 src/
-  data/          konfigurasi navigasi + data contoh (pengganti DUMMY)
-  context/       state global (Data & Theme)
-  components/
-    common/      DataTable, FormModal, Badge, Icon
-    layout/      Sidebar, Topbar, AppShell
+  data/          navConfig, seedData (data lokal), sheetsAdapter (belum aktif)
+  context/       DataContext, ThemeContext
+  components/    DataTable, FormModal, Badge, Icon, Sidebar, Topbar, AppShell
   pages/         1 folder per modul
+google-apps-script/
+  Code.gs        backend, di-paste ke Apps Script Sheet Anda
 ```
 
 ## Catatan jujur
-- Data masih di memori (hilang kalau refresh) — sama seperti versi HTML, belum tersambung ke Google Sheets/backend.
-- Export Excel/PDF di tabel baru tampilan tombolnya saja, belum difungsikan (di versi HTML pakai SheetJS — belum diportir).
+- Export Excel/PDF di tabel baru tampilan tombolnya, belum difungsikan.
+- Adapter Sheets (`sheetsAdapter.js`) saya tulis mengikuti struktur `Code.gs` tapi **belum pernah dites terhadap Sheet sungguhan** — kemungkinan ada penyesuaian kecil begitu Anda coba deploy beneran.
