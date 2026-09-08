@@ -7,6 +7,7 @@ import ProdukBahanBakuPage from './pages/produkBahanBaku/ProdukBahanBakuPage';
 import PromosiPage from './pages/promosi/PromosiPage';
 import KampanyePage from './pages/kampanye/KampanyePage';
 import LeadsPage from './pages/leads/LeadsPage';
+import PengaturanSistemPage from './pages/pengaturanSistem/PengaturanSistemPage';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/promosi" element={<PromosiPage />} />
               <Route path="/kampanye" element={<KampanyePage />} />
               <Route path="/leads" element={<LeadsPage />} />
+              <Route path="/pengaturan-sistem" element={<PengaturanSistemPage />} />
             </Route>
           </Routes>
         </HashRouter>

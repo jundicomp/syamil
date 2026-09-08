@@ -58,3 +58,59 @@ export const seedLeads = withIds([
   { namaLead: 'CV Karya Mandiri', sumber: 'Referral', kontak: '0857-5555-6666', status: 'Deal' },
   { namaLead: 'Toko Berkah', sumber: 'WhatsApp', kontak: '0821-7777-8888', status: 'Nonaktif' },
 ]);
+
+// ===== Fase 2 — Pengaturan Sistem =====
+
+export const seedSettings = {
+  namaUsaha: 'Percetakan Jaya', alamat: 'Jl. Industri Kreatif No. 7, Bandung', kota: 'Bandung',
+  telepon: '022-7788990', whatsapp: '0812-3456-7890', email: 'info@percetakanjaya.id',
+  website: 'www.percetakanjaya.id', instagram: '@percetakanjaya',
+  logoDataUrl: null,
+  logoPlacement: { login: true, sidebar: true, struk: true, invoice: true, spk: false },
+  mataUang: 'Rupiah (Rp)', metodeBayar: 'Tunai',
+  rekening: [
+    { bank: 'BCA', noRek: '1234567890', atasNama: 'Percetakan Jaya' },
+    { bank: '', noRek: '', atasNama: '' },
+    { bank: '', noRek: '', atasNama: '' },
+  ],
+  qris: '', dana: '', qrisImageDataUrl: null,
+};
+
+export const seedPengguna = withIds([
+  { nama: 'Pak Budi', email: 'budi@percetakanjaya.id', role: 'Owner', status: 'Aktif', kodeMarketing: '-' },
+  { nama: 'Siti Aminah', email: 'siti@percetakanjaya.id', role: 'Kasir', status: 'Aktif', kodeMarketing: '-' },
+  { nama: 'Andi Saputra', email: 'andi@percetakanjaya.id', role: 'Gudang', status: 'Aktif', kodeMarketing: '-' },
+  { nama: 'Rina Wulandari', email: 'rina@percetakanjaya.id', role: 'Admin', status: 'Aktif', kodeMarketing: '-' },
+  { nama: 'Joko Prasetyo', email: 'joko@percetakanjaya.id', role: 'Kasir', status: 'Nonaktif', kodeMarketing: '-' },
+  { nama: 'Dewi Lestari', email: 'dewi@percetakanjaya.id', role: 'Gudang', status: 'Nonaktif', kodeMarketing: '-' },
+  { nama: 'Fajar Ramadhan', email: 'fajar@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'FAJ01' },
+  { nama: 'Nia Kusuma', email: 'nia@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'NIA02' },
+  { nama: 'Reza Pratama', email: 'reza@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'REZ03' },
+]);
+
+export const seedNotifikasi = withIds([
+  { judul: 'Stok Bahan Menipis', pemicu: 'Stok di bawah minimum', status: 'Aktif' },
+  { judul: 'Piutang Jatuh Tempo', pemicu: 'H-3 sebelum jatuh tempo', status: 'Aktif' },
+  { judul: 'Pembayaran Supplier', pemicu: 'H-1 sebelum jatuh tempo', status: 'Aktif' },
+  { judul: 'Target Produksi Terlambat', pemicu: 'Melewati target selesai', status: 'Aktif' },
+  { judul: 'Laporan Harian Kas', pemicu: 'Setiap pukul 21:00', status: 'Nonaktif' },
+]);
+
+export const seedAuditTrail = withIds([
+  { waktu: '12 Agu 2026, 10:24', pengguna: 'Siti Aminah', aktivitas: 'Membuat transaksi penjualan #INV-0231' },
+  { waktu: '12 Agu 2026, 09:10', pengguna: 'Andi Saputra', aktivitas: 'Input pembelian bahan baku #PO-0231' },
+  { waktu: '11 Agu 2026, 16:40', pengguna: 'Pak Budi', aktivitas: 'Mengubah harga produk "Banner Flexi China"' },
+  { waktu: '11 Agu 2026, 14:02', pengguna: 'Rina Wulandari', aktivitas: 'Menambah pengguna baru "Dewi Lestari"' },
+  { waktu: '10 Agu 2026, 18:15', pengguna: 'Andi Saputra', aktivitas: 'Melakukan stok opname gudang' },
+]);
+
+export const HAK_AKSES_ROLES = ['Owner', 'Admin', 'Kasir', 'Gudang', 'Marketing'];
+export const HAK_AKSES_MODULES = ['Penjualan', 'Pembelian', 'Produksi', 'Kalkulasi HPP', 'Marketing', 'Laporan Keuangan', 'Pengaturan'];
+export const seedHakAkses = {
+  Owner: { Penjualan: true, Pembelian: true, Produksi: true, 'Kalkulasi HPP': true, Marketing: true, 'Laporan Keuangan': true, Pengaturan: true },
+  Admin: { Penjualan: true, Pembelian: true, Produksi: true, 'Kalkulasi HPP': true, Marketing: true, 'Laporan Keuangan': true, Pengaturan: false },
+  Kasir: { Penjualan: true, Pembelian: false, Produksi: false, 'Kalkulasi HPP': false, Marketing: false, 'Laporan Keuangan': false, Pengaturan: false },
+  Gudang: { Penjualan: false, Pembelian: true, Produksi: true, 'Kalkulasi HPP': false, Marketing: false, 'Laporan Keuangan': false, Pengaturan: false },
+  Marketing: { Penjualan: false, Pembelian: false, Produksi: false, 'Kalkulasi HPP': false, Marketing: true, 'Laporan Keuangan': false, Pengaturan: false },
+};
+

@@ -28,10 +28,10 @@ Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di side
 
 ## Fase 2 — Pengaturan Sistem (4 tab)
 
-- [ ] 🟡 Tab **Perusahaan** (upload logo, identitas usaha, checklist penempatan logo)
-- [ ] 🟡 Tab **Keuangan** (rekening bank ×3, upload gambar QRIS)
-- [ ] 🟡 Tab **User** (daftar Pengguna + matriks Hak Akses per role)
-- [ ] 🟡 Tab **Sistem** (Notifikasi & Pengingat + Backup & Audit Trail)
+- [x] 🟡 Tab **Perusahaan** (upload logo, identitas usaha, checklist penempatan logo)
+- [x] 🟡 Tab **Keuangan** (rekening bank ×3, upload gambar QRIS)
+- [x] 🟡 Tab **User** (daftar Pengguna + matriks Hak Akses per role)
+- [x] 🟡 Tab **Sistem** (Notifikasi & Pengingat + Backup & Audit Trail)
 
 ## Fase 3 — Laporan & Sistem Stok
 
