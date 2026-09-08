@@ -52,6 +52,19 @@ Ini **belum aktif** — proyek masih pakai data di memori (`src/data/seedData.js
    ```
 5. **Beri tahu saya** setelah langkah di atas selesai — saya akan sambungkan `DataContext.jsx` supaya benar-benar memanggil `src/data/sheetsAdapter.js`, gantikan data lokal. Ini sengaja belum saya sambungkan otomatis karena saya tidak bisa mengetes terhadap Sheet Anda yang sungguhan dari sini.
 
+## Bagian 3 — Deploy ke GitHub Pages (kenapa tadi blank)
+
+Layar putih tadi karena file yang tersaji itu masih **file sumber mentah** (JSX belum diproses jadi JavaScript biasa) — browser tidak bisa langsung menjalankan JSX. Sudah saya perbaiki dua hal:
+
+1. `vite.config.js` — ditambah `base: '/syamil/'` supaya path file CSS/JS hasil build benar (repo ini disajikan dari subpath `/syamil/`, bukan dari root domain).
+2. `.github/workflows/deploy.yml` — otomatis **build** lalu deploy hasilnya (folder `dist/`, bukan source mentah) tiap kali ada `git push` ke branch `main`.
+
+**Satu langkah manual yang perlu Anda lakukan sekali saja** (saya tidak bisa mengubah pengaturan repo Anda):
+
+1. Buka `github.com/jundicomp/syamil` → **Settings** → **Pages**
+2. Di bagian **Build and deployment → Source**, ganti dari "Deploy from a branch" jadi **"GitHub Actions"**
+3. Push perubahan ini (`git push`), tunggu 1-2 menit, cek tab **Actions** di repo — kalau centang hijau, buka lagi `https://jundicomp.github.io/syamil/`
+
 ## Struktur folder
 ```
 src/
