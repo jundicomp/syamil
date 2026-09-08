@@ -114,3 +114,38 @@ export const seedHakAkses = {
   Marketing: { Penjualan: false, Pembelian: false, Produksi: false, 'Kalkulasi HPP': false, Marketing: true, 'Laporan Keuangan': false, Pengaturan: false },
 };
 
+// ===== Fase 3 — Laporan & Sistem Stok =====
+// Catatan: penjualan & produksi di sini cuma data LAPORAN (read-only) —
+// alur pembuatannya (Kasir POS, Alur SPK) baru dimigrasi di Fase 4 & 5.
+
+export const seedPenjualan = withIds([
+  { tanggal: '12 Agu 2026', noNota: 'INV-0231', pelanggan: 'Toko Sinar Jaya', total: 320000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: 'FAJ01' },
+  { tanggal: '12 Agu 2026', noNota: 'INV-0230', pelanggan: 'CV Abadi Sentosa', total: 700000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
+  { tanggal: '11 Agu 2026', noNota: 'INV-0229', pelanggan: 'Pelanggan Umum', total: 180000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
+  { tanggal: '11 Agu 2026', noNota: 'INV-0228', pelanggan: 'UD Makmur Jaya', total: 1250000, status: 'DP', dpDibayar: 500000, sisaBayar: 750000, kodeMarketing: 'NIA02' },
+  { tanggal: '10 Agu 2026', noNota: 'INV-0227', pelanggan: 'Toko Sinar Jaya', total: 455000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: 'FAJ01' },
+  { tanggal: '09 Agu 2026', noNota: 'INV-0226', pelanggan: 'CV Abadi Sentosa', total: 90000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
+  { tanggal: '08 Agu 2026', noNota: 'INV-0225', pelanggan: 'Pelanggan Umum', total: 620000, status: 'DP', dpDibayar: 200000, sisaBayar: 420000, kodeMarketing: 'REZ03' },
+  { tanggal: '07 Agu 2026', noNota: 'INV-0224', pelanggan: 'UD Makmur Jaya', total: 340000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
+]);
+
+export const seedProduksi = withIds([
+  { noOrder: 'PRD-0091', statusSpk: 'Aktif', noNota: 'INV-0231', produk: 'Banner Flexi China 3x1m', pelanggan: 'Toko Sinar Jaya', tahap: 'Cetak', target: '13 Agu 2026', pic: 'Andi' },
+  { noOrder: 'PRD-0090', statusSpk: 'Aktif', noNota: 'INV-0230', produk: 'Buku Nota Rangkap 2', pelanggan: 'CV Abadi Sentosa', tahap: 'Finishing', target: '12 Agu 2026', pic: 'Rina' },
+  { noOrder: 'PRD-0089', statusSpk: 'Aktif', noNota: 'INV-0228', produk: 'X-Banner 60x160', pelanggan: 'UD Makmur Jaya', tahap: 'Desain', target: '14 Agu 2026', pic: 'Siti' },
+  { noOrder: 'PRD-0088', statusSpk: 'Selesai', produk: 'Kartu Nama 1 Box', pelanggan: 'Toko Sinar Jaya', tahap: 'Konsumen', target: '10 Agu 2026', pic: 'Andi' },
+  { noOrder: 'PRD-0087', statusSpk: 'Aktif', produk: 'Stiker Vinyl A3', pelanggan: 'Pelanggan Umum', tahap: 'CS', target: '09 Agu 2026', pic: 'Rina' },
+  { noOrder: 'PRD-0086', statusSpk: 'Aktif', produk: 'Spanduk Digital 2x1m', pelanggan: 'CV Abadi Sentosa', tahap: 'Cetak', target: '13 Agu 2026', pic: 'Andi' },
+]);
+
+export const seedStokLedger = withIds([
+  { tanggal: '12 Agu 2026', bahan: 'Mata Ayam Banner', tipe: 'Masuk', qty: 20, satuan: 'pak', referensi: 'PO-0231', keterangan: 'Pembelian dari Toko Sumber Rejeki' },
+  { tanggal: '12 Agu 2026', bahan: 'Kertas Stiker Vinyl', tipe: 'Masuk', qty: 1.5, satuan: 'roll', referensi: 'PO-0231', keterangan: 'Pembelian dari Toko Sumber Rejeki' },
+  { tanggal: '10 Agu 2026', bahan: 'Flexi China 280gr', tipe: 'Masuk', qty: 4, satuan: 'roll', referensi: 'PO-0230', keterangan: 'Pembelian dari CV Bahan Flexi' },
+  { tanggal: '10 Agu 2026', bahan: 'Mata Ayam Banner', tipe: 'Masuk', qty: 8, satuan: 'pak', referensi: 'PO-0230', keterangan: 'Pembelian dari CV Bahan Flexi' },
+  { tanggal: '08 Agu 2026', bahan: 'Kertas HVS 80gr', tipe: 'Masuk', qty: 20, satuan: 'rim', referensi: 'PO-0229', keterangan: 'Pembelian dari UD Kertas Makmur' },
+  { tanggal: '08 Agu 2026', bahan: 'Art Paper 260gr', tipe: 'Masuk', qty: 8.4, satuan: 'rim', referensi: 'PO-0229', keterangan: 'Pembelian dari UD Kertas Makmur' },
+  { tanggal: '11 Agu 2026', bahan: 'Flexi China 280gr', tipe: 'Keluar', qty: 3, satuan: 'roll', referensi: 'PRD-0091', keterangan: 'Dipakai untuk produksi SPK' },
+]);
+
+

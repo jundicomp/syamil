@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
 import FormModal from '../../components/common/FormModal';
+import KartuStokModal from '../../components/common/KartuStokModal';
 
 const PRODUK_COLUMNS = [
   { key: 'nama', label: 'Nama' },
@@ -38,6 +39,7 @@ export default function ProdukBahanBakuPage() {
   const [tab, setTab] = useState('produk');
   const { data, addRow, updateRow, deleteRow } = useData();
   const [modal, setModal] = useState(null);
+  const [kartuStokBahan, setKartuStokBahan] = useState(null);
 
   const isProduk = tab === 'produk';
   const dataKey = isProduk ? 'produk' : 'bahanBaku';
@@ -69,10 +71,11 @@ export default function ProdukBahanBakuPage() {
         title={isProduk ? 'Produk' : 'Bahan Baku'}
         columns={columns}
         rows={data[dataKey]}
-        actions={['edit', 'delete']}
+        actions={isProduk ? ['edit', 'delete'] : ['view', 'edit', 'delete']}
         onAdd={() => setModal({ row: null })}
         onEdit={row => setModal({ row })}
         onDelete={row => deleteRow(dataKey, row.id)}
+        onView={row => setKartuStokBahan(row)}
       />
 
       {modal && (
@@ -83,6 +86,9 @@ export default function ProdukBahanBakuPage() {
           onSave={handleSave}
           onClose={() => setModal(null)}
         />
+      )}
+      {kartuStokBahan && (
+        <KartuStokModal bahan={kartuStokBahan} onClose={() => setKartuStokBahan(null)} />
       )}
     </div>
   );

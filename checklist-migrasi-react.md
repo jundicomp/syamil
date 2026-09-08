@@ -35,10 +35,10 @@ Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di side
 
 ## Fase 3 — Laporan & Sistem Stok
 
-- [ ] 🟢 Laporan Penjualan
-- [ ] 🟢 Laporan Produksi
-- [ ] 🟡 Stok Opname (Stok Sistem otomatis, Selisih real-time)
-- [ ] 🔴 **Kartu Stok / Ledger** *(infrastruktur inti — dipakai banyak modul lain: `addStokMovement`)*
+- [x] 🟢 Laporan Penjualan
+- [x] 🟢 Laporan Produksi
+- [x] 🟡 Stok Opname (Stok Sistem otomatis, Selisih real-time)
+- [x] 🔴 **Kartu Stok / Ledger** *(infrastruktur inti — dipakai banyak modul lain: `addStokMovement`)*
 
 ## Fase 4 — Transaksi Inti
 

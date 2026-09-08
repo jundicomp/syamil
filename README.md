@@ -1,4 +1,4 @@
-# Percetakan Jaya — Migrasi React (Fase 0–2)
+# Percetakan Jaya — Migrasi React (Fase 0–3)
 
 ## Cara menjalankan
 ```bash
@@ -14,6 +14,8 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 0 — Fondasi (routing, state global, tema, komponen generik, sidebar accordion)
 - Fase 1 — 7 modul data master (Pelanggan & Supplier, Produk & Bahan Baku, Promosi, Kampanye, Leads)
 - Fase 2 — Pengaturan Sistem, 4 tab (Perusahaan, Keuangan, User + Hak Akses, Sistem)
+- Fase 3 — Laporan Penjualan, Laporan Produksi, Stok Opname, Kartu Stok (+ `addStokMovement`)
+- Info versi & waktu push (Topbar) + halaman Changelog
 
 ### ⏳ Belum
 Menu lain masih alert "belum dimigrasi" kalau diklik.

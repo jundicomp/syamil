@@ -3,6 +3,7 @@ import {
   seedPelanggan, seedSupplier, seedProduk, seedBahanBaku,
   seedPromosi, seedKampanye, seedLeads,
   seedSettings, seedPengguna, seedNotifikasi, seedAuditTrail, seedHakAkses,
+  seedPenjualan, seedProduksi, seedStokLedger,
 } from '../data/seedData';
 
 const DataContext = createContext(null);
@@ -19,6 +20,9 @@ export function DataProvider({ children }) {
     pengguna: seedPengguna,
     notifikasi: seedNotifikasi,
     auditTrail: seedAuditTrail,
+    penjualan: seedPenjualan,
+    produksi: seedProduksi,
+    stokLedger: seedStokLedger,
   });
   const [settings, setSettings] = useState(seedSettings);
   const [hakAkses, setHakAkses] = useState(seedHakAkses);
@@ -52,8 +56,30 @@ export function DataProvider({ children }) {
     setHakAkses(prev => ({ ...prev, [role]: { ...prev[role], [mod]: !prev[role][mod] } }));
   }, []);
 
+  /**
+   * Fungsi inti pergerakan stok — portir dari addStokMovement() versi HTML.
+   * Dipanggil modul lain (Pembelian, Kalkulasi HPP, Pengurangan Manual) untuk
+   * menambah/mengurangi stok bahan baku SEKALIGUS mencatatnya ke Kartu Stok.
+   */
+  const addStokMovement = useCallback((bahanNama, tipe, qty, satuan, referensi, keterangan) => {
+    setData(prev => {
+      const bahanBaku = prev.bahanBaku.map(b =>
+        b.nama === bahanNama ? { ...b, stok: b.stok + (tipe === 'Masuk' ? qty : -qty) } : b
+      );
+      const ledgerIds = prev.stokLedger.map(r => r.id);
+      const newId = (ledgerIds.length ? Math.max(...ledgerIds) : 0) + 1;
+      const entry = {
+        id: newId, tanggal: '12 Agu 2026', bahan: bahanNama, tipe, qty, satuan, referensi, keterangan,
+      };
+      return { ...prev, bahanBaku, stokLedger: [entry, ...prev.stokLedger] };
+    });
+  }, []);
+
   return (
-    <DataContext.Provider value={{ data, addRow, updateRow, deleteRow, settings, updateSettings, hakAkses, toggleHakAkses }}>
+    <DataContext.Provider value={{
+      data, addRow, updateRow, deleteRow,
+      settings, updateSettings, hakAkses, toggleHakAkses, addStokMovement,
+    }}>
       {children}
     </DataContext.Provider>
   );

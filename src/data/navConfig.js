@@ -6,14 +6,14 @@ export const NAV = [
     group: 'Penjualan', color: 'green',
     items: [
       { key: 'pos', label: 'Kasir (POS)', icon: 'cart', path: null },
-      { key: 'laporanPenjualan', label: 'Laporan Penjualan', icon: 'chart', path: null },
+      { key: 'laporanPenjualan', label: 'Laporan Penjualan', icon: 'chart', path: '/laporan-penjualan' },
     ],
   },
   {
     group: 'Pembelian', color: 'blue',
     items: [
       { key: 'pembelian', label: 'Pembelian', icon: 'box', path: null },
-      { key: 'stokOpname', label: 'Stok Opname', icon: 'checksquare', path: null },
+      { key: 'stokOpname', label: 'Stok Opname', icon: 'checksquare', path: '/stok-opname' },
     ],
   },
   {
@@ -21,7 +21,7 @@ export const NAV = [
     items: [
       { key: 'antrianProduksi', label: 'Alur SPK', icon: 'printer', path: null },
       { key: 'statusPengerjaan', label: 'Status Pengerjaan', icon: 'activity', path: null },
-      { key: 'laporanProduksi', label: 'Laporan Produksi', icon: 'chart', path: null },
+      { key: 'laporanProduksi', label: 'Laporan Produksi', icon: 'chart', path: '/laporan-produksi' },
       { key: 'kalkulasiHpp', label: 'Kalkulasi HPP', icon: 'lock', path: null },
     ],
   },

@@ -8,6 +8,10 @@ import PromosiPage from './pages/promosi/PromosiPage';
 import KampanyePage from './pages/kampanye/KampanyePage';
 import LeadsPage from './pages/leads/LeadsPage';
 import PengaturanSistemPage from './pages/pengaturanSistem/PengaturanSistemPage';
+import ChangelogPage from './pages/changelog/ChangelogPage';
+import LaporanPenjualanPage from './pages/laporanPenjualan/LaporanPenjualanPage';
+import LaporanProduksiPage from './pages/laporanProduksi/LaporanProduksiPage';
+import StokOpnamePage from './pages/stokOpname/StokOpnamePage';
 
 export default function App() {
   return (
@@ -23,6 +27,10 @@ export default function App() {
               <Route path="/kampanye" element={<KampanyePage />} />
               <Route path="/leads" element={<LeadsPage />} />
               <Route path="/pengaturan-sistem" element={<PengaturanSistemPage />} />
+              <Route path="/changelog" element={<ChangelogPage />} />
+              <Route path="/laporan-penjualan" element={<LaporanPenjualanPage />} />
+              <Route path="/laporan-produksi" element={<LaporanProduksiPage />} />
+              <Route path="/stok-opname" element={<StokOpnamePage />} />
             </Route>
           </Routes>
         </HashRouter>
