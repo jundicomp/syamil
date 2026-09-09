@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.11.1',
+    tanggal: '2026-09-09',
+    judul: 'POS: Pelanggan bisa dicari + tambah cepat',
+    perubahan: [
+      'Field Pelanggan di Kasir (POS) diganti dari dropdown polos jadi pencarian (nama/HP/kota)',
+      '"+ Tambah Pelanggan Baru" selalu tersedia di bawah hasil cari, ikut membawa teks yang sudah diketik',
+      'Form tambah cepat cuma Nama & No. HP — sisanya (kota, alamat, kategori) bisa dilengkapi nanti lewat halaman Pelanggan & Supplier',
+      'Mengembalikan pola yang sebenarnya sudah ada di versi HTML asli, sempat disederhanakan jadi dropdown biasa waktu migrasi Fase 4',
+    ],
+  },
+  {
     version: '0.11.0',
     tanggal: '2026-09-09',
     judul: 'Profil Saya + Warna Brand Navy + Topbar Ikut Tema',

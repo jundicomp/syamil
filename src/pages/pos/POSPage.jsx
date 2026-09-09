@@ -4,6 +4,7 @@ import CekStokModal from './CekStokModal';
 import PaymentModal from './PaymentModal';
 import StrukModal from './StrukModal';
 import PosItemRow from './PosItemRow';
+import CustomerSearchSelect from './CustomerSearchSelect';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -75,9 +76,7 @@ export default function POSPage() {
           <div className="f-row2" style={{ marginBottom: 6 }}>
             <div className="f-field">
               <label>Pelanggan</label>
-              <select value={customer} onChange={e => setCustomer(e.target.value)}>
-                {data.pelanggan.map(p => <option key={p.id} value={p.nama}>{p.nama}</option>)}
-              </select>
+              <CustomerSearchSelect value={customer} onChange={setCustomer} />
             </div>
             <div className="f-field">
               <label>Kode Marketing (opsional)</label>
