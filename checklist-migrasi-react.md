@@ -42,9 +42,9 @@ Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di side
 
 ## Fase 4 — Transaksi Inti
 
-- [ ] 🟡 Pembelian — tab Order Pembelian (keranjang bahan, auto update stok + Buku Kas)
-- [ ] 🟢 Pembelian — tab Laporan (filter tanggal, ringkasan per supplier/bulan)
-- [ ] 🔴 **Kasir (POS)** *(paling kompleks: keranjang, matriks harga, DP/Lunas, QRIS, cetak struk, cek stok bahan)*
+- [x] 🟡 Pembelian — tab Order Pembelian (keranjang bahan, auto update stok + Buku Kas)
+- [x] 🟢 Pembelian — tab Laporan (filter tanggal, ringkasan per supplier/bulan)
+- [x] 🔴 **Kasir (POS)** *(paling kompleks: keranjang, DP/Lunas, cetak struk, cek stok bahan)*
 
 ## Fase 5 — Alur SPK & Produksi
 

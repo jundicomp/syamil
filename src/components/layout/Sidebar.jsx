@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllNavGroups } from '../../data/navConfig';
+import { CURRENT_VERSION } from '../../data/changelog';
 import Icon from '../common/Icon';
+
+function formatBuildTime(iso) {
+  return new Date(iso).toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
 
 export default function Sidebar() {
   const groups = getAllNavGroups();
@@ -66,10 +71,14 @@ export default function Sidebar() {
       </nav>
 
       <div className="nav-bottom">
-        <div className="user-chip">
-          <div className="av">PB</div>
-          <div className="u"><b>Pak Budi</b><span>Owner</span></div>
-        </div>
+        <button
+          onClick={() => navigate('/changelog')}
+          title="Lihat Changelog"
+          className="version-footer"
+        >
+          <span className="v">v{CURRENT_VERSION}</span>
+          <span className="t">Push: {formatBuildTime(__BUILD_TIME__)}</span>
+        </button>
       </div>
     </aside>
   );

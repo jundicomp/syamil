@@ -5,14 +5,14 @@ export const NAV = [
   {
     group: 'Penjualan', color: 'green',
     items: [
-      { key: 'pos', label: 'Kasir (POS)', icon: 'cart', path: null },
+      { key: 'pos', label: 'Kasir (POS)', icon: 'cart', path: '/pos' },
       { key: 'laporanPenjualan', label: 'Laporan Penjualan', icon: 'chart', path: '/laporan-penjualan' },
     ],
   },
   {
     group: 'Pembelian', color: 'blue',
     items: [
-      { key: 'pembelian', label: 'Pembelian', icon: 'box', path: null },
+      { key: 'pembelian', label: 'Pembelian', icon: 'box', path: '/pembelian' },
       { key: 'stokOpname', label: 'Stok Opname', icon: 'checksquare', path: '/stok-opname' },
     ],
   },

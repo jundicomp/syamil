@@ -1,4 +1,4 @@
-# Percetakan Jaya — Migrasi React (Fase 0–3)
+# Percetakan Jaya — Migrasi React (Fase 0–4)
 
 ## Cara menjalankan
 ```bash
@@ -15,10 +15,16 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 1 — 7 modul data master (Pelanggan & Supplier, Produk & Bahan Baku, Promosi, Kampanye, Leads)
 - Fase 2 — Pengaturan Sistem, 4 tab (Perusahaan, Keuangan, User + Hak Akses, Sistem)
 - Fase 3 — Laporan Penjualan, Laporan Produksi, Stok Opname, Kartu Stok (+ `addStokMovement`)
-- Info versi & waktu push (Topbar) + halaman Changelog
+- Fase 4 — Kasir (POS): keranjang, DP/Lunas, cetak struk · Pembelian: keranjang bahan, auto stok+kas
+- Info versi & waktu push (footer sidebar) + halaman Changelog
 
 ### ⏳ Belum
 Menu lain masih alert "belum dimigrasi" kalau diklik.
+
+### Catatan jujur Fase 4
+- **Matriks Harga** (harga bertingkat per jumlah/ukuran) belum sepenuhnya diportir — untuk produk bertipe itu, harga di keranjang bisa diedit manual dulu, belum ada kalkulator otomatisnya.
+- **QRIS** di pembayaran baru pilihan metode bayar, belum menampilkan gambar QRIS dari Pengaturan.
+- **Buku Kas** sudah mulai terisi otomatis dari transaksi (POS & Pembelian Lunas), tapi halaman untuk melihatnya baru ada di Fase 7.
 
 ---
 

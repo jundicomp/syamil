@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.4.0',
+    tanggal: '2026-09-09',
+    judul: 'Fase 4 — Pembelian & Kasir (POS)',
+    perubahan: [
+      'Kasir (POS): keranjang produk, pilih pelanggan & kode marketing, Cek Stok Bahan, diskon',
+      'Pembayaran Lunas/DP, cetak struk (window.print), transaksi otomatis masuk Laporan Penjualan',
+      'Pembelian: keranjang bahan ke supplier, status Lunas/Belum Lunas',
+      'Pembelian otomatis menambah Stok (via addStokMovement) dan tercatat ke Buku Kas kalau Lunas',
+      'Laporan Pembelian: ringkasan total per supplier + riwayat',
+    ],
+  },
+  {
     version: '0.3.0',
     tanggal: '2026-09-09',
     judul: 'Fase 3 — Laporan & Sistem Stok + Info Versi',

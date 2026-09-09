@@ -12,6 +12,8 @@ import ChangelogPage from './pages/changelog/ChangelogPage';
 import LaporanPenjualanPage from './pages/laporanPenjualan/LaporanPenjualanPage';
 import LaporanProduksiPage from './pages/laporanProduksi/LaporanProduksiPage';
 import StokOpnamePage from './pages/stokOpname/StokOpnamePage';
+import POSPage from './pages/pos/POSPage';
+import PembelianPage from './pages/pembelian/PembelianPage';
 
 export default function App() {
   return (
@@ -31,6 +33,8 @@ export default function App() {
               <Route path="/laporan-penjualan" element={<LaporanPenjualanPage />} />
               <Route path="/laporan-produksi" element={<LaporanProduksiPage />} />
               <Route path="/stok-opname" element={<StokOpnamePage />} />
+              <Route path="/pos" element={<POSPage />} />
+              <Route path="/pembelian" element={<PembelianPage />} />
             </Route>
           </Routes>
         </HashRouter>

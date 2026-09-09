@@ -55,6 +55,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .nav-group.group-pink .nav-item.active{background:var(--mod-pink-bg);border-left-color:var(--mod-pink);color:var(--mod-pink);}
 .nav-group.group-purple .nav-item.active{background:var(--mod-purple-bg);border-left-color:var(--mod-purple);color:var(--mod-purple);}
 .nav-bottom{border-top:1px solid var(--line);padding:10px;}
+.version-footer{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:9px 12px;cursor:pointer;margin-top:6px;}
+.version-footer .v{font-size:11.5px;font-weight:800;color:var(--gold);}
+.version-footer .t{font-size:9.5px;color:var(--text-faint);}
+.version-footer:hover{border-color:var(--gold);}
 .user-chip{display:flex;align-items:center;gap:9px;padding:10px 8px;margin-top:6px;}
 .user-chip .av{width:30px;height:30px;border-radius:50%;background:var(--gold-bg);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;border:1px solid var(--gold);}
 .user-chip b{display:block;font-size:12px;}

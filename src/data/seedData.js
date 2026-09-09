@@ -148,4 +148,22 @@ export const seedStokLedger = withIds([
   { tanggal: '11 Agu 2026', bahan: 'Flexi China 280gr', tipe: 'Keluar', qty: 3, satuan: 'roll', referensi: 'PRD-0091', keterangan: 'Dipakai untuk produksi SPK' },
 ]);
 
+// ===== Fase 4 — Pembelian & Kasir (POS) =====
+
+export const seedPembelian = withIds([
+  {
+    tanggal: '12 Agu 2026', noPO: 'PO-0231', supplier: 'Toko Sumber Rejeki', total: 1240000, status: 'Belum Lunas',
+    items: [{ bahan: 'Mata Ayam Banner', qty: 20, satuan: 'pak', harga: 35000 }, { bahan: 'Kertas Stiker Vinyl', qty: 1.5, satuan: 'roll', harga: 380000 }],
+  },
+  {
+    tanggal: '10 Agu 2026', noPO: 'PO-0230', supplier: 'CV Bahan Flexi', total: 3780000, status: 'Lunas',
+    items: [{ bahan: 'Flexi China 280gr', qty: 4, satuan: 'roll', harga: 850000 }, { bahan: 'Mata Ayam Banner', qty: 8, satuan: 'pak', harga: 35000 }],
+  },
+  {
+    tanggal: '08 Agu 2026', noPO: 'PO-0229', supplier: 'UD Kertas Makmur', total: 2150000, status: 'Lunas',
+    items: [{ bahan: 'Kertas HVS 80gr', qty: 20, satuan: 'rim', harga: 55000 }, { bahan: 'Art Paper 260gr', qty: 8.4, satuan: 'rim', harga: 120000 }],
+  },
+]);
+
+
 
