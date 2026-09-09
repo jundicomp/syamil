@@ -24,9 +24,6 @@ export default function LaporanPenjualanPage() {
         rows={data.penjualan}
         actions={[]}
       />
-      <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 12 }}>
-        Data ini masih dari contoh — transaksi baru akan otomatis muncul di sini setelah modul Kasir (POS) dimigrasi (Fase 4).
-      </p>
     </div>
   );
 }

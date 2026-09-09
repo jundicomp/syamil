@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import Icon from './Icon';
 import Badge from './Badge';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE_OPTIONS = [5, 10, 25, 50];
 
 function fmt(n) {
   return Math.round(n || 0).toLocaleString('id-ID');
@@ -18,6 +18,7 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
   const [sortKey, setSortKey] = useState(null);
   const [sortDir, setSortDir] = useState(1);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE_OPTIONS[0]);
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -34,14 +35,18 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
     return r;
   }, [rows, search, sortKey, sortDir]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * PAGE_SIZE;
-  const pageRows = filtered.slice(start, start + PAGE_SIZE);
+  const start = (safePage - 1) * pageSize;
+  const pageRows = filtered.slice(start, start + pageSize);
 
   function handleSort(key) {
     if (sortKey === key) setSortDir(d => -d);
     else { setSortKey(key); setSortDir(1); }
+  }
+  function handlePageSizeChange(n) {
+    setPageSize(n);
+    setPage(1);
   }
 
   function renderCell(row, col) {
@@ -128,7 +133,16 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
       </div>
 
       <div className="pager">
-        <div>Menampilkan {filtered.length === 0 ? 0 : start + 1}–{Math.min(start + PAGE_SIZE, filtered.length)} dari {filtered.length} data</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span>Menampilkan {filtered.length === 0 ? 0 : start + 1}–{Math.min(start + pageSize, filtered.length)} dari {filtered.length} data</span>
+          <select
+            value={pageSize}
+            onChange={e => handlePageSizeChange(Number(e.target.value))}
+            style={{ width: 'auto', padding: '4px 8px', fontSize: 11.5 }}
+          >
+            {PAGE_SIZE_OPTIONS.map(n => <option key={n} value={n}>{n} baris</option>)}
+          </select>
+        </div>
         <div className="pager-btns">
           <button className="pg-btn" disabled={safePage === 1} onClick={() => setPage(p => p - 1)}>‹</button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (

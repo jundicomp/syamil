@@ -23,9 +23,6 @@ export default function LaporanProduksiPage() {
         rows={data.produksi}
         actions={[]}
       />
-      <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 12 }}>
-        Alur kerja SPK penuh (Kanban, Tutup SPK, Batalkan) belum dimigrasi — ini baru laporan ringkasannya (Fase 5).
-      </p>
     </div>
   );
 }

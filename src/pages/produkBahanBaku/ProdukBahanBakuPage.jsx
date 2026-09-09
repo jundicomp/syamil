@@ -47,7 +47,7 @@ export default function ProdukBahanBakuPage() {
   const fields = isProduk ? PRODUK_FIELDS : BAHAN_FIELDS;
 
   function handleSave(values) {
-    // Bahan baru: stok mulai dari 0 (bertambah lewat modul Pembelian — belum dimigrasi).
+    // Bahan baru: stok mulai dari 0 (bertambah lewat modul Pembelian, atau isi manual saat edit).
     const payload = !isProduk && !modal.row ? { ...values, stok: 0 } : values;
     if (modal.row) updateRow(dataKey, modal.row.id, payload);
     else addRow(dataKey, payload);
