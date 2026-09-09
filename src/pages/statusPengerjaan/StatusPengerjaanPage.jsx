@@ -21,6 +21,7 @@ export default function StatusPengerjaanPage() {
         columns={COLUMNS}
         rows={aktif}
         actions={[]}
+        dateKey="target"
       />
     </div>
   );

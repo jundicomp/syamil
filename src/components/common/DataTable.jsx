@@ -1,6 +1,9 @@
 import { useState, useMemo } from 'react';
 import Icon from './Icon';
 import Badge from './Badge';
+import DateRangeFilter from './DateRangeFilter';
+import { useData } from '../../context/DataContext';
+import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50];
 
@@ -12,19 +15,30 @@ function fmt(n) {
  * Tabel CRUD generik — portir dari fungsi crudHTML() versi HTML.
  * columns: [{ key, label, type?: 'currency'|'badge', align?: 'r' }]
  * actions: array dari 'view' | 'edit' | 'delete'
+ * dateKey: nama kolom tanggal (opsional) — kalau diisi, muncul filter rentang tanggal
+ * summaryKeys: array key kolom currency yang mau dijumlahkan di baris Total (opsional)
+ * reportName: nama laporan untuk header export, default pakai title
  */
-export default function DataTable({ title, subtitle, columns, rows, actions = [], onAdd, onEdit, onDelete, onView }) {
+export default function DataTable({
+  title, subtitle, columns, rows, actions = [], onAdd, onEdit, onDelete, onView,
+  dateKey, summaryKeys, reportName,
+}) {
+  const { settings } = useData();
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState(null);
   const [sortDir, setSortDir] = useState(1);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZE_OPTIONS[0]);
+  const [range, setRange] = useState({ from: null, to: null });
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     let r = term
       ? rows.filter(row => Object.values(row).some(v => String(v).toLowerCase().includes(term)))
       : rows.slice();
+    if (dateKey && (range.from || range.to)) {
+      r = r.filter(row => inRange(parseTanggalID(row[dateKey]), range.from, range.to));
+    }
     if (sortKey) {
       r.sort((a, b) => {
         const va = a[sortKey], vb = b[sortKey];
@@ -33,12 +47,19 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
       });
     }
     return r;
-  }, [rows, search, sortKey, sortDir]);
+  }, [rows, search, sortKey, sortDir, dateKey, range]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const safePage = Math.min(page, totalPages);
   const start = (safePage - 1) * pageSize;
   const pageRows = filtered.slice(start, start + pageSize);
+
+  const summary = useMemo(() => {
+    if (!summaryKeys || summaryKeys.length === 0) return null;
+    const out = {};
+    summaryKeys.forEach(k => { out[k] = filtered.reduce((s, r) => s + (Number(r[k]) || 0), 0); });
+    return out;
+  }, [filtered, summaryKeys]);
 
   function handleSort(key) {
     if (sortKey === key) setSortDir(d => -d);
@@ -49,17 +70,6 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
     setPage(1);
   }
 
-  const exportSubtitle = search.trim() ? `Filter pencarian: "${search.trim()}"` : undefined;
-
-  async function handleExportExcel() {
-    const { exportToExcel } = await import('../../utils/exportUtils');
-    exportToExcel({ title, subtitle: exportSubtitle, columns, rows: filtered });
-  }
-  async function handleExportPDF() {
-    const { exportToPDF } = await import('../../utils/exportUtils');
-    exportToPDF({ title, subtitle: exportSubtitle, columns, rows: filtered });
-  }
-
   function renderCell(row, col) {
     const val = row[col.key];
     if (col.type === 'currency') return `Rp${fmt(val)}`;
@@ -67,8 +77,25 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
     return val;
   }
 
+  const exportHeader = {
+    companyName: settings.namaUsaha,
+    reportName: reportName || title,
+    rangeLabel: dateKey ? formatRangeLabel(range.from, range.to) : null,
+    searchLabel: search.trim() ? `Filter pencarian: "${search.trim()}"` : null,
+  };
+
+  async function handleExportExcel() {
+    const { exportToExcel } = await import('../../utils/exportUtils');
+    exportToExcel({ ...exportHeader, columns, rows: filtered, summaryKeys, summary });
+  }
+  async function handleExportPDF() {
+    const { exportToPDF } = await import('../../utils/exportUtils');
+    exportToPDF({ ...exportHeader, columns, rows: filtered, summaryKeys, summary });
+  }
+
   const ACTION_ICON = { view: 'eye', edit: 'edit', delete: 'trash' };
   const ACTION_LABEL = { view: 'Lihat', edit: 'Ubah', delete: 'Hapus' };
+  const colSpan = columns.length + 1 + (actions.length > 0 ? 1 : 0);
 
   return (
     <div>
@@ -79,6 +106,8 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
         </div>
         {onAdd && <button className="btn-gold" onClick={onAdd}>+ Tambah</button>}
       </div>
+
+      {dateKey && <DateRangeFilter from={range.from} to={range.to} onChange={setRange} />}
 
       <div className="toolbar">
         <div className="search-box2">
@@ -110,7 +139,7 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
           </thead>
           <tbody>
             {pageRows.length === 0 ? (
-              <tr><td colSpan={columns.length + 2} className="empty-row">Tidak ada data ditemukan.</td></tr>
+              <tr><td colSpan={colSpan} className="empty-row">Tidak ada data ditemukan.</td></tr>
             ) : pageRows.map((row, i) => (
               <tr key={row.id}>
                 <td>{start + i + 1}</td>
@@ -140,6 +169,19 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
               </tr>
             ))}
           </tbody>
+          {summary && (
+            <tfoot>
+              <tr>
+                <td colSpan={1}></td>
+                {columns.map(col => (
+                  <td key={col.key} className={col.align === 'r' ? 'r' : ''}>
+                    {summaryKeys.includes(col.key) ? <b>Rp{fmt(summary[col.key])}</b> : (col === columns[0] ? <b>TOTAL</b> : '')}
+                  </td>
+                ))}
+                {actions.length > 0 && <td></td>}
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
 

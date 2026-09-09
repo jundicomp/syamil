@@ -3,6 +3,20 @@
 
 export const CHANGELOG = [
   {
+    version: '0.9.0',
+    tanggal: '2026-09-09',
+    judul: 'Filter Rentang Tanggal + Header Laporan Terstruktur (fase laporan)',
+    perubahan: [
+      'Filter rentang tanggal (dari-sampai) + tombol cepat Bulan Ini/Bulan Lalu/Tahun Ini, diterapkan ke semua tabel yang punya kolom tanggal',
+      'Export mengikuti data yang sedang difilter (Excel & PDF)',
+      'Header export dirombak: Nama Usaha / Nama Laporan / Rentang Tanggal / (filter cari jika ada)',
+      'Baris TOTAL otomatis di bawah kolom angka yang relevan (di layar maupun hasil export)',
+      'Laporan Laba Rugi sekarang benar-benar per-periode (bukan cuma all-time)',
+      'Laporan Neraca ditambah export, dengan label "posisi saat ini" (bukan rentang, karena neraca itu snapshot)',
+      'Buku Kas: filter periode + Saldo Akhir Periode terpisah dari Saldo Kas keseluruhan',
+    ],
+  },
+  {
     version: '0.8.0',
     tanggal: '2026-09-09',
     judul: 'Fitur Export Excel & PDF (sungguhan, bukan cuma print dialog)',

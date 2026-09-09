@@ -27,6 +27,8 @@ export default function KalkulasiHppPage() {
         rows={rows}
         actions={[]}
         onAdd={() => setShowCreate(true)}
+        dateKey="tanggal"
+        summaryKeys={['hargaJual', 'totalHpp', 'margin']}
       />
       {showCreate && <HppCreateModal onClose={() => setShowCreate(false)} />}
     </div>

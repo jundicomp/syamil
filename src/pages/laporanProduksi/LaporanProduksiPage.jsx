@@ -22,6 +22,7 @@ export default function LaporanProduksiPage() {
         columns={COLUMNS}
         rows={data.produksi}
         actions={[]}
+        dateKey="target"
       />
     </div>
   );

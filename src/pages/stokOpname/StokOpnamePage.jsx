@@ -26,6 +26,7 @@ export default function StokOpnamePage() {
         onAdd={() => setModal({ row: null })}
         onEdit={row => setModal({ row })}
         onDelete={row => deleteRow('stokOpname', row.id)}
+        dateKey="tanggal"
       />
       <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 12 }}>
         Ini murni catatan pembanding (audit) — kalau ada selisih, penyesuaian Stok Sistem yang sesungguhnya

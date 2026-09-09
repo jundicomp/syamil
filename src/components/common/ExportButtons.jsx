@@ -1,19 +1,22 @@
 import Icon from './Icon';
+import { useData } from '../../context/DataContext';
 
 /**
- * Tombol Excel/PDF ringan — dipakai di tabel yang tampilannya kustom
- * (bukan lewat komponen <DataTable>), tapi tetap butuh export.
- * columns & rows harus mengikuti format yang sama dengan DataTable:
- * columns: [{ key, label, type?: 'currency', align?: 'r' }]
+ * Tombol export ringan untuk tabel kustom (bukan lewat <DataTable>).
+ * `rows` di sini HARUS sudah data final yang mau diekspor (kalau ada filter tanggal,
+ * filter itu dilakukan di halaman pemanggil, lalu kirim rangeLabel-nya ke sini).
  */
-export default function ExportButtons({ title, subtitle, columns, rows }) {
+export default function ExportButtons({ title, reportName, columns, rows, rangeLabel, summaryKeys, summary }) {
+  const { settings } = useData();
+  const header = { companyName: settings.namaUsaha, reportName: reportName || title, rangeLabel };
+
   async function handleExcel() {
     const { exportToExcel } = await import('../../utils/exportUtils');
-    exportToExcel({ title, subtitle, columns, rows });
+    exportToExcel({ ...header, columns, rows, summaryKeys, summary });
   }
   async function handlePDF() {
     const { exportToPDF } = await import('../../utils/exportUtils');
-    exportToPDF({ title, subtitle, columns, rows });
+    exportToPDF({ ...header, columns, rows, summaryKeys, summary });
   }
 
   return (

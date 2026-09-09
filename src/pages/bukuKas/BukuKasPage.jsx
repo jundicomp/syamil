@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import ExportButtons from '../../components/common/ExportButtons';
+import DateRangeFilter from '../../components/common/DateRangeFilter';
+import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
 
 const EXPORT_COLUMNS = [
   { key: 'tanggal', label: 'Tanggal' },
@@ -17,9 +19,10 @@ export default function BukuKasPage() {
   const [tipe, setTipe] = useState('Masuk');
   const [jumlah, setJumlah] = useState(0);
   const [keterangan, setKeterangan] = useState('');
+  const [range, setRange] = useState({ from: null, to: null });
 
-  // Saldo berjalan dihitung dari bawah (entri terlama) ke atas (terbaru ditampilkan paling atas).
-  const rows = useMemo(() => {
+  // Saldo berjalan dihitung dari SELURUH riwayat dulu (urutan penting), baru difilter tampilannya.
+  const allRowsWithSaldo = useMemo(() => {
     let running = 0;
     const chronological = [...bukuKas].reverse();
     const withSaldo = chronological.map(r => {
@@ -29,9 +32,15 @@ export default function BukuKasPage() {
     return withSaldo.reverse();
   }, [bukuKas]);
 
-  const saldoAkhir = rows[0]?.saldo ?? 0;
-  const totalMasuk = bukuKas.filter(r => r.tipe === 'Masuk').reduce((s, r) => s + r.jumlah, 0);
-  const totalKeluar = bukuKas.filter(r => r.tipe === 'Keluar').reduce((s, r) => s + r.jumlah, 0);
+  const rows = useMemo(() => {
+    if (!range.from && !range.to) return allRowsWithSaldo;
+    return allRowsWithSaldo.filter(r => inRange(parseTanggalID(r.tanggal), range.from, range.to));
+  }, [allRowsWithSaldo, range]);
+
+  const saldoAkhir = rows[0]?.saldo ?? allRowsWithSaldo[0]?.saldo ?? 0;
+  const totalMasuk = rows.filter(r => r.tipe === 'Masuk').reduce((s, r) => s + r.jumlah, 0);
+  const totalKeluar = rows.filter(r => r.tipe === 'Keluar').reduce((s, r) => s + r.jumlah, 0);
+  const rangeLabel = formatRangeLabel(range.from, range.to);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -50,9 +59,9 @@ export default function BukuKasPage() {
       </div>
 
       <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 18 }}>
-        <div className="stat-card"><div className="lbl">Total Masuk</div><div className="val" style={{ color: '#1F6B39' }}>Rp{fmt(totalMasuk)}</div></div>
-        <div className="stat-card"><div className="lbl">Total Keluar</div><div className="val" style={{ color: 'var(--total-red)' }}>Rp{fmt(totalKeluar)}</div></div>
-        <div className="stat-card"><div className="lbl">Saldo Kas</div><div className="val" style={{ color: 'var(--gold)' }}>Rp{fmt(saldoAkhir)}</div></div>
+        <div className="stat-card"><div className="lbl">Total Masuk {(range.from || range.to) ? '(periode ini)' : ''}</div><div className="val" style={{ color: '#1F6B39' }}>Rp{fmt(totalMasuk)}</div></div>
+        <div className="stat-card"><div className="lbl">Total Keluar {(range.from || range.to) ? '(periode ini)' : ''}</div><div className="val" style={{ color: 'var(--total-red)' }}>Rp{fmt(totalKeluar)}</div></div>
+        <div className="stat-card"><div className="lbl">Saldo {(range.from || range.to) ? 'Akhir Periode' : 'Kas'}</div><div className="val" style={{ color: 'var(--gold)' }}>Rp{fmt(saldoAkhir)}</div></div>
       </div>
 
       <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '0.8fr 1fr 2fr auto', gap: 8, marginBottom: 18, alignItems: 'end' }}>
@@ -73,8 +82,14 @@ export default function BukuKasPage() {
         <button type="submit" className="btn-gold" style={{ height: 37 }}>+ Catat</button>
       </form>
 
+      <DateRangeFilter from={range.from} to={range.to} onChange={setRange} />
+
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-        <ExportButtons title="Buku Kas" columns={EXPORT_COLUMNS} rows={rows} />
+        <ExportButtons
+          title="Buku Kas" reportName="Buku Kas" rangeLabel={rangeLabel}
+          columns={EXPORT_COLUMNS} rows={rows}
+          summaryKeys={['jumlah']} summary={{ jumlah: totalMasuk - totalKeluar }}
+        />
       </div>
 
       <div className="table-wrap">
@@ -82,7 +97,7 @@ export default function BukuKasPage() {
           <thead><tr><th>Tanggal</th><th>Tipe</th><th>Keterangan</th><th className="r">Jumlah</th><th className="r">Saldo</th></tr></thead>
           <tbody>
             {rows.length === 0 ? (
-              <tr><td colSpan={5} className="empty-row">Belum ada catatan kas — akan otomatis terisi begitu ada transaksi Kasir/Pembelian.</td></tr>
+              <tr><td colSpan={5} className="empty-row">Tidak ada catatan kas pada rentang ini.</td></tr>
             ) : rows.map(r => (
               <tr key={r.id}>
                 <td>{r.tanggal}</td>

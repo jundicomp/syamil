@@ -20,6 +20,7 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 6 — Dashboard Marketing (leaderboard, "Lihat Sebagai", Strategi + persetujuan anggaran)
 - Fase 7 — Buku Kas, Dashboard, Laba Rugi & Neraca (dihitung otomatis dari data riil)
 - Export Excel & PDF sungguhan di semua tabel (v0.8.0)
+- Filter rentang tanggal + header laporan terstruktur (Nama Usaha/Nama Laporan/Rentang) + baris Total (v0.9.0)
 - Info versi & waktu push (footer sidebar) + halaman Changelog
 
 Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigrasi".
@@ -40,6 +41,12 @@ Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigras
 
 ### Catatan cakupan Export Excel/PDF
 Diterapkan ke semua tabel data (lewat komponen `DataTable`, atau `ExportButtons` untuk tabel kustom seperti Buku Kas & Dashboard Marketing). **Sengaja dilewati**: matriks Hak Akses (tabel User) dan modal Cek Stok Bahan (POS) — keduanya bukan "laporan" yang biasa diekspor, cuma alat bantu interaktif/lihat cepat.
+
+### Catatan cakupan Filter Rentang Tanggal (v0.9.0)
+- **Punya filter tanggal**: Laporan Penjualan, Laporan Produksi, Stok Opname, Order & Riwayat Pembelian, Tabel/Arsip/Batal SPK, Status Pengerjaan, Kalkulasi HPP, Audit Trail, Buku Kas, Laporan Laba Rugi.
+- **Sengaja TIDAK punya filter tanggal** (bukan data transaksi/tidak relevan): Pelanggan, Supplier, Produk, Bahan Baku, Promosi, Kampanye, Sumber Leads, Pengguna, Notifikasi, Hak Akses.
+- **Laporan Neraca**: sengaja tidak dikasih rentang — neraca itu "foto posisi saat ini" (snapshot), bukan laporan per-periode. Sudah dikasih export dengan label tanggal cetak.
+- **Belum sempat dikasih filter tanggal** (masih ada di daftar kerja lanjutan): 4 tabel di Dashboard Marketing (Marketing & Kode, Antrean Persetujuan, Semua Strategi Marketing, Penjualan/Strategi Saya) — sudah punya export, tapi belum bisa difilter per rentang tanggal.
 
 ---
 

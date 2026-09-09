@@ -49,11 +49,13 @@ export default function PembelianPage() {
           rows={data.pembelian}
           actions={[]}
           onAdd={() => setShowCart(true)}
+          dateKey="tanggal"
+          summaryKeys={['total']}
         />
       ) : (
         <div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <ExportButtons title="Total Pembelian per Supplier" columns={SUPPLIER_EXPORT_COLUMNS} rows={perSupplier} />
+            <ExportButtons title="Total Pembelian per Supplier" reportName="Ringkasan Pembelian per Supplier" columns={SUPPLIER_EXPORT_COLUMNS} rows={perSupplier} summaryKeys={['total']} summary={{ total: perSupplier.reduce((s, r) => s + r.total, 0) }} />
           </div>
           <div className="table-wrap" style={{ marginBottom: 16 }}>
             <table className="data-table">
@@ -70,6 +72,8 @@ export default function PembelianPage() {
             columns={ORDER_COLUMNS}
             rows={data.pembelian}
             actions={[]}
+            dateKey="tanggal"
+            summaryKeys={['total']}
           />
         </div>
       )}

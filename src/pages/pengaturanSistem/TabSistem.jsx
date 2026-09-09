@@ -49,6 +49,7 @@ export default function TabSistem() {
           columns={AUDIT_COLUMNS}
           rows={data.auditTrail}
           actions={[]}
+          dateKey="waktu"
         />
       </div>
 

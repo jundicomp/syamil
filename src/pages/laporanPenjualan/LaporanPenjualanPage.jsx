@@ -23,6 +23,8 @@ export default function LaporanPenjualanPage() {
         columns={COLUMNS}
         rows={data.penjualan}
         actions={[]}
+        dateKey="tanggal"
+        summaryKeys={['total', 'sisaBayar']}
       />
     </div>
   );

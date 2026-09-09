@@ -28,15 +28,15 @@ const COLUMNS_BATAL = [
 
 export function TabelSpkTab() {
   const { data } = useData();
-  return <DataTable title="Tabel SPK" columns={COLUMNS_AKTIF} rows={data.produksi.filter(p => p.statusSpk === 'Aktif')} actions={[]} />;
+  return <DataTable title="Tabel SPK" columns={COLUMNS_AKTIF} rows={data.produksi.filter(p => p.statusSpk === 'Aktif')} actions={[]} dateKey="target" />;
 }
 
 export function ArsipSpkTab() {
   const { data } = useData();
-  return <DataTable title="Arsip SPK (Selesai)" columns={COLUMNS_ARSIP} rows={data.produksi.filter(p => p.statusSpk === 'Selesai')} actions={[]} />;
+  return <DataTable title="Arsip SPK (Selesai)" columns={COLUMNS_ARSIP} rows={data.produksi.filter(p => p.statusSpk === 'Selesai')} actions={[]} dateKey="target" />;
 }
 
 export function SpkBatalTab() {
   const { data } = useData();
-  return <DataTable title="SPK Batal" columns={COLUMNS_BATAL} rows={data.produksi.filter(p => p.statusSpk === 'Batal')} actions={[]} />;
+  return <DataTable title="SPK Batal" columns={COLUMNS_BATAL} rows={data.produksi.filter(p => p.statusSpk === 'Batal')} actions={[]} dateKey="target" />;
 }
