@@ -3,6 +3,20 @@
 
 export const CHANGELOG = [
   {
+    version: '0.10.0',
+    tanggal: '2026-09-09',
+    judul: 'Halaman Login + Sidebar Ciut Diperbaiki + Logo Dinamis',
+    perubahan: [
+      'Halaman Login baru — pilih akun dummy dari daftar Pengguna, password bebas (belum ada verifikasi sungguhan)',
+      'Semua halaman sekarang butuh login dulu, otomatis diarahkan ke /login kalau belum masuk',
+      'Topbar menampilkan nama user yang benar-benar login (bukan hardcode "Pak Budi"), plus tombol Keluar',
+      'Sidebar mode ciut dirombak total: dulu numpuk-scroll semua ikon, sekarang per-grup + flyout + tooltip nama modul saat hover',
+      'Mobile (lebar layar ≤880px) otomatis mode ciut, tombol hamburger disembunyikan',
+      'Logo sidebar & halaman Login sekarang ambil dari Pengaturan Sistem (kalau belum upload, pakai ikon default)',
+      'Nama usaha di sidebar juga dinamis dari Pengaturan (dulu hardcode "Percetakan Jaya")',
+    ],
+  },
+  {
     version: '0.9.1',
     tanggal: '2026-09-09',
     judul: 'Format Rupiah rapi + warna header navy + baris Total lebih jelas',

@@ -1,7 +1,10 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
 import AppShell from './components/layout/AppShell';
+import ProtectedRoute from './components/layout/ProtectedRoute';
+import LoginPage from './pages/login/LoginPage';
 import PelangganSupplierPage from './pages/pelangganSupplier/PelangganSupplierPage';
 import ProdukBahanBakuPage from './pages/produkBahanBaku/ProdukBahanBakuPage';
 import PromosiPage from './pages/promosi/PromosiPage';
@@ -27,33 +30,38 @@ export default function App() {
   return (
     <DataProvider>
       <ThemeProvider>
-        <HashRouter>
-          <Routes>
-            <Route element={<AppShell />}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="/pelanggan-supplier" element={<PelangganSupplierPage />} />
-              <Route path="/produk-bahan-baku" element={<ProdukBahanBakuPage />} />
-              <Route path="/promosi" element={<PromosiPage />} />
-              <Route path="/kampanye" element={<KampanyePage />} />
-              <Route path="/leads" element={<LeadsPage />} />
-              <Route path="/pengaturan-sistem" element={<PengaturanSistemPage />} />
-              <Route path="/changelog" element={<ChangelogPage />} />
-              <Route path="/laporan-penjualan" element={<LaporanPenjualanPage />} />
-              <Route path="/laporan-produksi" element={<LaporanProduksiPage />} />
-              <Route path="/stok-opname" element={<StokOpnamePage />} />
-              <Route path="/pos" element={<POSPage />} />
-              <Route path="/pembelian" element={<PembelianPage />} />
-              <Route path="/alur-spk" element={<AntrianProduksiPage />} />
-              <Route path="/status-pengerjaan" element={<StatusPengerjaanPage />} />
-              <Route path="/kalkulasi-hpp" element={<KalkulasiHppPage />} />
-              <Route path="/dashboard-marketing" element={<MarketingDashboardPage />} />
-              <Route path="/buku-kas" element={<BukuKasPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/laba-rugi" element={<LabaRugiPage />} />
-              <Route path="/neraca" element={<NeracaPage />} />
-            </Route>
-          </Routes>
-        </HashRouter>
+        <AuthProvider>
+          <HashRouter>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route element={<AppShell />}>
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/pelanggan-supplier" element={<PelangganSupplierPage />} />
+                  <Route path="/produk-bahan-baku" element={<ProdukBahanBakuPage />} />
+                  <Route path="/promosi" element={<PromosiPage />} />
+                  <Route path="/kampanye" element={<KampanyePage />} />
+                  <Route path="/leads" element={<LeadsPage />} />
+                  <Route path="/pengaturan-sistem" element={<PengaturanSistemPage />} />
+                  <Route path="/changelog" element={<ChangelogPage />} />
+                  <Route path="/laporan-penjualan" element={<LaporanPenjualanPage />} />
+                  <Route path="/laporan-produksi" element={<LaporanProduksiPage />} />
+                  <Route path="/stok-opname" element={<StokOpnamePage />} />
+                  <Route path="/pos" element={<POSPage />} />
+                  <Route path="/pembelian" element={<PembelianPage />} />
+                  <Route path="/alur-spk" element={<AntrianProduksiPage />} />
+                  <Route path="/status-pengerjaan" element={<StatusPengerjaanPage />} />
+                  <Route path="/kalkulasi-hpp" element={<KalkulasiHppPage />} />
+                  <Route path="/dashboard-marketing" element={<MarketingDashboardPage />} />
+                  <Route path="/buku-kas" element={<BukuKasPage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/laba-rugi" element={<LabaRugiPage />} />
+                  <Route path="/neraca" element={<NeracaPage />} />
+                </Route>
+              </Route>
+            </Routes>
+          </HashRouter>
+        </AuthProvider>
       </ThemeProvider>
     </DataProvider>
   );
