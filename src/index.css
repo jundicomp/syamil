@@ -70,8 +70,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .crumb{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;}
 .page-title-top{font-size:17px;margin:2px 0 0;font-weight:700;}
 .spacer{flex:1;}
-.kasir-chip{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:9px;}
-.kasir-chip:hover{background:rgba(255,255,255,.05);}
+.kasir-chip{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:20px;background:var(--gold-bg);border:1px solid var(--gold);}
+.kasir-chip:hover{background:var(--gold-bg);border-color:var(--gold-deep);filter:brightness(1.08);}
+.kasir-chip b{color:var(--text) !important;font-weight:700;}
 .profile-menu-backdrop{position:fixed;inset:0;z-index:40;}
 .profile-menu{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35);z-index:41;padding:8px;}
 .profile-menu-header{display:flex;align-items:center;gap:10px;padding:10px 8px 12px;margin-bottom:6px;border-bottom:1px solid var(--line-soft);}
