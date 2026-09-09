@@ -19,6 +19,7 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 5 — Alur SPK (Kanban 4 tab), Status Pengerjaan, Kalkulasi HPP
 - Fase 6 — Dashboard Marketing (leaderboard, "Lihat Sebagai", Strategi + persetujuan anggaran)
 - Fase 7 — Buku Kas, Dashboard, Laba Rugi & Neraca (dihitung otomatis dari data riil)
+- Export Excel & PDF sungguhan di semua tabel (v0.8.0)
 - Info versi & waktu push (footer sidebar) + halaman Changelog
 
 Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigrasi".
@@ -36,6 +37,9 @@ Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigras
 - Sambungkan Google Sheets sungguhan (kerangkanya sudah ada, lihat "Bagian 2" di bawah)
 - Tutup gap Piutang/Hutang di atas
 - Login sungguhan + penegakan Hak Akses per halaman (sekarang cuma matriks visual, belum menggerbang navigasi)
+
+### Catatan cakupan Export Excel/PDF
+Diterapkan ke semua tabel data (lewat komponen `DataTable`, atau `ExportButtons` untuk tabel kustom seperti Buku Kas & Dashboard Marketing). **Sengaja dilewati**: matriks Hak Akses (tabel User) dan modal Cek Stok Bahan (POS) — keduanya bukan "laporan" yang biasa diekspor, cuma alat bantu interaktif/lihat cepat.
 
 ---
 

@@ -1,6 +1,21 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import LeaderboardBlock, { computeLeaderboard } from './LeaderboardBlock';
+import ExportButtons from '../../components/common/ExportButtons';
+
+const SALES_EXPORT_COLUMNS = [
+  { key: 'tanggal', label: 'Tanggal' },
+  { key: 'noNota', label: 'No. Nota' },
+  { key: 'pelanggan', label: 'Pelanggan' },
+  { key: 'total', label: 'Total', type: 'currency', align: 'r' },
+  { key: 'status', label: 'Status' },
+];
+const STRATEGI_EXPORT_COLUMNS = [
+  { key: 'tanggal', label: 'Tanggal' },
+  { key: 'jenis', label: 'Jenis' },
+  { key: 'catatan', label: 'Catatan' },
+  { key: 'statusPengajuan', label: 'Status' },
+];
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -58,7 +73,10 @@ export default function PersonalView({ nama }) {
       <LeaderboardBlock ranked={ranked} viewerName={nama} />
 
       <div className="table-wrap" style={{ padding: '18px 20px', marginBottom: 16 }}>
-        <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 4 }}>Penjualan Saya</label>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 4 }}>Penjualan Saya</label>
+          <ExportButtons title={`Penjualan Saya - ${nama}`} columns={SALES_EXPORT_COLUMNS} rows={mySales} />
+        </div>
         <div className="page-sub" style={{ marginBottom: 12 }}>Cuma transaksi berkode {user.kodeMarketing} — bukan seluruh Laporan Penjualan.</div>
         <table className="data-table">
           <thead><tr><th>Tanggal</th><th>No. Nota</th><th>Pelanggan</th><th className="r">Total</th><th>Status</th></tr></thead>
@@ -100,6 +118,9 @@ export default function PersonalView({ nama }) {
             ))}
           </tbody>
         </table>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+          <ExportButtons title={`Strategi Saya - ${nama}`} columns={STRATEGI_EXPORT_COLUMNS} rows={myStrategi} />
+        </div>
         <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 10 }}>
           🔒 Antrean persetujuan cuma bisa dibuka Owner — di sini Anda hanya bisa mengajukan &amp; memantau status.
         </p>

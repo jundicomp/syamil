@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
+import ExportButtons from '../../components/common/ExportButtons';
 import PembelianCartModal from './PembelianCartModal';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
@@ -12,6 +13,10 @@ const ORDER_COLUMNS = [
   { key: 'total', label: 'Total', type: 'currency', align: 'r' },
   { key: 'status', label: 'Status', type: 'badge' },
 ];
+const SUPPLIER_EXPORT_COLUMNS = [
+  { key: 'supplier', label: 'Supplier' },
+  { key: 'total', label: 'Total Dibeli', type: 'currency', align: 'r' },
+];
 
 export default function PembelianPage() {
   const [tab, setTab] = useState('order');
@@ -21,7 +26,7 @@ export default function PembelianPage() {
   const perSupplier = useMemo(() => {
     const map = {};
     data.pembelian.forEach(p => { map[p.supplier] = (map[p.supplier] || 0) + p.total; });
-    return Object.entries(map).sort((a, b) => b[1] - a[1]);
+    return Object.entries(map).sort((a, b) => b[1] - a[1]).map(([supplier, total]) => ({ supplier, total }));
   }, [data.pembelian]);
 
   return (
@@ -47,12 +52,15 @@ export default function PembelianPage() {
         />
       ) : (
         <div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+            <ExportButtons title="Total Pembelian per Supplier" columns={SUPPLIER_EXPORT_COLUMNS} rows={perSupplier} />
+          </div>
           <div className="table-wrap" style={{ marginBottom: 16 }}>
             <table className="data-table">
               <thead><tr><th>Supplier</th><th className="r">Total Dibeli</th></tr></thead>
               <tbody>
-                {perSupplier.map(([nama, total]) => (
-                  <tr key={nama}><td>{nama}</td><td className="r">Rp{fmt(total)}</td></tr>
+                {perSupplier.map(row => (
+                  <tr key={row.supplier}><td>{row.supplier}</td><td className="r">Rp{fmt(row.total)}</td></tr>
                 ))}
               </tbody>
             </table>

@@ -1,5 +1,19 @@
 import { useData } from '../../context/DataContext';
 import LeaderboardBlock, { computeLeaderboard } from './LeaderboardBlock';
+import ExportButtons from '../../components/common/ExportButtons';
+
+const KODE_EXPORT_COLUMNS = [
+  { key: 'nama', label: 'Nama' },
+  { key: 'kodeMarketing', label: 'Kode' },
+  { key: 'targetBulanan', label: 'Target', type: 'currency', align: 'r' },
+];
+const STRATEGI_EXPORT_COLUMNS = [
+  { key: 'tanggal', label: 'Tanggal' },
+  { key: 'userMarketing', label: 'User' },
+  { key: 'jenis', label: 'Jenis' },
+  { key: 'catatan', label: 'Catatan' },
+  { key: 'statusPengajuan', label: 'Status' },
+];
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -35,7 +49,10 @@ export default function OwnerView() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <div className="table-wrap" style={{ padding: '18px 20px' }}>
-          <label className="settings-section-label" style={{ marginTop: 0 }}>Marketing &amp; Kode</label>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 0 }}>
+            <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 12 }}>Marketing &amp; Kode</label>
+            <ExportButtons title="Marketing dan Kode" columns={KODE_EXPORT_COLUMNS} rows={marketers} />
+          </div>
           <table className="data-table">
             <thead><tr><th>Nama</th><th>Kode</th><th className="r">Target</th></tr></thead>
             <tbody>
@@ -63,7 +80,10 @@ export default function OwnerView() {
       </div>
 
       <div className="table-wrap" style={{ padding: '18px 20px', marginTop: 16 }}>
-        <label className="settings-section-label" style={{ marginTop: 0 }}>Semua Strategi Marketing</label>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 12 }}>Semua Strategi Marketing</label>
+          <ExportButtons title="Semua Strategi Marketing" columns={STRATEGI_EXPORT_COLUMNS} rows={data.strategiMarketing} />
+        </div>
         <table className="data-table">
           <thead><tr><th>Tanggal</th><th>User</th><th>Jenis</th><th>Catatan</th><th>Status</th></tr></thead>
           <tbody>

@@ -1,5 +1,14 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
+import ExportButtons from '../../components/common/ExportButtons';
+
+const EXPORT_COLUMNS = [
+  { key: 'tanggal', label: 'Tanggal' },
+  { key: 'tipe', label: 'Tipe' },
+  { key: 'keterangan', label: 'Keterangan' },
+  { key: 'jumlah', label: 'Jumlah', type: 'currency', align: 'r' },
+  { key: 'saldo', label: 'Saldo', type: 'currency', align: 'r' },
+];
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -63,6 +72,10 @@ export default function BukuKasPage() {
         </div>
         <button type="submit" className="btn-gold" style={{ height: 37 }}>+ Catat</button>
       </form>
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+        <ExportButtons title="Buku Kas" columns={EXPORT_COLUMNS} rows={rows} />
+      </div>
 
       <div className="table-wrap">
         <table className="data-table">

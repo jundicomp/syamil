@@ -90,6 +90,7 @@ button{color:inherit;font-family:inherit;}
 .search-box2 input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:12.5px;font-family:'Inter';}
 .export-group{display:flex;gap:8px;}
 .btn-export{display:flex;align-items:center;gap:6px;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--text-soft);}
+.btn-export:disabled{opacity:.45;cursor:not-allowed;}
 
 .table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;overflow-x:auto;}
 .data-table{width:100%;border-collapse:collapse;font-size:12.5px;}

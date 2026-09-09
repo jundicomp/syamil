@@ -3,6 +3,20 @@
 
 export const CHANGELOG = [
   {
+    version: '0.8.0',
+    tanggal: '2026-09-09',
+    judul: 'Fitur Export Excel & PDF (sungguhan, bukan cuma print dialog)',
+    perubahan: [
+      'Semua tombol Excel/PDF sekarang benar-benar berfungsi (sebelumnya cuma tampilan)',
+      'Judul tabel di baris 1, filter pencarian aktif (kalau ada) di baris 2',
+      'Header kolom hitam-tulisan putih tebal, lebar kolom otomatis, teks panjang wrap sendiri',
+      'Nama file & nama sheet Excel mengikuti judul tabel',
+      'Berlaku otomatis di semua tabel yang pakai komponen DataTable',
+      'Tabel kustom (Buku Kas, ringkasan per-supplier, tabel-tabel Dashboard Marketing) ditambahkan tombol export terpisah',
+      'Library berat (jsPDF, xlsx-js-style) baru dimuat saat tombol diklik — tidak membebani waktu buka halaman',
+    ],
+  },
+  {
     version: '0.7.0',
     tanggal: '2026-09-09',
     judul: 'Fase 7 — Laporan Keuangan (fase terakhir, migrasi 100% selesai)',

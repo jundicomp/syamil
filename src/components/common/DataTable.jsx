@@ -49,6 +49,17 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
     setPage(1);
   }
 
+  const exportSubtitle = search.trim() ? `Filter pencarian: "${search.trim()}"` : undefined;
+
+  async function handleExportExcel() {
+    const { exportToExcel } = await import('../../utils/exportUtils');
+    exportToExcel({ title, subtitle: exportSubtitle, columns, rows: filtered });
+  }
+  async function handleExportPDF() {
+    const { exportToPDF } = await import('../../utils/exportUtils');
+    exportToPDF({ title, subtitle: exportSubtitle, columns, rows: filtered });
+  }
+
   function renderCell(row, col) {
     const val = row[col.key];
     if (col.type === 'currency') return `Rp${fmt(val)}`;
@@ -79,8 +90,8 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
           />
         </div>
         <div className="export-group">
-          <button className="btn-export"><Icon name="excel" size={14} /> Excel</button>
-          <button className="btn-export"><Icon name="pdf" size={14} /> PDF</button>
+          <button className="btn-export" onClick={handleExportExcel} disabled={filtered.length === 0}><Icon name="excel" size={14} /> Excel</button>
+          <button className="btn-export" onClick={handleExportPDF} disabled={filtered.length === 0}><Icon name="pdf" size={14} /> PDF</button>
         </div>
       </div>
 
