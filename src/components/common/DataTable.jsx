@@ -72,7 +72,14 @@ export default function DataTable({
 
   function renderCell(row, col) {
     const val = row[col.key];
-    if (col.type === 'currency') return `Rp${fmt(val)}`;
+    if (col.type === 'currency') {
+      return (
+        <span className="curr-cell">
+          <span className="curr-sym">Rp</span>
+          <span className="curr-num">{fmt(val)}</span>
+        </span>
+      );
+    }
     if (col.type === 'badge') return <Badge value={val} />;
     return val;
   }
@@ -171,11 +178,13 @@ export default function DataTable({
           </tbody>
           {summary && (
             <tfoot>
-              <tr>
+              <tr className="total-row">
                 <td colSpan={1}></td>
                 {columns.map(col => (
                   <td key={col.key} className={col.align === 'r' ? 'r' : ''}>
-                    {summaryKeys.includes(col.key) ? <b>Rp{fmt(summary[col.key])}</b> : (col === columns[0] ? <b>TOTAL</b> : '')}
+                    {summaryKeys.includes(col.key)
+                      ? <span className="curr-cell"><span className="curr-sym">Rp</span><span className="curr-num">{fmt(summary[col.key])}</span></span>
+                      : (col === columns[0] ? 'TOTAL' : '')}
                   </td>
                 ))}
                 {actions.length > 0 && <td></td>}

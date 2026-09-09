@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.9.1',
+    tanggal: '2026-09-09',
+    judul: 'Format Rupiah rapi + warna header navy + baris Total lebih jelas',
+    perubahan: [
+      'Format Rupiah: "Rp" rata kiri, angka rata kanan dalam satu sel — berlaku di tabel web, Excel (format akuntansi asli), dan PDF (digambar manual per sel)',
+      'Baris TOTAL: latar abu-abu, baris lebih tinggi, tebal, ukuran font tetap sama — konsisten di web maupun file export',
+      'Header tabel: emas → navy (kontras lebih baik di atas latar terang)',
+      'Mode Day: latar putih polos diganti biru sangat lembut, supaya tidak terlalu tajam',
+    ],
+  },
+  {
     version: '0.9.0',
     tanggal: '2026-09-09',
     judul: 'Filter Rentang Tanggal + Header Laporan Terstruktur (fase laporan)',
