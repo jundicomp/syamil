@@ -11,11 +11,17 @@ export default function HppCreateModal({ onClose }) {
 
   const spk = data.produksi.find(p => p.noOrder === noOrder);
   const notaTerkait = spk ? data.penjualan.find(p => p.noNota === spk.noNota) : null;
-  const hargaJual = notaTerkait?.total ?? 0;
+  const itemSpesifik = notaTerkait?.items?.find(it => it.produk === spk?.produk);
+  const hargaJual = itemSpesifik ? itemSpesifik.qty * itemSpesifik.harga : (notaTerkait?.total ?? 0);
+  const hargaJualNote = itemSpesifik
+    ? `otomatis dari item "${spk.produk}" di ${spk.noNota}`
+    : notaTerkait
+      ? `otomatis dari total nota ${spk.noNota} (rincian produk tidak ditemukan)`
+      : 'nota tidak ditemukan — isi manual tidak tersedia di versi ini';
 
   const totalHpp = useMemo(() => items.reduce((s, it) => s + it.qty * it.harga, 0), [items]);
   const margin = hargaJual - totalHpp;
-  const marginPct = hargaJual ? Math.round((margin / hargaJual) * 100) : 0;
+  const marginPct = hargaJual ? (margin / hargaJual) * 100 : 0;
 
   function updateItem(idx, patch) {
     setItems(prev => prev.map((it, i) => {
@@ -70,8 +76,9 @@ export default function HppCreateModal({ onClose }) {
             </select>
           </div>
           <div className="f-field">
-            <label>Harga Jual {notaTerkait ? '(otomatis dari Nota, terkunci)' : '(nota tidak ditemukan)'}</label>
+            <label>Harga Jual {notaTerkait ? '(otomatis, terkunci)' : ''}</label>
             <input value={`Rp${fmt(hargaJual)}`} disabled />
+            <div style={{ fontSize: 10.5, color: 'var(--text-faint)', marginTop: 4 }}>{hargaJualNote}</div>
           </div>
 
           <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--text-soft)', margin: '14px 0 8px' }}>
@@ -104,7 +111,7 @@ export default function HppCreateModal({ onClose }) {
               <b style={{ color: 'var(--total-red)' }}>Rp{fmt(totalHpp)}</b>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
-              <span style={{ fontSize: 12 }}>Margin (Harga Jual − HPP) = {marginPct}%</span>
+              <span style={{ fontSize: 12 }}>Margin (Harga Jual − HPP) = {marginPct.toFixed(1)}%</span>
               <b style={{ color: 'var(--total-red)' }}>Rp{fmt(margin)}</b>
             </div>
           </div>

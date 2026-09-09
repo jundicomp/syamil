@@ -16,3 +16,23 @@ Dipicu laporan: teks tak terlihat, panah sidebar hilang, layout berantakan di be
 
 ## Kalau Masih Ada yang Aneh Setelah Update Ini
 Kemungkinan bug spesifik per-halaman yang belum ketahuan dari 2 screenshot kemarin — kirim screenshot lagi bagian mana yang masih kurang pas, saya lanjutkan investigasinya.
+
+---
+
+# Ronde 2 — Audit Logika (9 Sep 2026, lanjutan)
+
+Dipicu: total POS tetap Rp0 padahal baris sudah keisi. Kali ini saya bandingkan **logika perhitungan**, bukan cuma CSS, langsung dari kode `sistem-percetakan-app.html`.
+
+| # | Bug | Penyebab | Status |
+|---|---|---|---|
+| 5 | Total POS tetap Rp0 walau baris sudah diisi (belum diklik ✓) | Saya cuma menjumlah item yang sudah "locked" — HTML aslinya menjumlah **semua baris** (termasuk yang belum dikonfirmasi) untuk Total, cuma yang locked yang tersimpan pas checkout | ✅ Diperbaiki |
+| 6 | Harga Jual di Kalkulasi HPP kurang presisi | Saya cuma ambil total keseluruhan Nota — HTML aslinya mencari **harga item spesifik** dalam Nota dulu (qty×harga produk itu saja), baru fallback ke total kalau tidak ketemu | ✅ Diperbaiki |
+| 7 | Margin % dibulatkan ke bilangan bulat | HTML pakai 1 angka desimal (`toFixed(1)`) | ✅ Diperbaiki |
+| 8 | **Stok Opname langsung mengubah stok sungguhan** | Ternyata di HTML, Stok Opname **cuma catatan/log riwayat** (audit) — tidak pernah otomatis menyesuaikan `bahanBaku.stok`. Punya saya sebelumnya salah asumsi dan langsung memakai `addStokMovement` | ✅ **Diperbaiki** — sekarang jadi tabel CRUD log seperti aslinya, sudah tidak menyentuh stok sungguhan lagi |
+
+## Perbedaan yang Saya Putuskan TIDAK Diubah (minor, bukan bug)
+- **Kartu Stok**: di HTML dibuka dengan klik nama bahan (link halus), di React saya pakai tombol ikon 👁️ terpisah — sama-sama berfungsi, cuma beda titik klik. Saya biarkan karena justru lebih jelas/mudah ditemukan.
+
+## Jujur soal batasan audit ini
+Saya sudah cek detail logika untuk: **POS, Kalkulasi HPP, Stok Opname, Alur SPK (tahapan), Leaderboard Marketing**. Saya **belum** membandingkan baris-per-baris untuk semua 30 halaman (itu akan sangat panjang) — kalau ada modul lain yang terasa janggal, kirim screenshot spesifik halaman itu, saya cek langsung ke kode HTML asli seperti pola di atas.
+

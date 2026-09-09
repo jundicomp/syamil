@@ -229,5 +229,9 @@ export const seedPembelian = withIds([
   },
 ]);
 
+export const seedStokOpname = withIds([
+  { tanggal: '05 Agu 2026', bahan: 'Flexi China 280gr', stokSistem: 46, stokFisik: 45, selisih: -1 },
+]);
+
 
 

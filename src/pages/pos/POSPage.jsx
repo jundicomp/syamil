@@ -18,7 +18,7 @@ export default function POSPage() {
   const [lastSale, setLastSale] = useState(null);
 
   const confirmedItems = useMemo(() => cart.filter(it => it.locked), [cart]);
-  const subtotal = useMemo(() => confirmedItems.reduce((s, it) => s + it.qty * it.harga, 0), [confirmedItems]);
+  const subtotal = useMemo(() => cart.reduce((s, it) => s + (it.qty || 0) * (it.harga || 0), 0), [cart]);
   const total = Math.max(0, subtotal - diskon);
 
   function addEmptyRow() {
@@ -121,7 +121,7 @@ export default function POSPage() {
             Total Transaksi
           </div>
           <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--gold)', marginBottom: 4 }}>Rp{fmt(total)}</div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginBottom: 16 }}>{confirmedItems.length} item ditambahkan</div>
+          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginBottom: 16 }}>{cart.length} item ditambahkan</div>
 
           <div className="f-field">
             <label>Diskon (Rp)</label>
