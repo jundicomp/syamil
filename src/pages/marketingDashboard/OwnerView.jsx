@@ -35,7 +35,7 @@ export default function OwnerView() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <div className="table-wrap" style={{ padding: '18px 20px' }}>
-          <b style={{ fontSize: 14, display: 'block', marginBottom: 12 }}>Marketing & Kode</b>
+          <label className="settings-section-label" style={{ marginTop: 0 }}>Marketing &amp; Kode</label>
           <table className="data-table">
             <thead><tr><th>Nama</th><th>Kode</th><th className="r">Target</th></tr></thead>
             <tbody>
@@ -47,7 +47,7 @@ export default function OwnerView() {
         </div>
 
         <div className="table-wrap" style={{ padding: '18px 20px' }}>
-          <b style={{ fontSize: 14, display: 'block', marginBottom: 4 }}>Antrean Persetujuan Anggaran</b>
+          <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 4 }}>Antrean Persetujuan Anggaran</label>
           <div className="page-sub" style={{ marginBottom: 12 }}>Ditolak tetap tersimpan sebagai catatan, tidak dihapus.</div>
           {pending.length === 0 ? <p style={{ fontSize: 12, color: 'var(--text-faint)' }}>Tidak ada pengajuan menunggu.</p> : pending.map(s => (
             <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 0', borderBottom: '1px solid var(--line-soft)' }}>
@@ -63,7 +63,7 @@ export default function OwnerView() {
       </div>
 
       <div className="table-wrap" style={{ padding: '18px 20px', marginTop: 16 }}>
-        <b style={{ fontSize: 14, display: 'block', marginBottom: 12 }}>Semua Strategi Marketing</b>
+        <label className="settings-section-label" style={{ marginTop: 0 }}>Semua Strategi Marketing</label>
         <table className="data-table">
           <thead><tr><th>Tanggal</th><th>User</th><th>Jenis</th><th>Catatan</th><th>Status</th></tr></thead>
           <tbody>

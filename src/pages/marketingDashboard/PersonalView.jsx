@@ -58,7 +58,7 @@ export default function PersonalView({ nama }) {
       <LeaderboardBlock ranked={ranked} viewerName={nama} />
 
       <div className="table-wrap" style={{ padding: '18px 20px', marginBottom: 16 }}>
-        <b style={{ fontSize: 14, display: 'block', marginBottom: 4 }}>Penjualan Saya</b>
+        <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 4 }}>Penjualan Saya</label>
         <div className="page-sub" style={{ marginBottom: 12 }}>Cuma transaksi berkode {user.kodeMarketing} — bukan seluruh Laporan Penjualan.</div>
         <table className="data-table">
           <thead><tr><th>Tanggal</th><th>No. Nota</th><th>Pelanggan</th><th className="r">Total</th><th>Status</th></tr></thead>
@@ -71,7 +71,7 @@ export default function PersonalView({ nama }) {
       </div>
 
       <div className="table-wrap" style={{ padding: '18px 20px' }}>
-        <b style={{ fontSize: 14, display: 'block', marginBottom: 12 }}>Strategi Saya</b>
+        <label className="settings-section-label" style={{ marginTop: 0 }}>Strategi Saya</label>
         <div className="f-field">
           <label>Jenis Strategi</label>
           <select value={jenis} onChange={handleJenisChange}>

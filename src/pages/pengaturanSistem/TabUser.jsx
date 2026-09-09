@@ -40,11 +40,11 @@ export default function TabUser() {
         onDelete={row => deleteRow('pengguna', row.id)}
       />
 
-      <div style={{ marginTop: 24 }}>
-        <h3 style={{ fontSize: 15, marginBottom: 4 }}>Hak Akses per Role</h3>
-        <div className="page-sub" style={{ marginBottom: 12 }}>Centang modul yang boleh diakses tiap role</div>
-        <div className="table-wrap">
-          <table className="data-table">
+      <div className="form-wrap" style={{ maxWidth: 720, marginTop: 22 }}>
+        <label className="settings-section-label" style={{ marginTop: 0 }}>Hak Akses per Role</label>
+        <p className="trans-sub">Centang modul yang boleh diakses tiap role. Owner disarankan selalu memiliki akses penuh.</p>
+        <div className="matrix-table-wrap">
+          <table className="matrix-table hak-table">
             <thead>
               <tr>
                 <th>Role</th>
@@ -54,7 +54,7 @@ export default function TabUser() {
             <tbody>
               {HAK_AKSES_ROLES.map(role => (
                 <tr key={role}>
-                  <td><b>{role}</b></td>
+                  <td className="hak-role">{role}</td>
                   {HAK_AKSES_MODULES.map(mod => (
                     <td key={mod}>
                       <input
@@ -69,6 +69,7 @@ export default function TabUser() {
             </tbody>
           </table>
         </div>
+        <button className="btn-gold" style={{ marginTop: 14 }} onClick={() => alert('Hak akses tersimpan.')}>Simpan Hak Akses</button>
       </div>
 
       {modal && (

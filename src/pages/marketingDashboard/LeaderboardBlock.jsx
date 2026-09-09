@@ -16,7 +16,7 @@ export default function LeaderboardBlock({ ranked, viewerName }) {
   return (
     <div className="table-wrap" style={{ padding: '18px 20px', marginBottom: 18 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <b style={{ fontSize: 14 }}>🏆 Leaderboard Marketing</b>
+        <label className="settings-section-label" style={{ marginTop: 0 }}>🏆 Leaderboard Marketing</label>
         <div className="subtab-switch" style={{ margin: 0 }}>
           <button className={tab === 'bulan' ? 'active' : ''} onClick={() => setTab('bulan')}>Bulan Ini</button>
           <button className={tab === 'total' ? 'active' : ''} onClick={() => setTab('total')}>Akumulasi Total</button>
