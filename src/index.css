@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root{
-  --bg:#0B0B0D; --sidebar:#111114; --panel:#18181C; --panel-2:#1E1E23;
+  --bg:#0B111C; --sidebar:#0D1524; --panel:#141D2E; --panel-2:#1A2438;
   --line:rgba(255,255,255,.09); --line-soft:rgba(255,255,255,.06);
   --text:#F1EFE7; --text-soft:#AFAEA5; --text-faint:#75746B;
-  --gold:#C9A24B; --gold-deep:#A9823C; --gold-bg:rgba(201,162,75,.14);
+  --gold:#D4AF37; --gold-deep:#B8860B; --gold-bg:rgba(212,175,55,.14);
   --gold-header:#1E3A5F; --gold-header-deep:#152A46;
   --accent:#2A4A73; --accent-deep:#1D3455; --accent-bg:rgba(42,74,115,.12);
   --danger:#C97A5D; --total-red:#E5342B; --total-red-bg:rgba(229,52,43,.13);
@@ -14,7 +14,7 @@
   --mod-pink:#D6488F; --mod-pink-bg:rgba(214,72,143,.15);
   --mod-purple:#7B5FC4; --mod-purple-bg:rgba(123,95,196,.15);
 }
-body.theme-day .content, body.theme-day .modal-card{
+body.theme-day .content, body.theme-day .modal-card, body.theme-day .topbar{
   --panel:#F8FAFD; --panel-2:#F1F4F8; --line:#DCE3EC; --line-soft:#E8ECF2;
   --text:#1C1C1F; --text-soft:#5C5B54; --text-faint:#8B897F; --gold-bg:rgba(201,162,75,.12);
 }
@@ -66,7 +66,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .user-chip span{display:block;font-size:10px;color:var(--text-faint);}
 
 .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100%;}
-.topbar{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--bg);flex:0 0 auto;}
+.topbar{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--panel);color:var(--text);flex:0 0 auto;}
 .crumb{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;}
 .page-title-top{font-size:17px;margin:2px 0 0;font-weight:700;}
 .spacer{flex:1;}

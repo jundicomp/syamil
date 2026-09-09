@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.11.0',
+    tanggal: '2026-09-09',
+    judul: 'Profil Saya + Warna Brand Navy + Topbar Ikut Tema',
+    perubahan: [
+      'Halaman baru Profil Saya: foto, nama, email, HP, ganti password, tombol Simpan',
+      'Dropdown menu diperbaiki — "Pengaturan Sistem" diganti "Profil Saya" (mengarah ke halaman yang benar)',
+      'Perubahan profil langsung update nama/foto di topbar tanpa perlu login ulang',
+      'Warna brand disesuaikan dengan logo Syamil Printing Shop — latar sidebar/app jadi navy gelap (bukan abu-abu-hitam), emas sedikit lebih kaya',
+      'Topbar sekarang ikut berubah sesuai Tampilan Mode (dulu selalu gelap meski mode Terang aktif)',
+    ],
+  },
+  {
     version: '0.10.1',
     tanggal: '2026-09-09',
     judul: 'Dropdown Menu Profil (foto, Pengaturan, Tampilan Mode, Keluar)',

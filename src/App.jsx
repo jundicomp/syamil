@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import AppShell from './components/layout/AppShell';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import LoginPage from './pages/login/LoginPage';
+import ProfilSayaPage from './pages/profil/ProfilSayaPage';
 import PelangganSupplierPage from './pages/pelangganSupplier/PelangganSupplierPage';
 import ProdukBahanBakuPage from './pages/produkBahanBaku/ProdukBahanBakuPage';
 import PromosiPage from './pages/promosi/PromosiPage';
@@ -38,6 +39,7 @@ export default function App() {
                 <Route element={<AppShell />}>
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/pelanggan-supplier" element={<PelangganSupplierPage />} />
+                  <Route path="/profil-saya" element={<ProfilSayaPage />} />
                   <Route path="/produk-bahan-baku" element={<ProdukBahanBakuPage />} />
                   <Route path="/promosi" element={<PromosiPage />} />
                   <Route path="/kampanye" element={<KampanyePage />} />

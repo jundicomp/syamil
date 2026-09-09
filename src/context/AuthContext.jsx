@@ -21,9 +21,17 @@ export function AuthProvider({ children }) {
     setUser(null);
     try { localStorage.removeItem(STORAGE_KEY); } catch { /* abaikan */ }
   }
+  function updateUser(patch) {
+    setUser(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, ...patch };
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* abaikan */ }
+      return next;
+    });
+  }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,6 +8,11 @@ function initials(nama) {
   return nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
 }
 
+function Avatar({ user, className }) {
+  if (user?.fotoDataUrl) return <img src={user.fotoDataUrl} alt={user.nama} className={className} style={{ objectFit: 'cover' }} />;
+  return <div className={className}>{user ? initials(user.nama) : '?'}</div>;
+}
+
 export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
@@ -21,9 +26,9 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
       navigate('/login');
     }
   }
-  function goSettings() {
+  function goProfil() {
     setMenuOpen(false);
-    navigate('/pengaturan-sistem');
+    navigate('/profil-saya');
   }
 
   return (
@@ -45,7 +50,7 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
 
       <div style={{ position: 'relative' }}>
         <button className="kasir-chip" onClick={() => setMenuOpen(o => !o)}>
-          <div className="av">{user ? initials(user.nama) : '?'}</div>
+          <Avatar user={user} className="av" />
           <b>{user?.nama ?? 'Tamu'}</b>
         </button>
 
@@ -54,16 +59,16 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
             <div className="profile-menu-backdrop" onClick={() => setMenuOpen(false)} />
             <div className="profile-menu">
               <div className="profile-menu-header">
-                <div className="av-lg">{user ? initials(user.nama) : '?'}</div>
+                <Avatar user={user} className="av-lg" />
                 <div>
                   <b>{user?.nama ?? 'Tamu'}</b>
                   <span>{user?.role ?? '-'}</span>
                 </div>
               </div>
 
-              <button className="profile-menu-item" onClick={goSettings}>
+              <button className="profile-menu-item" onClick={goProfil}>
                 <Icon name="settings" size={16} />
-                <span>Pengaturan Sistem</span>
+                <span>Profil Saya</span>
               </button>
 
               <button className="profile-menu-item" onClick={toggleTheme}>

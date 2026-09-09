@@ -78,15 +78,15 @@ export const seedSettings = {
 };
 
 export const seedPengguna = withIds([
-  { nama: 'Pak Budi', email: 'budi@percetakanjaya.id', role: 'Owner', status: 'Aktif', kodeMarketing: '-' },
-  { nama: 'Siti Aminah', email: 'siti@percetakanjaya.id', role: 'Kasir', status: 'Aktif', kodeMarketing: '-' },
-  { nama: 'Andi Saputra', email: 'andi@percetakanjaya.id', role: 'Gudang', status: 'Aktif', kodeMarketing: '-' },
-  { nama: 'Rina Wulandari', email: 'rina@percetakanjaya.id', role: 'Admin', status: 'Aktif', kodeMarketing: '-' },
-  { nama: 'Joko Prasetyo', email: 'joko@percetakanjaya.id', role: 'Kasir', status: 'Nonaktif', kodeMarketing: '-' },
-  { nama: 'Dewi Lestari', email: 'dewi@percetakanjaya.id', role: 'Gudang', status: 'Nonaktif', kodeMarketing: '-' },
-  { nama: 'Fajar Ramadhan', email: 'fajar@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'FAJ01', targetBulanan: 1000000 },
-  { nama: 'Nia Kusuma', email: 'nia@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'NIA02', targetBulanan: 1000000 },
-  { nama: 'Reza Pratama', email: 'reza@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'REZ03', targetBulanan: 1000000 },
+  { nama: 'Pak Budi', email: 'budi@percetakanjaya.id', hp: '0811-2233-4455', role: 'Owner', status: 'Aktif', kodeMarketing: '-', fotoDataUrl: null },
+  { nama: 'Siti Aminah', email: 'siti@percetakanjaya.id', hp: '0812-3344-5566', role: 'Kasir', status: 'Aktif', kodeMarketing: '-', fotoDataUrl: null },
+  { nama: 'Andi Saputra', email: 'andi@percetakanjaya.id', hp: '0813-4455-6677', role: 'Gudang', status: 'Aktif', kodeMarketing: '-', fotoDataUrl: null },
+  { nama: 'Rina Wulandari', email: 'rina@percetakanjaya.id', hp: '0814-5566-7788', role: 'Admin', status: 'Aktif', kodeMarketing: '-', fotoDataUrl: null },
+  { nama: 'Joko Prasetyo', email: 'joko@percetakanjaya.id', hp: '0815-6677-8899', role: 'Kasir', status: 'Nonaktif', kodeMarketing: '-', fotoDataUrl: null },
+  { nama: 'Dewi Lestari', email: 'dewi@percetakanjaya.id', hp: '0816-7788-9900', role: 'Gudang', status: 'Nonaktif', kodeMarketing: '-', fotoDataUrl: null },
+  { nama: 'Fajar Ramadhan', email: 'fajar@percetakanjaya.id', hp: '0817-8899-0011', role: 'Marketing', status: 'Aktif', kodeMarketing: 'FAJ01', targetBulanan: 1000000, fotoDataUrl: null },
+  { nama: 'Nia Kusuma', email: 'nia@percetakanjaya.id', hp: '0818-9900-1122', role: 'Marketing', status: 'Aktif', kodeMarketing: 'NIA02', targetBulanan: 1000000, fotoDataUrl: null },
+  { nama: 'Reza Pratama', email: 'reza@percetakanjaya.id', hp: '0819-0011-2233', role: 'Marketing', status: 'Aktif', kodeMarketing: 'REZ03', targetBulanan: 1000000, fotoDataUrl: null },
 ]);
 
 export const seedNotifikasi = withIds([
