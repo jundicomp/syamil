@@ -90,8 +90,8 @@ export default function DataTable({ title, subtitle, columns, rows, actions = []
           />
         </div>
         <div className="export-group">
-          <button className="btn-export" onClick={handleExportExcel} disabled={filtered.length === 0}><Icon name="excel" size={14} /> Excel</button>
-          <button className="btn-export" onClick={handleExportPDF} disabled={filtered.length === 0}><Icon name="pdf" size={14} /> PDF</button>
+          <button className="btn-export excel" onClick={handleExportExcel} disabled={filtered.length === 0}><Icon name="excel" size={14} /> Excel</button>
+          <button className="btn-export pdf" onClick={handleExportPDF} disabled={filtered.length === 0}><Icon name="pdf" size={14} /> PDF</button>
         </div>
       </div>
 

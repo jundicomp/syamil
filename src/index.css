@@ -91,6 +91,12 @@ button{color:inherit;font-family:inherit;}
 .export-group{display:flex;gap:8px;}
 .btn-export{display:flex;align-items:center;gap:6px;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--text-soft);}
 .btn-export:disabled{opacity:.45;cursor:not-allowed;}
+.btn-export.excel{border-color:rgba(31,107,57,.4);color:#2FAE6D;}
+.btn-export.excel svg{stroke:#2FAE6D;}
+.btn-export.excel:hover:not(:disabled){background:rgba(47,174,109,.14);border-color:#2FAE6D;}
+.btn-export.pdf{border-color:rgba(225,91,79,.4);color:#E1665A;}
+.btn-export.pdf svg{stroke:#E1665A;}
+.btn-export.pdf:hover:not(:disabled){background:rgba(225,91,79,.14);border-color:#E1665A;}
 
 .table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;overflow-x:auto;}
 .data-table{width:100%;border-collapse:collapse;font-size:12.5px;}

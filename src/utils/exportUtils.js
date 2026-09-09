@@ -15,20 +15,26 @@ function sanitizeFileName(title) {
 }
 
 function autoColWidths(columns, rows) {
-  return columns.map(col => {
+  // Kolom pertama "No" dibuat sempit tetap; sisanya menyesuaikan isi terpanjang.
+  const noWidth = { wch: Math.max(String(rows.length).length + 2, 5) };
+  const dataWidths = columns.map(col => {
     const headerLen = col.label.length;
     const maxDataLen = rows.reduce((max, r) => Math.max(max, cellText(col, r).length), 0);
     return { wch: Math.min(Math.max(headerLen, maxDataLen) + 3, 45) };
   });
+  return [noWidth, ...dataWidths];
 }
 
+const THIN_BORDER = { style: 'thin', color: { rgb: 'CCCCCC' } };
+const BORDER_ALL = { top: THIN_BORDER, bottom: THIN_BORDER, left: THIN_BORDER, right: THIN_BORDER };
+
 /**
- * Export ke Excel (.xlsx) — judul di baris 1, sub-judul/filter di baris 2 (kalau ada),
- * header kolom hitam-tulisan putih tebal, lebar kolom otomatis, teks panjang wrap sendiri.
+ * Export ke Excel (.xlsx) — kolom No otomatis, judul di baris 1, sub-judul/filter di baris 2
+ * (kalau ada), header hitam-putih tebal, border tipis semua sel, lebar kolom otomatis + wrap teks.
  */
 export function exportToExcel({ title, subtitle, columns, rows }) {
-  const headerRow = columns.map(c => c.label);
-  const dataRows = rows.map(r => columns.map(c => cellText(c, r)));
+  const headerRow = ['No', ...columns.map(c => c.label)];
+  const dataRows = rows.map((r, i) => [i + 1, ...columns.map(c => cellText(c, r))]);
   const headerRowIndex = subtitle ? 3 : 2;
 
   const sheetData = [
@@ -39,7 +45,7 @@ export function exportToExcel({ title, subtitle, columns, rows }) {
     ...dataRows,
   ];
   const ws = XLSX.utils.aoa_to_sheet(sheetData);
-  const numCols = Math.max(columns.length, 1);
+  const numCols = Math.max(columns.length + 1, 1);
 
   const titleRef = XLSX.utils.encode_cell({ r: 0, c: 0 });
   if (ws[titleRef]) ws[titleRef].s = { font: { bold: true, sz: 14 } };
@@ -56,6 +62,7 @@ export function exportToExcel({ title, subtitle, columns, rows }) {
       fill: { fgColor: { rgb: '000000' } },
       font: { bold: true, color: { rgb: 'FFFFFF' } },
       alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+      border: BORDER_ALL,
     };
   }
 
@@ -64,7 +71,10 @@ export function exportToExcel({ title, subtitle, columns, rows }) {
     for (let c = 0; c <= range.e.c; c++) {
       const ref = XLSX.utils.encode_cell({ r, c });
       if (!ws[ref]) continue;
-      ws[ref].s = { alignment: { wrapText: true, vertical: 'top' } };
+      ws[ref].s = {
+        alignment: { wrapText: true, vertical: 'top', horizontal: c === 0 ? 'center' : undefined },
+        border: BORDER_ALL,
+      };
     }
   }
 
@@ -79,8 +89,8 @@ export function exportToExcel({ title, subtitle, columns, rows }) {
 }
 
 /**
- * Export ke PDF sungguhan (bukan cuma trigger print dialog) — judul + sub-judul/filter,
- * header tabel hitam-putih tebal, kolom melebar otomatis dengan word-wrap.
+ * Export ke PDF sungguhan — kolom No otomatis, judul + sub-judul/filter, header hitam-putih
+ * tebal, border tipis semua sel (theme grid), kolom melebar otomatis dengan word-wrap.
  */
 export function exportToPDF({ title, subtitle, columns, rows }) {
   const orientation = columns.length > 5 ? 'landscape' : 'portrait';
@@ -99,15 +109,16 @@ export function exportToPDF({ title, subtitle, columns, rows }) {
     startY = 27;
   }
 
-  const head = [columns.map(c => c.label)];
-  const body = rows.map(r => columns.map(c => cellText(c, r)));
-  const columnStyles = {};
-  columns.forEach((c, i) => { if (c.align === 'r') columnStyles[i] = { halign: 'right' }; });
+  const head = [['No', ...columns.map(c => c.label)]];
+  const body = rows.map((r, i) => [i + 1, ...columns.map(c => cellText(c, r))]);
+  const columnStyles = { 0: { halign: 'center', cellWidth: 10 } };
+  columns.forEach((c, i) => { if (c.align === 'r') columnStyles[i + 1] = { halign: 'right' }; });
 
   autoTable(doc, {
     head, body, startY,
+    theme: 'grid',
     headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
-    styles: { overflow: 'linebreak', fontSize: 9, cellPadding: 3 },
+    styles: { overflow: 'linebreak', fontSize: 9, cellPadding: 3, lineWidth: 0.1, lineColor: [200, 200, 200] },
     columnStyles,
     margin: { left: 14, right: 14 },
   });
