@@ -48,12 +48,12 @@ Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di side
 
 ## Fase 5 — Alur SPK & Produksi
 
-- [ ] 🔴 Alur SPK — Kartu (Kanban 5 tahap, Back/Done wajib catatan, over-hand)
-- [ ] 🟡 Alur SPK — Tabel
-- [ ] 🟡 Alur SPK — Arsip SPK (Selesai) + mekanisme Tutup SPK
-- [ ] 🟡 Alur SPK — SPK Batal + mekanisme Batalkan
-- [ ] 🟢 Status Pengerjaan
-- [ ] 🔴 **Kalkulasi HPP** *(akses terbatas, keranjang biaya stok/jasa, tarik Harga Jual otomatis dari Nota, hitung margin)*
+- [x] 🔴 Alur SPK — Kartu (Kanban 5 tahap, Back/Done wajib catatan, over-hand)
+- [x] 🟡 Alur SPK — Tabel
+- [x] 🟡 Alur SPK — Arsip SPK (Selesai) + mekanisme Tutup SPK
+- [x] 🟡 Alur SPK — SPK Batal + mekanisme Batalkan
+- [x] 🟢 Status Pengerjaan
+- [x] 🔴 **Kalkulasi HPP** *(akses terbatas, keranjang biaya stok/jasa, tarik Harga Jual otomatis dari Nota, hitung margin)*
 
 ## Fase 6 — Marketing
 

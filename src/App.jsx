@@ -14,6 +14,9 @@ import LaporanProduksiPage from './pages/laporanProduksi/LaporanProduksiPage';
 import StokOpnamePage from './pages/stokOpname/StokOpnamePage';
 import POSPage from './pages/pos/POSPage';
 import PembelianPage from './pages/pembelian/PembelianPage';
+import AntrianProduksiPage from './pages/antrianProduksi/AntrianProduksiPage';
+import StatusPengerjaanPage from './pages/statusPengerjaan/StatusPengerjaanPage';
+import KalkulasiHppPage from './pages/kalkulasiHpp/KalkulasiHppPage';
 
 export default function App() {
   return (
@@ -35,6 +38,9 @@ export default function App() {
               <Route path="/stok-opname" element={<StokOpnamePage />} />
               <Route path="/pos" element={<POSPage />} />
               <Route path="/pembelian" element={<PembelianPage />} />
+              <Route path="/alur-spk" element={<AntrianProduksiPage />} />
+              <Route path="/status-pengerjaan" element={<StatusPengerjaanPage />} />
+              <Route path="/kalkulasi-hpp" element={<KalkulasiHppPage />} />
             </Route>
           </Routes>
         </HashRouter>

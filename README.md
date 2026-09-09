@@ -1,4 +1,4 @@
-# Percetakan Jaya — Migrasi React (Fase 0–4)
+# Percetakan Jaya — Migrasi React (Fase 0–5)
 
 ## Cara menjalankan
 ```bash
@@ -16,15 +16,15 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 2 — Pengaturan Sistem, 4 tab (Perusahaan, Keuangan, User + Hak Akses, Sistem)
 - Fase 3 — Laporan Penjualan, Laporan Produksi, Stok Opname, Kartu Stok (+ `addStokMovement`)
 - Fase 4 — Kasir (POS): keranjang, DP/Lunas, cetak struk · Pembelian: keranjang bahan, auto stok+kas
+- Fase 5 — Alur SPK (Kanban 4 tab), Status Pengerjaan, Kalkulasi HPP
 - Info versi & waktu push (footer sidebar) + halaman Changelog
 
 ### ⏳ Belum
 Menu lain masih alert "belum dimigrasi" kalau diklik.
 
-### Catatan jujur Fase 4
-- **Matriks Harga** (harga bertingkat per jumlah/ukuran) belum sepenuhnya diportir — untuk produk bertipe itu, harga di keranjang bisa diedit manual dulu, belum ada kalkulator otomatisnya.
-- **QRIS** di pembayaran baru pilihan metode bayar, belum menampilkan gambar QRIS dari Pengaturan.
-- **Buku Kas** sudah mulai terisi otomatis dari transaksi (POS & Pembelian Lunas), tapi halaman untuk melihatnya baru ada di Fase 7.
+### Catatan jujur
+- **Fase 4**: Matriks Harga & tampilan gambar QRIS belum sepenuhnya diportir.
+- **Fase 5**: "Ciptakan SPK" disederhanakan — pilih 1 Nota dan 1 Produk manual (versi HTML aslinya bisa auto-pecah beberapa SPK sekaligus dari nota multi-item; belum diportir persis). Catatan Back/Done pakai `prompt()` browser, bukan modal custom — fungsinya sama (wajib diisi), cuma tampilannya beda. Kalkulasi HPP belum benar-benar dibatasi ke role Owner/Admin (belum ada login sungguhan).
 
 ---
 

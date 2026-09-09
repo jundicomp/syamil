@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.5.0',
+    tanggal: '2026-09-09',
+    judul: 'Fase 5 — Alur SPK & Kalkulasi HPP',
+    perubahan: [
+      'Alur SPK: 4 tab (Kartu/Kanban, Tabel, Arsip, Batal), Ciptakan SPK dari Nota',
+      'Kanban 5 tahap (Desain→Cetak→Finishing→CS→Konsumen), tombol Back/Done wajib catatan',
+      'Tutup SPK (wajib keterangan) dan Batalkan SPK (wajib alasan), keduanya lewat modal',
+      'Status Pengerjaan: ringkasan semua SPK aktif per PIC',
+      'Kalkulasi HPP: pilih SPK aktif, Harga Jual otomatis dari Nota (terkunci), keranjang biaya Stok/Bebas, hitung margin, baris Stok otomatis potong stok bahan',
+    ],
+  },
+  {
     version: '0.4.0',
     tanggal: '2026-09-09',
     judul: 'Fase 4 — Pembelian & Kasir (POS)',

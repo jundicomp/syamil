@@ -129,14 +129,64 @@ export const seedPenjualan = withIds([
   { tanggal: '07 Agu 2026', noNota: 'INV-0224', pelanggan: 'UD Makmur Jaya', total: 340000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
 ]);
 
+export const STAGES = ['Desain', 'Cetak', 'Finishing', 'CS', 'Konsumen'];
+
 export const seedProduksi = withIds([
-  { noOrder: 'PRD-0091', statusSpk: 'Aktif', noNota: 'INV-0231', produk: 'Banner Flexi China 3x1m', pelanggan: 'Toko Sinar Jaya', tahap: 'Cetak', target: '13 Agu 2026', pic: 'Andi' },
-  { noOrder: 'PRD-0090', statusSpk: 'Aktif', noNota: 'INV-0230', produk: 'Buku Nota Rangkap 2', pelanggan: 'CV Abadi Sentosa', tahap: 'Finishing', target: '12 Agu 2026', pic: 'Rina' },
-  { noOrder: 'PRD-0089', statusSpk: 'Aktif', noNota: 'INV-0228', produk: 'X-Banner 60x160', pelanggan: 'UD Makmur Jaya', tahap: 'Desain', target: '14 Agu 2026', pic: 'Siti' },
-  { noOrder: 'PRD-0088', statusSpk: 'Selesai', produk: 'Kartu Nama 1 Box', pelanggan: 'Toko Sinar Jaya', tahap: 'Konsumen', target: '10 Agu 2026', pic: 'Andi' },
-  { noOrder: 'PRD-0087', statusSpk: 'Aktif', produk: 'Stiker Vinyl A3', pelanggan: 'Pelanggan Umum', tahap: 'CS', target: '09 Agu 2026', pic: 'Rina' },
-  { noOrder: 'PRD-0086', statusSpk: 'Aktif', produk: 'Spanduk Digital 2x1m', pelanggan: 'CV Abadi Sentosa', tahap: 'Cetak', target: '13 Agu 2026', pic: 'Andi' },
+  {
+    noOrder: 'PRD-0091', statusSpk: 'Aktif', noNota: 'INV-0231', produk: 'Banner Flexi China 3x1m',
+    pelanggan: 'Toko Sinar Jaya', tahap: 'Cetak', target: '13 Agu 2026', pic: 'Andi Saputra',
+    detail: 'Ukuran 3×1m, Flexi China 280gr, Mata Ayam + Tali', dibuatOleh: 'Pak Budi',
+    history: [{ from: 'Desain', to: 'Cetak', action: 'done', note: 'Desain final disetujui pelanggan, lanjut cetak.' }],
+  },
+  {
+    noOrder: 'PRD-0090', statusSpk: 'Aktif', noNota: 'INV-0230', produk: 'Buku Nota Rangkap 2',
+    pelanggan: 'CV Abadi Sentosa', tahap: 'Finishing', target: '12 Agu 2026', pic: 'Rina Wulandari',
+    detail: '5 pak, rangkap 2, jilid staples', dibuatOleh: 'Pak Budi',
+    history: [
+      { from: 'Desain', to: 'Cetak', action: 'done', note: 'Layout disetujui.' },
+      { from: 'Cetak', to: 'Finishing', action: 'done', note: 'Selesai cetak, lanjut jilid.' },
+    ],
+  },
+  {
+    noOrder: 'PRD-0089', statusSpk: 'Aktif', noNota: 'INV-0228', produk: 'X-Banner 60x160',
+    pelanggan: 'UD Makmur Jaya', tahap: 'Desain', target: '14 Agu 2026', pic: 'Siti Aminah',
+    detail: 'Ukuran 60×160cm, desain logo + testimoni', dibuatOleh: 'Rina Wulandari', history: [],
+  },
+  {
+    noOrder: 'PRD-0088', statusSpk: 'Selesai', produk: 'Kartu Nama 1 Box', pelanggan: 'Toko Sinar Jaya',
+    tahap: 'Konsumen', target: '10 Agu 2026', pic: 'Andi Saputra', detail: '1 box (100pcs), desain sudah disetujui',
+    dibuatOleh: 'Pak Budi', closingNote: 'Diambil langsung oleh pelanggan, sudah dicek kualitas cetak & jumlah pcs sesuai pesanan.',
+    history: [
+      { from: 'Desain', to: 'Cetak', action: 'done', note: 'Desain oke.' },
+      { from: 'Cetak', to: 'Finishing', action: 'done', note: 'Cetak selesai.' },
+      { from: 'Finishing', to: 'CS', action: 'done', note: 'Sudah dipotong rapi.' },
+      { from: 'CS', to: 'Konsumen', action: 'done', note: 'Konsumen dihubungi, siap diambil.' },
+    ],
+  },
+  {
+    noOrder: 'PRD-0087', statusSpk: 'Aktif', produk: 'Stiker Vinyl A3', pelanggan: 'Pelanggan Umum',
+    tahap: 'CS', target: '09 Agu 2026', pic: 'Rina Wulandari', detail: 'A3, laminasi doff',
+    dibuatOleh: 'Pak Budi', history: [],
+  },
+  {
+    noOrder: 'PRD-0086', statusSpk: 'Batal', produk: 'Spanduk Digital 2x1m', pelanggan: 'CV Abadi Sentosa',
+    tahap: 'Desain', target: '13 Agu 2026', pic: 'Andi Saputra', detail: 'Ukuran 2×1m, Flexi Korea 340gr',
+    dibuatOleh: 'Pak Budi', cancelNote: 'Pelanggan membatalkan pesanan, ganti ke produk lain.', history: [],
+  },
 ]);
+
+export const seedHppCalc = withIds([
+  {
+    noOrder: 'PRD-0088', produk: 'Kartu Nama 1 Box', pelanggan: 'Toko Sinar Jaya', tanggal: '10 Agu 2026',
+    hargaJual: 45000,
+    items: [
+      { nama: 'Art Paper 260gr', sumber: 'Stok', qty: 0.1, satuan: 'rim', harga: 120000 },
+      { nama: 'Ongkos Cetak & Laminasi', sumber: 'Bebas', qty: 1, satuan: 'jasa', harga: 15000 },
+    ],
+    totalHpp: 27000, dibuatOleh: 'Pak Budi',
+  },
+]);
+
 
 export const seedStokLedger = withIds([
   { tanggal: '12 Agu 2026', bahan: 'Mata Ayam Banner', tipe: 'Masuk', qty: 20, satuan: 'pak', referensi: 'PO-0231', keterangan: 'Pembelian dari Toko Sumber Rejeki' },

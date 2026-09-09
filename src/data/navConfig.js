@@ -19,10 +19,10 @@ export const NAV = [
   {
     group: 'Produksi', color: 'orange',
     items: [
-      { key: 'antrianProduksi', label: 'Alur SPK', icon: 'printer', path: null },
-      { key: 'statusPengerjaan', label: 'Status Pengerjaan', icon: 'activity', path: null },
+      { key: 'antrianProduksi', label: 'Alur SPK', icon: 'printer', path: '/alur-spk' },
+      { key: 'statusPengerjaan', label: 'Status Pengerjaan', icon: 'activity', path: '/status-pengerjaan' },
       { key: 'laporanProduksi', label: 'Laporan Produksi', icon: 'chart', path: '/laporan-produksi' },
-      { key: 'kalkulasiHpp', label: 'Kalkulasi HPP', icon: 'lock', path: null },
+      { key: 'kalkulasiHpp', label: 'Kalkulasi HPP', icon: 'lock', path: '/kalkulasi-hpp' },
     ],
   },
   {
