@@ -3,6 +3,20 @@
 
 export const CHANGELOG = [
   {
+    version: '0.13.0',
+    tanggal: '2026-09-09',
+    judul: 'Pembelian Dirombak Persis Gaya POS + Perbaikan Preview Cetak',
+    perubahan: [
+      'FIX: preview cetak struk live kosong — id #struk-print-area hilang waktu migrasi dari modal ke live preview, sudah dikembalikan',
+      'Tab "Order Pembelian" & "Riwayat Pembelian" ternyata menampilkan tabel yang SAMA PERSIS (duplikat) — tabel di tab Order dihapus, tab itu sekarang murni jadi form pembuatan order',
+      'Form Order Pembelian dirombak total: gaya identik POS — baris item locked/editing, toolbar +Tambah Item, tanpa modal popup lagi (langsung di halaman)',
+      'Supplier sekarang bisa dicari + tambah cepat (SupplierSearchSelect), sama pola dengan Pelanggan di POS',
+      'Perbaikan bug overflow:hidden yang berpotensi memotong dropdown supplier (sama seperti bug pelanggan sebelumnya)',
+      'Konfirmasi: Pembelian OTOMATIS menambah stok bahan baku riil (lewat addStokMovement) — TIDAK menyentuh Stok Opname (itu tetap murni manual/audit terpisah)',
+      'Konfirmasi: Cek Stok Bahan di POS memang mengambil dari stok riil (bahanBaku), bukan dari Stok Opname — ini sudah benar by design',
+    ],
+  },
+  {
     version: '0.12.1',
     tanggal: '2026-09-09',
     judul: 'Draft Transaksi POS Sungguhan + Cetak Terintegrasi',

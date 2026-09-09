@@ -12,7 +12,7 @@ export default function LiveStrukPreview({ customer, customerInfo, kodeMarketing
 
   return (
     <div className="table-wrap" style={{ padding: 16 }}>
-      <div className={`struk-paper live ${isWide ? 'w80' : ''}`}>
+      <div id="struk-print-area" className={`struk-paper live ${isWide ? 'w80' : ''}`}>
         <div className="center">
           <div className="store-name">{settings.namaUsaha}</div>
           <div>{settings.alamat}</div>
