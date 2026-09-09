@@ -3,7 +3,7 @@ import {
   seedPelanggan, seedSupplier, seedProduk, seedBahanBaku,
   seedPromosi, seedKampanye, seedLeads,
   seedSettings, seedPengguna, seedNotifikasi, seedAuditTrail, seedHakAkses,
-  seedPenjualan, seedProduksi, seedStokLedger, seedPembelian, seedHppCalc, seedStokOpname,
+  seedPenjualan, seedProduksi, seedStokLedger, seedPembelian, seedHppCalc, seedStokOpname, seedHutang,
   seedStrategiMarketing, seedAnggaranMarketing, STRATEGI_JENIS_LIST_DEFAULT,
 } from '../data/seedData';
 
@@ -29,6 +29,7 @@ export function DataProvider({ children }) {
     strategiMarketing: seedStrategiMarketing,
     stokOpname: seedStokOpname,
     posDraft: [],
+    hutang: seedHutang,
   });
   const [settings, setSettings] = useState(seedSettings);
   const [hakAkses, setHakAkses] = useState(seedHakAkses);

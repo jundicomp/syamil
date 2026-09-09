@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.14.0',
+    tanggal: '2026-09-09',
+    judul: 'Modul Stok Baru + Hutang Supplier + Nota vs Tanggal Input',
+    perubahan: [
+      'Form Pembelian: tambah No. Nota Supplier + Tanggal Pembelian (sesuai nota) — terpisah dari Tanggal Input Sistem (otomatis, read-only)',
+      'JAWABAN: Pembelian Belum Lunas sekarang OTOMATIS tercatat sebagai Hutang Supplier (dulu tidak terakumulasi ke manapun)',
+      'Tab baru "Hutang Supplier" di halaman Pembelian — daftar hutang + tombol Bayar (sebagian/penuh), otomatis tercatat sebagai Kas Keluar di Buku Kas',
+      'Modul baru "Stok" (2 tab: Bahan Baku + Stok Opname) — dipisah dari "Produk & Bahan Baku" yang sekarang jadi "Produk" saja',
+      'FIX tersembunyi: CSS .stat-grid/.stat-card ternyata belum pernah dibuat sejak awal — berdampak ke 5 halaman (Buku Kas, Dashboard, Marketing, Pembelian) yang selama ini tampil tanpa gaya kartu',
+    ],
+  },
+  {
     version: '0.13.0',
     tanggal: '2026-09-09',
     judul: 'Pembelian Dirombak Persis Gaya POS + Perbaikan Preview Cetak',

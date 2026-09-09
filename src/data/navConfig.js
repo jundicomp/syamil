@@ -13,7 +13,7 @@ export const NAV = [
     group: 'Pembelian', color: 'blue',
     items: [
       { key: 'pembelian', label: 'Pembelian', icon: 'box', path: '/pembelian' },
-      { key: 'stokOpname', label: 'Stok Opname', icon: 'checksquare', path: '/stok-opname' },
+      { key: 'stok', label: 'Stok', icon: 'checksquare', path: '/stok' },
     ],
   },
   {
@@ -50,7 +50,7 @@ export const BOTTOM = {
   items: [
     { key: 'pengaturanSistem', label: 'Pengaturan Sistem', icon: 'settings', path: '/pengaturan-sistem' },
     { key: 'pelangganSupplier', label: 'Pelanggan & Supplier', icon: 'users', path: '/pelanggan-supplier' },
-    { key: 'produkBahanBaku', label: 'Produk & Bahan Baku', icon: 'layers', path: '/produk-bahan-baku' },
+    { key: 'produk', label: 'Produk', icon: 'layers', path: '/produk' },
   ],
 };
 

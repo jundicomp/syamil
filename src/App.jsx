@@ -7,7 +7,7 @@ import ProtectedRoute from './components/layout/ProtectedRoute';
 import LoginPage from './pages/login/LoginPage';
 import ProfilSayaPage from './pages/profil/ProfilSayaPage';
 import PelangganSupplierPage from './pages/pelangganSupplier/PelangganSupplierPage';
-import ProdukBahanBakuPage from './pages/produkBahanBaku/ProdukBahanBakuPage';
+import ProdukPage from './pages/produk/ProdukPage';
 import PromosiPage from './pages/promosi/PromosiPage';
 import KampanyePage from './pages/kampanye/KampanyePage';
 import LeadsPage from './pages/leads/LeadsPage';
@@ -15,7 +15,7 @@ import PengaturanSistemPage from './pages/pengaturanSistem/PengaturanSistemPage'
 import ChangelogPage from './pages/changelog/ChangelogPage';
 import LaporanPenjualanPage from './pages/laporanPenjualan/LaporanPenjualanPage';
 import LaporanProduksiPage from './pages/laporanProduksi/LaporanProduksiPage';
-import StokOpnamePage from './pages/stokOpname/StokOpnamePage';
+import StokPage from './pages/stok/StokPage';
 import POSPage from './pages/pos/POSPage';
 import PembelianPage from './pages/pembelian/PembelianPage';
 import AntrianProduksiPage from './pages/antrianProduksi/AntrianProduksiPage';
@@ -40,7 +40,7 @@ export default function App() {
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/pelanggan-supplier" element={<PelangganSupplierPage />} />
                   <Route path="/profil-saya" element={<ProfilSayaPage />} />
-                  <Route path="/produk-bahan-baku" element={<ProdukBahanBakuPage />} />
+                  <Route path="/produk" element={<ProdukPage />} />
                   <Route path="/promosi" element={<PromosiPage />} />
                   <Route path="/kampanye" element={<KampanyePage />} />
                   <Route path="/leads" element={<LeadsPage />} />
@@ -48,7 +48,7 @@ export default function App() {
                   <Route path="/changelog" element={<ChangelogPage />} />
                   <Route path="/laporan-penjualan" element={<LaporanPenjualanPage />} />
                   <Route path="/laporan-produksi" element={<LaporanProduksiPage />} />
-                  <Route path="/stok-opname" element={<StokOpnamePage />} />
+                  <Route path="/stok" element={<StokPage />} />
                   <Route path="/pos" element={<POSPage />} />
                   <Route path="/pembelian" element={<PembelianPage />} />
                   <Route path="/alur-spk" element={<AntrianProduksiPage />} />

@@ -217,21 +217,25 @@ export const seedStokLedger = withIds([
 
 export const seedPembelian = withIds([
   {
-    tanggal: '12 Agu 2026', noPO: 'PO-0231', supplier: 'Toko Sumber Rejeki', total: 1240000, status: 'Belum Lunas',
+    tanggal: '12 Agu 2026', tanggalNota: '12 Agu 2026', noNotaSupplier: 'NOTA-5521', noPO: 'PO-0231', supplier: 'Toko Sumber Rejeki', total: 1240000, status: 'Belum Lunas',
     items: [{ bahan: 'Mata Ayam Banner', qty: 20, satuan: 'pak', harga: 35000 }, { bahan: 'Kertas Stiker Vinyl', qty: 1.5, satuan: 'roll', harga: 380000 }],
   },
   {
-    tanggal: '10 Agu 2026', noPO: 'PO-0230', supplier: 'CV Bahan Flexi', total: 3780000, status: 'Lunas',
+    tanggal: '10 Agu 2026', tanggalNota: '09 Agu 2026', noNotaSupplier: 'INV/2026/0842', noPO: 'PO-0230', supplier: 'CV Bahan Flexi', total: 3780000, status: 'Lunas',
     items: [{ bahan: 'Flexi China 280gr', qty: 4, satuan: 'roll', harga: 850000 }, { bahan: 'Mata Ayam Banner', qty: 8, satuan: 'pak', harga: 35000 }],
   },
   {
-    tanggal: '08 Agu 2026', noPO: 'PO-0229', supplier: 'UD Kertas Makmur', total: 2150000, status: 'Lunas',
+    tanggal: '08 Agu 2026', tanggalNota: '07 Agu 2026', noNotaSupplier: 'NOTA-KM-114', noPO: 'PO-0229', supplier: 'UD Kertas Makmur', total: 2150000, status: 'Lunas',
     items: [{ bahan: 'Kertas HVS 80gr', qty: 20, satuan: 'rim', harga: 55000 }, { bahan: 'Art Paper 260gr', qty: 8.4, satuan: 'rim', harga: 120000 }],
   },
 ]);
 
 export const seedStokOpname = withIds([
   { tanggal: '05 Agu 2026', bahan: 'Flexi China 280gr', stokSistem: 46, stokFisik: 45, selisih: -1 },
+]);
+
+export const seedHutang = withIds([
+  { tanggal: '12 Agu 2026', noPO: 'PO-0231', noNotaSupplier: 'NOTA-5521', supplier: 'Toko Sumber Rejeki', total: 1240000, dibayar: 0, sisa: 1240000, status: 'Belum Lunas' },
 ]);
 
 

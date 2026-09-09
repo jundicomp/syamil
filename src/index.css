@@ -210,6 +210,10 @@ button{color:inherit;font-family:inherit;}
 .trans-sub{font-size:11.5px;color:var(--text-soft);margin:-8px 0 14px;}
 .matrix-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;}
 .rek-card{background:var(--panel-2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:10px;}
+.stat-grid{display:grid;gap:14px;}
+.stat-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+.stat-card .lbl{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--text-faint);margin-bottom:6px;}
+.stat-card .val{font-size:20px;font-weight:800;color:var(--text);}
 .rek-card-title{font-size:11px;font-weight:700;color:var(--text-soft);margin-bottom:8px;}
 table.matrix-table{width:100%;border-collapse:collapse;min-width:640px;}
 .matrix-table thead th{background:var(--gold-header);color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;padding:8px 6px;text-align:center;border:1px solid rgba(255,255,255,.25);}
