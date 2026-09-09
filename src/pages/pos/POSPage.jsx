@@ -62,64 +62,74 @@ export default function POSPage() {
         </div>
       </div>
 
-      <div className="f-row2" style={{ marginBottom: 6 }}>
-        <div className="f-field">
-          <label>Pelanggan</label>
-          <select value={customer} onChange={e => setCustomer(e.target.value)}>
-            {data.pelanggan.map(p => <option key={p.id} value={p.nama}>{p.nama}</option>)}
-          </select>
-        </div>
-        <div className="f-field">
-          <label>Kode Marketing (opsional)</label>
-          <select value={kodeMarketing} onChange={e => setKodeMarketing(e.target.value)}>
-            <option value="">— Walk-in / tanpa kode —</option>
-            {marketers.map(m => <option key={m.id} value={m.kodeMarketing}>{m.kodeMarketing} — {m.nama}</option>)}
-          </select>
-        </div>
-      </div>
-      <button className="btn-outline" style={{ padding: '7px 14px', fontSize: 12, marginBottom: 16 }} onClick={() => setShowCekStok(true)}>
-        Cek Stok Bahan
-      </button>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, alignItems: 'start' }}>
+        <div>
+          <div className="f-row2" style={{ marginBottom: 6 }}>
+            <div className="f-field">
+              <label>Pelanggan</label>
+              <select value={customer} onChange={e => setCustomer(e.target.value)}>
+                {data.pelanggan.map(p => <option key={p.id} value={p.nama}>{p.nama}</option>)}
+              </select>
+            </div>
+            <div className="f-field">
+              <label>Kode Marketing (opsional)</label>
+              <select value={kodeMarketing} onChange={e => setKodeMarketing(e.target.value)}>
+                <option value="">— Walk-in / tanpa kode —</option>
+                {marketers.map(m => <option key={m.id} value={m.kodeMarketing}>{m.kodeMarketing} — {m.nama}</option>)}
+              </select>
+            </div>
+          </div>
+          <button className="btn-outline" style={{ padding: '7px 14px', fontSize: 12, marginBottom: 16 }} onClick={() => setShowCekStok(true)}>
+            Cek Stok Bahan
+          </button>
 
-      <div className="f-field" style={{ maxWidth: 320 }}>
-        <label>Tambah Produk</label>
-        <select value="" onChange={e => { if (e.target.value) addProductToCart(e.target.value); }}>
-          <option value="">Pilih produk...</option>
-          {data.produk.map(p => <option key={p.id} value={p.nama}>{p.nama} — Rp{fmt(p.harga)}</option>)}
-        </select>
-      </div>
+          <div className="f-field" style={{ maxWidth: 320 }}>
+            <label>Tambah Produk</label>
+            <select value="" onChange={e => { if (e.target.value) addProductToCart(e.target.value); }}>
+              <option value="">Pilih produk...</option>
+              {data.produk.map(p => <option key={p.id} value={p.nama}>{p.nama} — Rp{fmt(p.harga)}</option>)}
+            </select>
+          </div>
 
-      <div className="table-wrap" style={{ marginTop: 12, marginBottom: 16 }}>
-        <table className="data-table">
-          <thead><tr><th>Produk</th><th className="r">Qty</th><th className="r">Harga</th><th className="r">Subtotal</th><th></th></tr></thead>
-          <tbody>
-            {cart.length === 0 ? (
-              <tr><td colSpan={5} className="empty-row">Keranjang kosong — pilih produk di atas.</td></tr>
-            ) : cart.map(it => (
-              <tr key={it.cartId}>
-                <td>{it.produk}</td>
-                <td className="r"><input type="number" min="1" value={it.qty} style={{ width: 60, textAlign: 'right' }} onChange={e => updateCartItem(it.cartId, { qty: Number(e.target.value) })} /></td>
-                <td className="r"><input type="number" min="0" value={it.harga} style={{ width: 100, textAlign: 'right' }} onChange={e => updateCartItem(it.cartId, { harga: Number(e.target.value) })} /></td>
-                <td className="r">Rp{fmt(it.qty * it.harga)}</td>
-                <td><button className="icon-btn act-delete" onClick={() => removeCartItem(it.cartId)}>✕</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          <div className="table-wrap" style={{ marginTop: 12 }}>
+            <table className="data-table">
+              <thead><tr><th>Produk</th><th className="r">Qty</th><th className="r">Harga</th><th className="r">Subtotal</th><th></th></tr></thead>
+              <tbody>
+                {cart.length === 0 ? (
+                  <tr><td colSpan={5} className="empty-row">Keranjang kosong — pilih produk di atas.</td></tr>
+                ) : cart.map(it => (
+                  <tr key={it.cartId}>
+                    <td>{it.produk}</td>
+                    <td className="r"><input type="number" min="1" value={it.qty} style={{ width: 60, textAlign: 'right' }} onChange={e => updateCartItem(it.cartId, { qty: Number(e.target.value) })} /></td>
+                    <td className="r"><input type="number" min="0" value={it.harga} style={{ width: 100, textAlign: 'right' }} onChange={e => updateCartItem(it.cartId, { harga: Number(e.target.value) })} /></td>
+                    <td className="r">Rp{fmt(it.qty * it.harga)}</td>
+                    <td><button className="icon-btn act-delete" onClick={() => removeCartItem(it.cartId)}>✕</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      <div style={{ maxWidth: 320, marginLeft: 'auto' }}>
-        <div className="f-field">
-          <label>Diskon (Rp)</label>
-          <input type="number" min="0" value={diskon} onChange={e => setDiskon(Number(e.target.value))} />
+        <div className="table-wrap" style={{ padding: '18px 20px', position: 'sticky', top: 0 }}>
+          <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-faint)', letterSpacing: '.05em', marginBottom: 6 }}>
+            Total Transaksi
+          </div>
+          <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--gold)', marginBottom: 4 }}>Rp{fmt(total)}</div>
+          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginBottom: 16 }}>{cart.length} item ditambahkan</div>
+
+          <div className="f-field">
+            <label>Diskon (Rp)</label>
+            <input type="number" min="0" value={diskon} onChange={e => setDiskon(Number(e.target.value))} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid var(--line)', marginBottom: 14 }}>
+            <b>Total</b>
+            <b style={{ fontSize: 16, color: 'var(--total-red)' }}>Rp{fmt(total)}</b>
+          </div>
+          <button className="btn-gold" style={{ width: '100%', padding: 12 }} disabled={cart.length === 0} onClick={() => setShowPayment(true)}>
+            Bayar
+          </button>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid var(--line)', marginBottom: 12 }}>
-          <b>Total</b>
-          <b style={{ fontSize: 18, color: 'var(--gold)' }}>Rp{fmt(total)}</b>
-        </div>
-        <button className="btn-gold" style={{ width: '100%', padding: 12 }} disabled={cart.length === 0} onClick={() => setShowPayment(true)}>
-          Bayar
-        </button>
       </div>
 
       {showCekStok && <CekStokModal onClose={() => setShowCekStok(false)} />}
