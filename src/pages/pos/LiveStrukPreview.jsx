@@ -6,7 +6,7 @@ function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
  * Struk hidup — update otomatis mengikuti keranjang, dipakai sebagai pengganti
  * kartu "Total Transaksi" statis di kolom kanan POS.
  */
-export default function LiveStrukPreview({ customer, customerInfo, kodeMarketing, items, total, onPrint }) {
+export default function LiveStrukPreview({ customer, customerInfo, kodeMarketing, items, total }) {
   const { settings } = useData();
   const isWide = settings.strukWidth === '80';
 
@@ -35,13 +35,6 @@ export default function LiveStrukPreview({ customer, customerInfo, kodeMarketing
         <div className="dash" />
         <div className="row" style={{ fontWeight: 800, fontSize: 13 }}><span>TOTAL</span><span>Rp{fmt(total)}</span></div>
       </div>
-
-      <button
-        type="button" className="btn-outline" style={{ width: '100%', marginTop: 12 }}
-        disabled={items.length === 0} onClick={onPrint}
-      >
-        Cetak Pratinjau
-      </button>
     </div>
   );
 }

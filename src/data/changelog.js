@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.12.1',
+    tanggal: '2026-09-09',
+    judul: 'Draft Transaksi POS Sungguhan + Cetak Terintegrasi',
+    perubahan: [
+      'Tombol "Konfirmasi" di Pembayaran diganti "Cetak" — klik langsung memicu print dialog browser',
+      'Tombol "Cetak Pratinjau" terpisah di struk live dihapus (sudah terwakili "Cetak" saat checkout)',
+      'PENTING: "Simpan" dulu cuma toast palsu, sekarang BENAR-BENAR menyimpan draft (customer, kode marketing, item, subtotal)',
+      'Tombol baru "Draft Tersimpan (N)" di halaman Kasir — buka tabel semua draft, TIDAK memengaruhi Laporan Penjualan',
+      'Tabel draft: aksi Edit (ubah pelanggan/kode marketing), Hapus, dan Lanjutkan (muat balik ke keranjang aktif utk checkout)',
+    ],
+  },
+  {
     version: '0.12.0',
     tanggal: '2026-09-09',
     judul: 'Rombak Layout Kasir (POS): struk live, tombol dirapikan',

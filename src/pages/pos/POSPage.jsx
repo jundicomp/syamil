@@ -5,16 +5,18 @@ import PaymentModal from './PaymentModal';
 import PosItemRow from './PosItemRow';
 import CustomerSearchSelect from './CustomerSearchSelect';
 import LiveStrukPreview from './LiveStrukPreview';
+import DraftListModal from './DraftListModal';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function POSPage() {
-  const { data, addRow, addBukuKasEntry } = useData();
+  const { data, addRow, deleteRow, addBukuKasEntry } = useData();
   const [cart, setCart] = useState([]);
   const [customer, setCustomer] = useState(data.pelanggan[0]?.nama ?? '');
   const [kodeMarketing, setKodeMarketing] = useState('');
   const [showCekStok, setShowCekStok] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showDraftList, setShowDraftList] = useState(false);
 
   const confirmedItems = useMemo(() => cart.filter(it => it.locked), [cart]);
   const subtotal = useMemo(() => confirmedItems.reduce((s, it) => s + it.qty * it.harga, 0), [confirmedItems]);
@@ -48,10 +50,21 @@ export default function POSPage() {
     if (confirm('Batalkan transaksi ini? Semua item akan dikosongkan.')) resetTransaksi();
   }
   function handleSimpanDraft() {
-    alert('Transaksi disimpan sebagai draft (dummy).');
+    if (confirmedItems.length === 0) { alert('Belum ada item dikonfirmasi untuk disimpan.'); return; }
+    addRow('posDraft', {
+      tanggal: '12 Agu 2026', customer, kodeMarketing,
+      items: confirmedItems.map(({ produk, ket, qty, satuan, harga }) => ({ produk, ket, qty, satuan, harga })),
+      subtotal,
+    });
+    resetTransaksi();
+    alert('Draft tersimpan — bisa dilanjutkan lewat tombol "Draft Tersimpan".');
   }
-  function handlePrintPreview() {
-    window.print();
+  function handleResumeDraft(draft) {
+    setCustomer(draft.customer);
+    setKodeMarketing(draft.kodeMarketing || '');
+    setCart(draft.items.map(it => ({ ...it, cartId: Date.now() + Math.random(), locked: true })));
+    deleteRow('posDraft', draft.id);
+    setShowDraftList(false);
   }
 
   function handleConfirmPayment(payment) {
@@ -68,6 +81,7 @@ export default function POSPage() {
     addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`);
 
     setShowPayment(false);
+    window.print();
     resetTransaksi();
     alert(`Transaksi berhasil — No. Nota: ${noNota}`);
   }
@@ -81,6 +95,9 @@ export default function POSPage() {
           <h2>Kasir (POS)</h2>
           <div className="page-sub">Transaksi penjualan baru</div>
         </div>
+        <button type="button" className="btn-outline" onClick={() => setShowDraftList(true)}>
+          Draft Tersimpan {data.posDraft.length > 0 ? `(${data.posDraft.length})` : ''}
+        </button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, alignItems: 'start' }}>
@@ -139,12 +156,13 @@ export default function POSPage() {
 
         <LiveStrukPreview
           customer={customer} customerInfo={customerInfo} kodeMarketing={kodeMarketing}
-          items={confirmedItems} total={subtotal} onPrint={handlePrintPreview}
+          items={confirmedItems} total={subtotal}
         />
       </div>
 
       {showCekStok && <CekStokModal onClose={() => setShowCekStok(false)} />}
       {showPayment && <PaymentModal subtotal={subtotal} onClose={() => setShowPayment(false)} onConfirm={handleConfirmPayment} />}
+      {showDraftList && <DraftListModal onClose={() => setShowDraftList(false)} onResume={handleResumeDraft} />}
     </div>
   );
 }

@@ -73,7 +73,7 @@ export default function PaymentModal({ subtotal, onClose, onConfirm }) {
 
         <div className="modal-actions">
           <button type="button" className="btn-outline" onClick={onClose}>Batal</button>
-          <button type="button" className="btn-gold" onClick={handleConfirm}>Konfirmasi</button>
+          <button type="button" className="btn-gold" onClick={handleConfirm}>Cetak</button>
         </div>
       </div>
     </div>

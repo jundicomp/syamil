@@ -28,6 +28,7 @@ export function DataProvider({ children }) {
     hppCalc: seedHppCalc,
     strategiMarketing: seedStrategiMarketing,
     stokOpname: seedStokOpname,
+    posDraft: [],
   });
   const [settings, setSettings] = useState(seedSettings);
   const [hakAkses, setHakAkses] = useState(seedHakAkses);
