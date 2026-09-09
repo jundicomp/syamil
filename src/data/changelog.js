@@ -3,6 +3,20 @@
 
 export const CHANGELOG = [
   {
+    version: '0.12.0',
+    tanggal: '2026-09-09',
+    judul: 'Rombak Layout Kasir (POS): struk live, tombol dirapikan',
+    perubahan: [
+      'Perbaikan bug: dropdown pencarian Pelanggan dulu ketutup (overflow:hidden induknya), sekarang bisa discroll penuh sampai tombol "+ Tambah Pelanggan Baru"',
+      'Info "Kota · HP" pelanggan muncul otomatis di bawah field setelah dipilih',
+      'Toolbar baru: "+ Tambah Item" & "Cek Stok Bahan" sejajar di kiri, "Total Transaksi" ringkas di kanan (dulu terpisah)',
+      'Kartu "Total Transaksi" statis di kanan diganti STRUK LIVE — update otomatis mengikuti item yang dikonfirmasi',
+      'Struk modal setelah checkout dihapus — digantikan struk live yang sudah tampil dari awal',
+      'Tombol Batal / Simpan / Checkout sekarang sejajar 1 baris di bawah tabel item (dulu di kartu kanan)',
+      'Field Diskon pindah ke dalam modal Pembayaran (muncul setelah Subtotal, sebelum Total) — bukan lagi di halaman utama',
+    ],
+  },
+  {
     version: '0.11.1',
     tanggal: '2026-09-09',
     judul: 'POS: Pelanggan bisa dicari + tambah cepat',

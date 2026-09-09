@@ -221,6 +221,7 @@ table.matrix-table{width:100%;border-collapse:collapse;min-width:640px;}
 .subtab-switch button.active{background:var(--gold);color:#15151A;}
 
 .struk-paper{width:220px;margin:0 auto;background:#fff;color:#111;font-family:'Courier New',monospace;padding:14px 12px;font-size:11.5px;line-height:1.5;}
+.struk-paper.live{width:100%;border-radius:8px;}
 .struk-paper.w80{width:300px;}
 .struk-paper .center{text-align:center;}
 .struk-paper .store-name{font-weight:800;font-size:13px;text-transform:uppercase;}

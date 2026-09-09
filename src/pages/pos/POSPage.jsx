@@ -2,9 +2,9 @@ import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import CekStokModal from './CekStokModal';
 import PaymentModal from './PaymentModal';
-import StrukModal from './StrukModal';
 import PosItemRow from './PosItemRow';
 import CustomerSearchSelect from './CustomerSearchSelect';
+import LiveStrukPreview from './LiveStrukPreview';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -13,14 +13,14 @@ export default function POSPage() {
   const [cart, setCart] = useState([]);
   const [customer, setCustomer] = useState(data.pelanggan[0]?.nama ?? '');
   const [kodeMarketing, setKodeMarketing] = useState('');
-  const [diskon, setDiskon] = useState(0);
   const [showCekStok, setShowCekStok] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
-  const [lastSale, setLastSale] = useState(null);
 
   const confirmedItems = useMemo(() => cart.filter(it => it.locked), [cart]);
-  const subtotal = useMemo(() => cart.reduce((s, it) => s + (it.qty || 0) * (it.harga || 0), 0), [cart]);
-  const total = Math.max(0, subtotal - diskon);
+  const subtotal = useMemo(() => confirmedItems.reduce((s, it) => s + it.qty * it.harga, 0), [confirmedItems]);
+
+  const selectedCustomer = data.pelanggan.find(p => p.nama === customer);
+  const customerInfo = selectedCustomer ? `${selectedCustomer.kota} · ${selectedCustomer.kontak}` : '';
 
   function addEmptyRow() {
     setCart(prev => [...prev, { cartId: Date.now(), produk: '', ket: '', qty: 1, satuan: '', harga: 0, locked: false }]);
@@ -39,6 +39,20 @@ export default function POSPage() {
   function removeCartItem(cartId) {
     setCart(prev => prev.filter(it => it.cartId !== cartId));
   }
+  function resetTransaksi() {
+    setCart([]); setKodeMarketing('');
+  }
+
+  function handleBatal() {
+    if (cart.length === 0) return;
+    if (confirm('Batalkan transaksi ini? Semua item akan dikosongkan.')) resetTransaksi();
+  }
+  function handleSimpanDraft() {
+    alert('Transaksi disimpan sebagai draft (dummy).');
+  }
+  function handlePrintPreview() {
+    window.print();
+  }
 
   function handleConfirmPayment(payment) {
     const noteIds = data.penjualan.map(r => r.id);
@@ -46,18 +60,16 @@ export default function POSPage() {
     const noNota = `INV-${String(nextNum).padStart(4, '0')}`;
 
     const sale = {
-      tanggal: '12 Agu 2026', noNota, pelanggan: customer, total,
+      tanggal: '12 Agu 2026', noNota, pelanggan: customer, total: payment.total,
       status: payment.status, dpDibayar: payment.dpDibayar, sisaBayar: payment.sisaBayar,
       kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga }) => ({ produk, qty, satuan, harga })),
     };
     addRow('penjualan', sale);
     addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`);
 
-    setLastSale({ ...sale });
     setShowPayment(false);
-    setCart([]);
-    setDiskon(0);
-    setKodeMarketing('');
+    resetTransaksi();
+    alert(`Transaksi berhasil — No. Nota: ${noNota}`);
   }
 
   const marketers = data.pengguna.filter(p => p.role === 'Marketing' && p.status === 'Aktif');
@@ -72,11 +84,12 @@ export default function POSPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, alignItems: 'start' }}>
-        <div className="table-wrap" style={{ padding: 16 }}>
+        <div>
           <div className="f-row2" style={{ marginBottom: 6 }}>
             <div className="f-field">
               <label>Pelanggan</label>
               <CustomerSearchSelect value={customer} onChange={setCustomer} />
+              {customerInfo && <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 5 }}>{customerInfo}</div>}
             </div>
             <div className="f-field">
               <label>Kode Marketing (opsional)</label>
@@ -86,13 +99,16 @@ export default function POSPage() {
               </select>
             </div>
           </div>
-          <button className="btn-outline" style={{ padding: '7px 14px', fontSize: 12, marginBottom: 16 }} onClick={() => setShowCekStok(true)}>
-            Cek Stok Bahan
-          </button>
 
-          <div className="table-toolbar">
-            <h3 style={{ margin: 0, fontSize: 15 }}>Daftar Item</h3>
-            <button className="btn-add-top" onClick={addEmptyRow}>+ Tambah Item</button>
+          <div className="table-toolbar" style={{ marginTop: 18, alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button type="button" className="btn-add-top" onClick={addEmptyRow}>+ Tambah Item</button>
+              <button type="button" className="btn-outline" onClick={() => setShowCekStok(true)}>Cek Stok Bahan</button>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: 9.5, fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-faint)', letterSpacing: '.05em' }}>Total Transaksi</div>
+              <div style={{ fontSize: 19, fontWeight: 800, color: 'var(--gold)' }}>Rp{fmt(subtotal)}</div>
+            </div>
           </div>
 
           <div className="row-grid-pos pos-col-header">
@@ -113,50 +129,22 @@ export default function POSPage() {
               onDelete={() => removeCartItem(item.cartId)}
             />
           ))}
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginTop: 18 }}>
+            <button type="button" className="btn-outline" onClick={handleBatal}>Batal</button>
+            <button type="button" className="btn-outline" onClick={handleSimpanDraft}>Simpan</button>
+            <button type="button" className="btn-gold" disabled={confirmedItems.length === 0} onClick={() => setShowPayment(true)}>Checkout</button>
+          </div>
         </div>
 
-        <div className="table-wrap" style={{ padding: '18px 20px', position: 'sticky', top: 0 }}>
-          <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-faint)', letterSpacing: '.05em', marginBottom: 6 }}>
-            Total Transaksi
-          </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--gold)', marginBottom: 4 }}>Rp{fmt(total)}</div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginBottom: 16 }}>{cart.length} item ditambahkan</div>
-
-          <div className="f-field">
-            <label>Diskon (Rp)</label>
-            <input type="number" min="0" value={diskon} onChange={e => setDiskon(Number(e.target.value))} />
-          </div>
-          <div style={{ padding: '10px 0', borderTop: '1px solid var(--line)', marginBottom: 14 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 6 }}>
-              <span>Subtotal</span><span>Rp{fmt(subtotal)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <b>Total</b>
-              <b style={{ fontSize: 16, color: 'var(--total-red)' }}>Rp{fmt(total)}</b>
-            </div>
-          </div>
-          <button className="btn-gold" style={{ width: '100%', padding: 12, marginBottom: 8 }} disabled={confirmedItems.length === 0} onClick={() => setShowPayment(true)}>
-            Checkout
-          </button>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <button className="btn-outline" onClick={() => alert('Transaksi disimpan sebagai draft (dummy).')}>Simpan</button>
-            <button
-              className="btn-outline"
-              onClick={() => {
-                if (confirm('Batalkan transaksi ini? Semua item akan dikosongkan.')) {
-                  setCart([]); setDiskon(0); setKodeMarketing('');
-                }
-              }}
-            >
-              Batal
-            </button>
-          </div>
-        </div>
+        <LiveStrukPreview
+          customer={customer} customerInfo={customerInfo} kodeMarketing={kodeMarketing}
+          items={confirmedItems} total={subtotal} onPrint={handlePrintPreview}
+        />
       </div>
 
       {showCekStok && <CekStokModal onClose={() => setShowCekStok(false)} />}
-      {showPayment && <PaymentModal total={total} onClose={() => setShowPayment(false)} onConfirm={handleConfirmPayment} />}
-      {lastSale && <StrukModal sale={lastSale} onClose={() => setLastSale(null)} />}
+      {showPayment && <PaymentModal subtotal={subtotal} onClose={() => setShowPayment(false)} onConfirm={handleConfirmPayment} />}
     </div>
   );
 }
