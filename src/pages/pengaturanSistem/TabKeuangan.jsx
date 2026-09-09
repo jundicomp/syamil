@@ -48,10 +48,16 @@ export default function TabKeuangan() {
 
       <label className="settings-section-label">Rekening Bank</label>
       {settings.rekening.map((r, i) => (
-        <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr 1.3fr', gap: 8, marginBottom: 8 }}>
-          <input placeholder="Bank" value={r.bank} onChange={e => updateRekening(i, 'bank', e.target.value)} />
-          <input placeholder="No. Rekening" value={r.noRek} onChange={e => updateRekening(i, 'noRek', e.target.value)} />
-          <input placeholder="Atas Nama" value={r.atasNama} onChange={e => updateRekening(i, 'atasNama', e.target.value)} />
+        <div key={i} className="rek-card">
+          <div className="rek-card-title">Rekening {i + 1}</div>
+          <div className="f-row2">
+            <div className="f-field"><label>Bank</label><input placeholder="mis. BCA" value={r.bank} onChange={e => updateRekening(i, 'bank', e.target.value)} /></div>
+            <div className="f-field"><label>No. Rekening</label><input placeholder="mis. 1234567890" value={r.noRek} onChange={e => updateRekening(i, 'noRek', e.target.value)} /></div>
+          </div>
+          <div className="f-field" style={{ marginBottom: 0 }}>
+            <label>Atas Nama</label>
+            <input placeholder="Nama pemilik rekening" value={r.atasNama} onChange={e => updateRekening(i, 'atasNama', e.target.value)} />
+          </div>
         </div>
       ))}
 
