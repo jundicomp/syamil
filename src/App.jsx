@@ -18,6 +18,10 @@ import AntrianProduksiPage from './pages/antrianProduksi/AntrianProduksiPage';
 import StatusPengerjaanPage from './pages/statusPengerjaan/StatusPengerjaanPage';
 import KalkulasiHppPage from './pages/kalkulasiHpp/KalkulasiHppPage';
 import MarketingDashboardPage from './pages/marketingDashboard/MarketingDashboardPage';
+import BukuKasPage from './pages/bukuKas/BukuKasPage';
+import DashboardPage from './pages/dashboard/DashboardPage';
+import LabaRugiPage from './pages/labaRugi/LabaRugiPage';
+import NeracaPage from './pages/neraca/NeracaPage';
 
 export default function App() {
   return (
@@ -26,7 +30,7 @@ export default function App() {
         <HashRouter>
           <Routes>
             <Route element={<AppShell />}>
-              <Route path="/" element={<Navigate to="/pelanggan-supplier" replace />} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/pelanggan-supplier" element={<PelangganSupplierPage />} />
               <Route path="/produk-bahan-baku" element={<ProdukBahanBakuPage />} />
               <Route path="/promosi" element={<PromosiPage />} />
@@ -43,6 +47,10 @@ export default function App() {
               <Route path="/status-pengerjaan" element={<StatusPengerjaanPage />} />
               <Route path="/kalkulasi-hpp" element={<KalkulasiHppPage />} />
               <Route path="/dashboard-marketing" element={<MarketingDashboardPage />} />
+              <Route path="/buku-kas" element={<BukuKasPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/laba-rugi" element={<LabaRugiPage />} />
+              <Route path="/neraca" element={<NeracaPage />} />
             </Route>
           </Routes>
         </HashRouter>

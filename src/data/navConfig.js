@@ -37,10 +37,10 @@ export const NAV = [
   {
     group: 'Laporan Keuangan', color: 'purple',
     items: [
-      { key: 'bukuKas', label: 'Buku Kas', icon: 'wallet', path: null },
-      { key: 'labaRugi', label: 'Laporan Laba Rugi', icon: 'trending', path: null },
-      { key: 'neraca', label: 'Laporan Neraca', icon: 'scale', path: null },
-      { key: 'dashboard', label: 'Dashboard', icon: 'home', path: null },
+      { key: 'bukuKas', label: 'Buku Kas', icon: 'wallet', path: '/buku-kas' },
+      { key: 'labaRugi', label: 'Laporan Laba Rugi', icon: 'trending', path: '/laba-rugi' },
+      { key: 'neraca', label: 'Laporan Neraca', icon: 'scale', path: '/neraca' },
+      { key: 'dashboard', label: 'Dashboard', icon: 'home', path: '/dashboard' },
     ],
   },
 ];

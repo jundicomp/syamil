@@ -1,4 +1,4 @@
-# Percetakan Jaya — Migrasi React (Fase 0–6)
+# Percetakan Jaya — Migrasi React (Fase 0–7 · SELESAI)
 
 ## Cara menjalankan
 ```bash
@@ -7,7 +7,7 @@ npm run dev
 ```
 Lalu buka alamat yang muncul di terminal (biasanya `http://localhost:5173`).
 
-## Status migrasi
+## Status migrasi — 🎉 Semua 7 fase selesai (v0.7.0)
 Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 
 ### ✅ Selesai
@@ -18,15 +18,24 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 4 — Kasir (POS): keranjang, DP/Lunas, cetak struk · Pembelian: keranjang bahan, auto stok+kas
 - Fase 5 — Alur SPK (Kanban 4 tab), Status Pengerjaan, Kalkulasi HPP
 - Fase 6 — Dashboard Marketing (leaderboard, "Lihat Sebagai", Strategi + persetujuan anggaran)
+- Fase 7 — Buku Kas, Dashboard, Laba Rugi & Neraca (dihitung otomatis dari data riil)
 - Info versi & waktu push (footer sidebar) + halaman Changelog
 
-### ⏳ Belum
-Menu lain masih alert "belum dimigrasi" kalau diklik. Selanjutnya: Fase 7 (Laporan Keuangan) dan Fase 8 (sisa Pengaturan sudah selesai duluan di Fase 2).
+Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigrasi".
 
-### Catatan jujur
-- **Fase 4**: Matriks Harga & tampilan gambar QRIS belum sepenuhnya diportir.
-- **Fase 5**: "Ciptakan SPK" disederhanakan (1 Nota + 1 Produk manual). Catatan Back/Done pakai `prompt()` browser. Kalkulasi HPP belum benar-benar dibatasi ke role (belum ada login sungguhan).
-- **Fase 6**: "Bulan Ini" vs "Akumulasi Total" di leaderboard menghitung angka yang sama untuk sekarang — datanya baru mencakup 1 bulan, belum ada riwayat lintas-bulan untuk dibedakan.
+### Catatan jujur (gap yang masih sama seperti versi HTML, belum ditutup)
+- **Matriks Harga** (harga bertingkat per jumlah/ukuran) di POS belum otomatis — harga bisa diedit manual dulu.
+- **QRIS** baru jadi pilihan metode bayar, belum menampilkan gambar QRIS dari Pengaturan.
+- **"Ciptakan SPK"** disederhanakan — pilih 1 Nota + 1 Produk manual, belum auto-pecah beberapa SPK dari nota multi-item.
+- **Kalkulasi HPP** belum benar-benar dibatasi ke role Owner/Admin — belum ada sistem login sungguhan.
+- **Hutang ke Supplier** cuma total status "Belum Lunas", belum ada pelacakan per-supplier atau fitur "Bayar Hutang".
+- **Piutang/Pelunasan susulan** — kalau transaksi DP, belum ada tombol "Terima Pelunasan" untuk menutup sisa bayarnya nanti.
+- **Laporan Laba Rugi & Neraca** — ini yang **sudah diperbaiki** saat migrasi (dulu statis di HTML), sekarang beneran terhitung dari Buku Kas/HPP/Stok. Tapi masih versi cash-basis sederhana, bukan akuntansi akrual formal — lihat catatan ⚠ di masing-masing halaman.
+
+### Langkah lanjutan yang masuk akal (di luar 7 fase awal)
+- Sambungkan Google Sheets sungguhan (kerangkanya sudah ada, lihat "Bagian 2" di bawah)
+- Tutup gap Piutang/Hutang di atas
+- Login sungguhan + penegakan Hak Akses per halaman (sekarang cuma matriks visual, belum menggerbang navigasi)
 
 ---
 

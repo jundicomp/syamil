@@ -63,10 +63,16 @@ Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di side
 
 ## Fase 7 — Laporan Keuangan
 
-- [ ] 🟢 Buku Kas
-- [ ] 🟢 Dashboard (kartu ringkasan utama)
-- [ ] 🟡 Laporan Laba Rugi ⚠️ *masih statis di versi HTML, belum hitung otomatis dari transaksi riil*
-- [ ] 🟡 Laporan Neraca ⚠️ *sama, masih statis*
+- [x] 🟢 Buku Kas
+- [x] 🟢 Dashboard (kartu ringkasan utama)
+- [x] 🟡 Laporan Laba Rugi ✅ *diperbaiki saat migrasi — sekarang benar-benar terhitung otomatis (cash-basis), bukan statis lagi*
+- [x] 🟡 Laporan Neraca ✅ *sebagian terhitung otomatis (Kas, Stok, Piutang) — Hutang & Modal masih gap yang sama seperti versi HTML*
+
+---
+
+## 🎉 Semua 30 unit kerja di 7 fase sudah selesai (v0.7.0)
+
+Ini menandai migrasi HTML → React selesai untuk seluruh scope yang direncanakan di awal. Sisa yang masih berupa gap/catatan jujur ada di README.md, bukan di checklist ini — karena itu bukan "belum dimigrasi", tapi memang keterbatasan yang sudah ada sejak versi HTML dan belum ditutup.
 
 ---
 

@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.7.0',
+    tanggal: '2026-09-09',
+    judul: 'Fase 7 — Laporan Keuangan (fase terakhir, migrasi 100% selesai)',
+    perubahan: [
+      'Buku Kas: saldo berjalan otomatis, bisa juga catat manual (Masuk/Keluar)',
+      'Dashboard: 6 kartu ringkasan live — Penjualan, Pembelian, Saldo Kas, Piutang, SPK Aktif, Stok Menipis',
+      'Laporan Laba Rugi — DIPERBAIKI: sekarang benar-benar terhitung dari Buku Kas + HPP (cash-basis), bukan angka statis lagi seperti versi HTML',
+      'Laporan Neraca — sebagian real (Kas, Stok, Piutang), Hutang & Modal masih gap yang sama seperti versi HTML',
+      'Halaman utama (/) sekarang mengarah ke Dashboard, bukan Pelanggan & Supplier',
+    ],
+  },
+  {
     version: '0.6.0',
     tanggal: '2026-09-09',
     judul: 'Fase 6 — Marketing',
