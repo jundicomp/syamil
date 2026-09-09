@@ -3,6 +3,7 @@ import { useData } from '../../context/DataContext';
 import CekStokModal from './CekStokModal';
 import PaymentModal from './PaymentModal';
 import StrukModal from './StrukModal';
+import PosItemRow from './PosItemRow';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -16,16 +17,23 @@ export default function POSPage() {
   const [showPayment, setShowPayment] = useState(false);
   const [lastSale, setLastSale] = useState(null);
 
-  const subtotal = useMemo(() => cart.reduce((s, it) => s + it.qty * it.harga, 0), [cart]);
+  const confirmedItems = useMemo(() => cart.filter(it => it.locked), [cart]);
+  const subtotal = useMemo(() => confirmedItems.reduce((s, it) => s + it.qty * it.harga, 0), [confirmedItems]);
   const total = Math.max(0, subtotal - diskon);
 
-  function addProductToCart(produkNama) {
-    const p = data.produk.find(x => x.nama === produkNama);
-    if (!p) return;
-    setCart(prev => [...prev, { cartId: Date.now(), produk: p.nama, qty: 1, satuan: p.satuan, harga: p.harga }]);
+  function addEmptyRow() {
+    setCart(prev => [...prev, { cartId: Date.now(), produk: '', ket: '', qty: 1, satuan: '', harga: 0, locked: false }]);
   }
   function updateCartItem(cartId, patch) {
     setCart(prev => prev.map(it => (it.cartId === cartId ? { ...it, ...patch } : it)));
+  }
+  function confirmCartItem(cartId) {
+    const item = cart.find(it => it.cartId === cartId);
+    if (!item.produk) { alert('Pilih produk terlebih dahulu.'); return; }
+    updateCartItem(cartId, { locked: true });
+  }
+  function editCartItem(cartId) {
+    updateCartItem(cartId, { locked: false });
   }
   function removeCartItem(cartId) {
     setCart(prev => prev.filter(it => it.cartId !== cartId));
@@ -39,7 +47,7 @@ export default function POSPage() {
     const sale = {
       tanggal: '12 Agu 2026', noNota, pelanggan: customer, total,
       status: payment.status, dpDibayar: payment.dpDibayar, sisaBayar: payment.sisaBayar,
-      kodeMarketing, items: cart.map(({ produk, qty, satuan, harga }) => ({ produk, qty, satuan, harga })),
+      kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga }) => ({ produk, qty, satuan, harga })),
     };
     addRow('penjualan', sale);
     addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`);
@@ -63,7 +71,7 @@ export default function POSPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, alignItems: 'start' }}>
-        <div>
+        <div className="table-wrap" style={{ padding: 16 }}>
           <div className="f-row2" style={{ marginBottom: 6 }}>
             <div className="f-field">
               <label>Pelanggan</label>
@@ -83,32 +91,29 @@ export default function POSPage() {
             Cek Stok Bahan
           </button>
 
-          <div className="f-field" style={{ maxWidth: 320 }}>
-            <label>Tambah Produk</label>
-            <select value="" onChange={e => { if (e.target.value) addProductToCart(e.target.value); }}>
-              <option value="">Pilih produk...</option>
-              {data.produk.map(p => <option key={p.id} value={p.nama}>{p.nama} — Rp{fmt(p.harga)}</option>)}
-            </select>
+          <div className="table-toolbar">
+            <h3 style={{ margin: 0, fontSize: 15 }}>Daftar Item</h3>
+            <button className="btn-add-top" onClick={addEmptyRow}>+ Tambah Item</button>
           </div>
 
-          <div className="table-wrap" style={{ marginTop: 12 }}>
-            <table className="data-table">
-              <thead><tr><th>Produk</th><th className="r">Qty</th><th className="r">Harga</th><th className="r">Subtotal</th><th></th></tr></thead>
-              <tbody>
-                {cart.length === 0 ? (
-                  <tr><td colSpan={5} className="empty-row">Keranjang kosong — pilih produk di atas.</td></tr>
-                ) : cart.map(it => (
-                  <tr key={it.cartId}>
-                    <td>{it.produk}</td>
-                    <td className="r"><input type="number" min="1" value={it.qty} style={{ width: 60, textAlign: 'right' }} onChange={e => updateCartItem(it.cartId, { qty: Number(e.target.value) })} /></td>
-                    <td className="r"><input type="number" min="0" value={it.harga} style={{ width: 100, textAlign: 'right' }} onChange={e => updateCartItem(it.cartId, { harga: Number(e.target.value) })} /></td>
-                    <td className="r">Rp{fmt(it.qty * it.harga)}</td>
-                    <td><button className="icon-btn act-delete" onClick={() => removeCartItem(it.cartId)}>✕</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="row-grid-pos pos-col-header">
+            <span>Produk</span><span>Keterangan</span><span className="r">Jumlah</span><span className="r">Satuan</span>
+            <span></span><span className="r">Harga</span><span></span><span className="r">Total</span><span></span>
           </div>
+
+          {cart.length === 0 ? (
+            <p style={{ fontSize: 12, color: 'var(--text-faint)', padding: '16px 4px' }}>Keranjang kosong — klik "+ Tambah Item".</p>
+          ) : cart.map(item => (
+            <PosItemRow
+              key={item.cartId}
+              item={item}
+              produkList={data.produk}
+              onUpdate={patch => updateCartItem(item.cartId, patch)}
+              onConfirm={() => confirmCartItem(item.cartId)}
+              onEdit={() => editCartItem(item.cartId)}
+              onDelete={() => removeCartItem(item.cartId)}
+            />
+          ))}
         </div>
 
         <div className="table-wrap" style={{ padding: '18px 20px', position: 'sticky', top: 0 }}>
@@ -116,7 +121,7 @@ export default function POSPage() {
             Total Transaksi
           </div>
           <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--gold)', marginBottom: 4 }}>Rp{fmt(total)}</div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginBottom: 16 }}>{cart.length} item ditambahkan</div>
+          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginBottom: 16 }}>{confirmedItems.length} item ditambahkan</div>
 
           <div className="f-field">
             <label>Diskon (Rp)</label>
@@ -126,7 +131,7 @@ export default function POSPage() {
             <b>Total</b>
             <b style={{ fontSize: 16, color: 'var(--total-red)' }}>Rp{fmt(total)}</b>
           </div>
-          <button className="btn-gold" style={{ width: '100%', padding: 12 }} disabled={cart.length === 0} onClick={() => setShowPayment(true)}>
+          <button className="btn-gold" style={{ width: '100%', padding: 12 }} disabled={confirmedItems.length === 0} onClick={() => setShowPayment(true)}>
             Bayar
           </button>
         </div>
