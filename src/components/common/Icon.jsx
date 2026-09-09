@@ -31,6 +31,7 @@ const PATHS = {
   moon: <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>,
   arrowLeft: <path d="M15 18l-6-6 6-6"/>,
   arrowRight: <path d="M9 18l6-6-6-6"/>,
+  upload: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></>,
 };
 
 export default function Icon({ name, size = 16 }) {

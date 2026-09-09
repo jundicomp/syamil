@@ -1,22 +1,18 @@
+import { useRef } from 'react';
 import { useData } from '../../context/DataContext';
+import Icon from '../../components/common/Icon';
 
-const TEXT_FIELDS = [
-  { key: 'namaUsaha', label: 'Nama Usaha' },
-  { key: 'kota', label: 'Kota' },
-  { key: 'alamat', label: 'Alamat' },
-  { key: 'telepon', label: 'Telepon' },
-  { key: 'whatsapp', label: 'WhatsApp' },
-  { key: 'email', label: 'Email' },
-  { key: 'website', label: 'Website' },
-  { key: 'instagram', label: 'Instagram' },
+const PLACEMENTS = [
+  { key: 'login', label: 'Halaman Login' },
+  { key: 'sidebar', label: 'Sidebar' },
+  { key: 'struk', label: 'Struk (Nota Kasir)' },
+  { key: 'invoice', label: 'Invoice / Nota Resmi' },
+  { key: 'spk', label: 'SPK (Surat Perintah Kerja)' },
 ];
-
-const PLACEMENT_LABELS = {
-  login: 'Halaman Login', sidebar: 'Sidebar', struk: 'Struk Kasir', invoice: 'Invoice/Nota', spk: 'Dokumen SPK',
-};
 
 export default function TabPerusahaan() {
   const { settings, updateSettings } = useData();
+  const fileInputRef = useRef(null);
 
   function handleLogoUpload(e) {
     const file = e.target.files?.[0];
@@ -27,45 +23,55 @@ export default function TabPerusahaan() {
   }
 
   return (
-    <div style={{ maxWidth: 520 }}>
-      <div className="f-field">
-        <label>Logo Usaha</label>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 10, background: 'var(--panel-2)',
-            border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-          }}>
-            {settings.logoDataUrl
-              ? <img src={settings.logoDataUrl} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              : <span style={{ fontSize: 10, color: 'var(--text-faint)' }}>Belum ada</span>}
-          </div>
-          <label className="btn-outline" style={{ cursor: 'pointer' }}>
-            Unggah Logo
-            <input type="file" accept="image/*" onChange={handleLogoUpload} style={{ display: 'none' }} />
-          </label>
+    <div className="form-wrap">
+      <label className="settings-section-label">Logo Usaha</label>
+      <div className="logo-upload-box" onClick={() => fileInputRef.current?.click()}>
+        <div className="logo-preview">
+          {settings.logoDataUrl ? <img src={settings.logoDataUrl} alt="Logo" /> : <Icon name="upload" />}
         </div>
+        <div className="logo-upload-text">
+          <b>Klik untuk unggah logo</b>
+          <span>PNG/JPG, latar transparan disarankan</span>
+        </div>
+        <input ref={fileInputRef} type="file" accept="image/*" onChange={handleLogoUpload} style={{ display: 'none' }} />
       </div>
 
-      {TEXT_FIELDS.map(f => (
-        <div className="f-field" key={f.key}>
-          <label>{f.label}</label>
-          <input value={settings[f.key]} onChange={e => updateSettings({ [f.key]: e.target.value })} />
-        </div>
-      ))}
-
-      <div className="f-field">
-        <label>Tampilkan Logo di</label>
-        {Object.keys(PLACEMENT_LABELS).map(k => (
-          <label key={k} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, marginBottom: 6, cursor: 'pointer' }}>
+      <label className="settings-section-label">Tampilkan Logo Di</label>
+      <div className="chk-grid">
+        {PLACEMENTS.map(p => (
+          <label key={p.key} className="chk-row">
             <input
               type="checkbox"
-              checked={settings.logoPlacement[k]}
-              onChange={e => updateSettings({ logoPlacement: { ...settings.logoPlacement, [k]: e.target.checked } })}
+              checked={settings.logoPlacement[p.key]}
+              onChange={e => updateSettings({ logoPlacement: { ...settings.logoPlacement, [p.key]: e.target.checked } })}
             />
-            {PLACEMENT_LABELS[k]}
+            <span>{p.label}</span>
           </label>
         ))}
       </div>
+
+      <label className="settings-section-label">Data Perusahaan</label>
+      <div className="f-field">
+        <label>Nama Usaha</label>
+        <input value={settings.namaUsaha} onChange={e => updateSettings({ namaUsaha: e.target.value })} />
+      </div>
+      <div className="f-field">
+        <label>Alamat</label>
+        <input value={settings.alamat} onChange={e => updateSettings({ alamat: e.target.value })} />
+      </div>
+      <div className="f-row2">
+        <div className="f-field"><label>Kota</label><input value={settings.kota} onChange={e => updateSettings({ kota: e.target.value })} /></div>
+        <div className="f-field"><label>Telepon</label><input value={settings.telepon} onChange={e => updateSettings({ telepon: e.target.value })} /></div>
+      </div>
+      <div className="f-row2">
+        <div className="f-field"><label>WhatsApp</label><input value={settings.whatsapp} onChange={e => updateSettings({ whatsapp: e.target.value })} /></div>
+        <div className="f-field"><label>Email</label><input value={settings.email} onChange={e => updateSettings({ email: e.target.value })} /></div>
+      </div>
+      <div className="f-row2">
+        <div className="f-field"><label>Website</label><input value={settings.website} onChange={e => updateSettings({ website: e.target.value })} /></div>
+        <div className="f-field"><label>Instagram / Sosmed</label><input value={settings.instagram} onChange={e => updateSettings({ instagram: e.target.value })} /></div>
+      </div>
+      <button className="btn-gold" onClick={() => alert('Pengaturan tersimpan.')}>Simpan Pengaturan</button>
     </div>
   );
 }
