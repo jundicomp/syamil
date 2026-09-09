@@ -28,7 +28,7 @@ export const NAV = [
   {
     group: 'Marketing', color: 'pink',
     items: [
-      { key: 'marketingDashboard', label: 'Dashboard Marketing', icon: 'trending', path: null },
+      { key: 'marketingDashboard', label: 'Dashboard Marketing', icon: 'trending', path: '/dashboard-marketing' },
       { key: 'promosi', label: 'Promosi & Diskon', icon: 'percent', path: '/promosi' },
       { key: 'kampanye', label: 'Kampanye Pelanggan', icon: 'megaphone', path: '/kampanye' },
       { key: 'leads', label: 'Sumber Leads', icon: 'userplus', path: '/leads' },

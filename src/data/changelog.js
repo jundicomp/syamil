@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.6.0',
+    tanggal: '2026-09-09',
+    judul: 'Fase 6 — Marketing',
+    perubahan: [
+      'Dashboard Marketing: 4 kartu statistik, leaderboard 2 tab (Bulan Ini/Akumulasi Total)',
+      '"Lihat Sebagai" — simulasi tampilan personal per user marketing (data terfilter, leaderboard tetap penuh dengan baris sendiri disorot)',
+      'Penjualan Saya (terfilter per kode marketing) di tampilan personal',
+      'Strategi Marketing: jenis creatable (bisa tambah baru), toggle Ajukan Anggaran',
+      'Antrean Persetujuan Owner: Setuju/Tolak, yang ditolak tetap tersimpan sebagai catatan',
+    ],
+  },
+  {
     version: '0.5.0',
     tanggal: '2026-09-09',
     judul: 'Fase 5 — Alur SPK & Kalkulasi HPP',

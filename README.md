@@ -1,4 +1,4 @@
-# Percetakan Jaya — Migrasi React (Fase 0–5)
+# Percetakan Jaya — Migrasi React (Fase 0–6)
 
 ## Cara menjalankan
 ```bash
@@ -17,14 +17,16 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 3 — Laporan Penjualan, Laporan Produksi, Stok Opname, Kartu Stok (+ `addStokMovement`)
 - Fase 4 — Kasir (POS): keranjang, DP/Lunas, cetak struk · Pembelian: keranjang bahan, auto stok+kas
 - Fase 5 — Alur SPK (Kanban 4 tab), Status Pengerjaan, Kalkulasi HPP
+- Fase 6 — Dashboard Marketing (leaderboard, "Lihat Sebagai", Strategi + persetujuan anggaran)
 - Info versi & waktu push (footer sidebar) + halaman Changelog
 
 ### ⏳ Belum
-Menu lain masih alert "belum dimigrasi" kalau diklik.
+Menu lain masih alert "belum dimigrasi" kalau diklik. Selanjutnya: Fase 7 (Laporan Keuangan) dan Fase 8 (sisa Pengaturan sudah selesai duluan di Fase 2).
 
 ### Catatan jujur
 - **Fase 4**: Matriks Harga & tampilan gambar QRIS belum sepenuhnya diportir.
-- **Fase 5**: "Ciptakan SPK" disederhanakan — pilih 1 Nota dan 1 Produk manual (versi HTML aslinya bisa auto-pecah beberapa SPK sekaligus dari nota multi-item; belum diportir persis). Catatan Back/Done pakai `prompt()` browser, bukan modal custom — fungsinya sama (wajib diisi), cuma tampilannya beda. Kalkulasi HPP belum benar-benar dibatasi ke role Owner/Admin (belum ada login sungguhan).
+- **Fase 5**: "Ciptakan SPK" disederhanakan (1 Nota + 1 Produk manual). Catatan Back/Done pakai `prompt()` browser. Kalkulasi HPP belum benar-benar dibatasi ke role (belum ada login sungguhan).
+- **Fase 6**: "Bulan Ini" vs "Akumulasi Total" di leaderboard menghitung angka yang sama untuk sekarang — datanya baru mencakup 1 bulan, belum ada riwayat lintas-bulan untuk dibedakan.
 
 ---
 

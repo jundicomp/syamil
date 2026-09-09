@@ -4,6 +4,7 @@ import {
   seedPromosi, seedKampanye, seedLeads,
   seedSettings, seedPengguna, seedNotifikasi, seedAuditTrail, seedHakAkses,
   seedPenjualan, seedProduksi, seedStokLedger, seedPembelian, seedHppCalc,
+  seedStrategiMarketing, seedAnggaranMarketing, STRATEGI_JENIS_LIST_DEFAULT,
 } from '../data/seedData';
 
 const DataContext = createContext(null);
@@ -25,9 +26,12 @@ export function DataProvider({ children }) {
     stokLedger: seedStokLedger,
     pembelian: seedPembelian,
     hppCalc: seedHppCalc,
+    strategiMarketing: seedStrategiMarketing,
   });
   const [settings, setSettings] = useState(seedSettings);
   const [hakAkses, setHakAkses] = useState(seedHakAkses);
+  const [anggaranMarketing] = useState(seedAnggaranMarketing);
+  const [strategiJenisList, setStrategiJenisList] = useState(STRATEGI_JENIS_LIST_DEFAULT);
   // Buku Kas belum punya halaman sendiri (Fase 7) — tapi transaksi Lunas/DP di POS
   // dan Pembelian Lunas sudah otomatis tercatat ke sini dari sekarang.
   const [bukuKas, setBukuKas] = useState([]);
@@ -84,11 +88,16 @@ export function DataProvider({ children }) {
     setBukuKas(prev => [{ id: prev.length + 1, tanggal: '12 Agu 2026', tipe, jumlah, keterangan }, ...prev]);
   }, []);
 
+  const addStrategiJenis = useCallback((jenis) => {
+    setStrategiJenisList(prev => (prev.includes(jenis) ? prev : [...prev, jenis]));
+  }, []);
+
   return (
     <DataContext.Provider value={{
       data, addRow, updateRow, deleteRow,
       settings, updateSettings, hakAkses, toggleHakAkses, addStokMovement,
       bukuKas, addBukuKasEntry,
+      anggaranMarketing, strategiJenisList, addStrategiJenis,
     }}>
       {children}
     </DataContext.Provider>

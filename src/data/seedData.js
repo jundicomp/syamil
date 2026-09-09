@@ -83,9 +83,9 @@ export const seedPengguna = withIds([
   { nama: 'Rina Wulandari', email: 'rina@percetakanjaya.id', role: 'Admin', status: 'Aktif', kodeMarketing: '-' },
   { nama: 'Joko Prasetyo', email: 'joko@percetakanjaya.id', role: 'Kasir', status: 'Nonaktif', kodeMarketing: '-' },
   { nama: 'Dewi Lestari', email: 'dewi@percetakanjaya.id', role: 'Gudang', status: 'Nonaktif', kodeMarketing: '-' },
-  { nama: 'Fajar Ramadhan', email: 'fajar@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'FAJ01' },
-  { nama: 'Nia Kusuma', email: 'nia@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'NIA02' },
-  { nama: 'Reza Pratama', email: 'reza@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'REZ03' },
+  { nama: 'Fajar Ramadhan', email: 'fajar@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'FAJ01', targetBulanan: 1000000 },
+  { nama: 'Nia Kusuma', email: 'nia@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'NIA02', targetBulanan: 1000000 },
+  { nama: 'Reza Pratama', email: 'reza@percetakanjaya.id', role: 'Marketing', status: 'Aktif', kodeMarketing: 'REZ03', targetBulanan: 1000000 },
 ]);
 
 export const seedNotifikasi = withIds([
@@ -186,6 +186,20 @@ export const seedHppCalc = withIds([
     totalHpp: 27000, dibuatOleh: 'Pak Budi',
   },
 ]);
+
+// ===== Fase 6 — Marketing =====
+
+export const STRATEGI_JENIS_LIST_DEFAULT = ['Kunjungan langsung', 'Telepon/WA', 'Sosial media'];
+
+export const seedStrategiMarketing = withIds([
+  { userMarketing: 'Nia Kusuma', tanggal: '11 Agu 2026', jenis: 'Sosial media', catatan: 'Boost iklan Instagram area Bandung', ajukanAnggaran: true, jumlahAnggaran: 150000, statusPengajuan: 'Menunggu' },
+  { userMarketing: 'Reza Pratama', tanggal: '08 Agu 2026', jenis: 'Kunjungan langsung', catatan: 'Cetak brosur promosi', ajukanAnggaran: true, jumlahAnggaran: 100000, statusPengajuan: 'Disetujui' },
+  { userMarketing: 'Fajar Ramadhan', tanggal: '12 Agu 2026', jenis: 'Telepon/WA', catatan: 'Follow-up 12 leads lama', ajukanAnggaran: false, jumlahAnggaran: 0, statusPengajuan: 'Tanpa Pengajuan' },
+  { userMarketing: 'Nia Kusuma', tanggal: '05 Agu 2026', jenis: 'Kunjungan langsung', catatan: 'Sewa booth pameran', ajukanAnggaran: true, jumlahAnggaran: 500000, statusPengajuan: 'Ditolak' },
+]);
+
+export const seedAnggaranMarketing = { bulan: 'Agustus 2026', totalAnggaran: 1000000 };
+
 
 
 export const seedStokLedger = withIds([

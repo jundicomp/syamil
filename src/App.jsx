@@ -17,6 +17,7 @@ import PembelianPage from './pages/pembelian/PembelianPage';
 import AntrianProduksiPage from './pages/antrianProduksi/AntrianProduksiPage';
 import StatusPengerjaanPage from './pages/statusPengerjaan/StatusPengerjaanPage';
 import KalkulasiHppPage from './pages/kalkulasiHpp/KalkulasiHppPage';
+import MarketingDashboardPage from './pages/marketingDashboard/MarketingDashboardPage';
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
               <Route path="/alur-spk" element={<AntrianProduksiPage />} />
               <Route path="/status-pengerjaan" element={<StatusPengerjaanPage />} />
               <Route path="/kalkulasi-hpp" element={<KalkulasiHppPage />} />
+              <Route path="/dashboard-marketing" element={<MarketingDashboardPage />} />
             </Route>
           </Routes>
         </HashRouter>

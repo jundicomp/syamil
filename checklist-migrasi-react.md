@@ -57,9 +57,9 @@ Disusun berdasarkan urutan pengerjaan yang disarankan (bukan urutan menu di side
 
 ## Fase 6 — Marketing
 
-- [ ] 🟡 Dashboard Marketing (leaderboard 2 tab: Bulan Ini/Akumulasi, 4 kartu statistik)
-- [ ] 🔴 Tampilan personal Marketing ("Lihat Sebagai", data terfilter per user)
-- [ ] 🟡 Strategi Marketing + alur pengajuan & persetujuan anggaran
+- [x] 🟡 Dashboard Marketing (leaderboard 2 tab: Bulan Ini/Akumulasi, 4 kartu statistik)
+- [x] 🔴 Tampilan personal Marketing ("Lihat Sebagai", data terfilter per user)
+- [x] 🟡 Strategi Marketing + alur pengajuan & persetujuan anggaran
 
 ## Fase 7 — Laporan Keuangan
 
