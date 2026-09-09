@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -11,12 +12,18 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function handleLogout() {
+    setMenuOpen(false);
     if (confirm('Keluar dari akun ini?')) {
       logout();
       navigate('/login');
     }
+  }
+  function goSettings() {
+    setMenuOpen(false);
+    navigate('/pengaturan-sistem');
   }
 
   return (
@@ -35,13 +42,46 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
         <span className="dot" />
         <span>Data Dummy · Google Sheets belum tersambung</span>
       </div>
-      <button className="theme-toggle" onClick={toggleTheme} title="Ganti mode tampilan">
-        <Icon name={theme === 'day' ? 'moon' : 'sun'} size={15} />
-      </button>
-      <button className="kasir-chip" onClick={handleLogout} title="Klik untuk keluar" style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
-        <div className="av">{user ? initials(user.nama) : '?'}</div>
-        <b>{user?.nama ?? 'Tamu'}</b>
-      </button>
+
+      <div style={{ position: 'relative' }}>
+        <button className="kasir-chip" onClick={() => setMenuOpen(o => !o)}>
+          <div className="av">{user ? initials(user.nama) : '?'}</div>
+          <b>{user?.nama ?? 'Tamu'}</b>
+        </button>
+
+        {menuOpen && (
+          <>
+            <div className="profile-menu-backdrop" onClick={() => setMenuOpen(false)} />
+            <div className="profile-menu">
+              <div className="profile-menu-header">
+                <div className="av-lg">{user ? initials(user.nama) : '?'}</div>
+                <div>
+                  <b>{user?.nama ?? 'Tamu'}</b>
+                  <span>{user?.role ?? '-'}</span>
+                </div>
+              </div>
+
+              <button className="profile-menu-item" onClick={goSettings}>
+                <Icon name="settings" size={16} />
+                <span>Pengaturan Sistem</span>
+              </button>
+
+              <button className="profile-menu-item" onClick={toggleTheme}>
+                <Icon name={theme === 'day' ? 'moon' : 'sun'} size={16} />
+                <span>Tampilan Mode</span>
+                <span className="profile-menu-badge">{theme === 'day' ? 'Terang' : 'Gelap'}</span>
+              </button>
+
+              <div className="profile-menu-divider" />
+
+              <button className="profile-menu-item danger" onClick={handleLogout}>
+                <Icon name="logout" size={16} />
+                <span>Keluar</span>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

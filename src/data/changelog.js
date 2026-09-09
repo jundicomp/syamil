@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.10.1',
+    tanggal: '2026-09-09',
+    judul: 'Dropdown Menu Profil (foto, Pengaturan, Tampilan Mode, Keluar)',
+    perubahan: [
+      'Klik nama di pojok kanan atas sekarang buka dropdown menu, bukan langsung keluar',
+      'Isi dropdown: foto/inisial + nama + role, Pengaturan Sistem, Tampilan Mode, Keluar — masing-masing dengan ikon',
+      'Toggle Tampilan Mode (Terang/Gelap) dipindah dari tombol terpisah ke dalam dropdown ini',
+      'Tombol theme-toggle lama dihapus total dari topbar',
+    ],
+  },
+  {
     version: '0.10.0',
     tanggal: '2026-09-09',
     judul: 'Halaman Login + Sidebar Ciut Diperbaiki + Logo Dinamis',
