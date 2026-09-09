@@ -74,6 +74,7 @@ export const seedSettings = {
     { bank: '', noRek: '', atasNama: '' },
   ],
   qris: '', dana: '', qrisImageDataUrl: null,
+  strukWidth: '58',
 };
 
 export const seedPengguna = withIds([

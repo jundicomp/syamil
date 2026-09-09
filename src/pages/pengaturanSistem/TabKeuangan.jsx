@@ -33,6 +33,13 @@ export default function TabKeuangan() {
             <option>QRIS</option>
           </select>
         </div>
+        <div className="f-field">
+          <label>Ukuran Kertas Struk</label>
+          <select value={settings.strukWidth} onChange={e => updateSettings({ strukWidth: e.target.value })}>
+            <option value="58">58mm (printer thermal kecil)</option>
+            <option value="80">80mm (printer thermal standar)</option>
+          </select>
+        </div>
       </div>
 
       <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--text-soft)', margin: '18px 0 8px' }}>
