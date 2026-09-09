@@ -36,3 +36,18 @@ Dipicu: total POS tetap Rp0 padahal baris sudah keisi. Kali ini saya bandingkan 
 ## Jujur soal batasan audit ini
 Saya sudah cek detail logika untuk: **POS, Kalkulasi HPP, Stok Opname, Alur SPK (tahapan), Leaderboard Marketing**. Saya **belum** membandingkan baris-per-baris untuk semua 30 halaman (itu akan sangat panjang) — kalau ada modul lain yang terasa janggal, kirim screenshot spesifik halaman itu, saya cek langsung ke kode HTML asli seperti pola di atas.
 
+---
+
+# Ronde 3 — Fitur yang Belum Pernah Dibangun Sama Sekali (9 Sep 2026, lanjutan)
+
+Beda dari ronde 1-2 (itu bug logika/CSS) — ini murni **fitur yang lupa/belum sempat diportir** sejak Fase 0, ketauan karena dibandingkan sisi-sisi topbar & footer POS langsung dengan HTML.
+
+| # | Fitur Hilang | Status |
+|---|---|---|
+| 9 | Tombol collapse sidebar (ciutkan jadi mode ikon-saja) — sama sekali belum ada di React sejak awal | ✅ Dibangun |
+| 10 | Pil "Data Dummy · Google Sheets belum tersambung" di topbar — belum ada | ✅ Dibangun |
+| 11 | POS: tombol "Bayar" seharusnya "Checkout" + ada baris "Subtotal" terpisah + tombol "Simpan" (dummy) & "Batal" (reset keranjang) — di React cuma ada 1 tombol "Bayar" | ✅ Dibangun |
+
+## Catatan
+Mode collapse sidebar **baru saya bangun untuk desktop** (sesuai yang diminta/ditunjukkan) — versi mobile (drawer geser dari kiri) di HTML asli belum ikut diportir, karena React belum punya sistem mobile-responsive sidebar sama sekali sejak awal. Kalau nanti dipakai di HP, kabari saya.
+

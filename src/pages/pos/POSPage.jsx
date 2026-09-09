@@ -127,13 +127,31 @@ export default function POSPage() {
             <label>Diskon (Rp)</label>
             <input type="number" min="0" value={diskon} onChange={e => setDiskon(Number(e.target.value))} />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid var(--line)', marginBottom: 14 }}>
-            <b>Total</b>
-            <b style={{ fontSize: 16, color: 'var(--total-red)' }}>Rp{fmt(total)}</b>
+          <div style={{ padding: '10px 0', borderTop: '1px solid var(--line)', marginBottom: 14 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 6 }}>
+              <span>Subtotal</span><span>Rp{fmt(subtotal)}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <b>Total</b>
+              <b style={{ fontSize: 16, color: 'var(--total-red)' }}>Rp{fmt(total)}</b>
+            </div>
           </div>
-          <button className="btn-gold" style={{ width: '100%', padding: 12 }} disabled={confirmedItems.length === 0} onClick={() => setShowPayment(true)}>
-            Bayar
+          <button className="btn-gold" style={{ width: '100%', padding: 12, marginBottom: 8 }} disabled={confirmedItems.length === 0} onClick={() => setShowPayment(true)}>
+            Checkout
           </button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <button className="btn-outline" onClick={() => alert('Transaksi disimpan sebagai draft (dummy).')}>Simpan</button>
+            <button
+              className="btn-outline"
+              onClick={() => {
+                if (confirm('Batalkan transaksi ini? Semua item akan dikosongkan.')) {
+                  setCart([]); setDiskon(0); setKodeMarketing('');
+                }
+              }}
+            >
+              Batal
+            </button>
+          </div>
         </div>
       </div>
 
