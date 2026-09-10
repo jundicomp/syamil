@@ -11,7 +11,7 @@ const EXPORT_COLUMNS = [
   { key: 'nilai', label: 'Nilai', type: 'currency', align: 'r' },
 ];
 
-export default function LabaRugiPage() {
+export default function TabLabaRugi() {
   const { data, bukuKas } = useData();
   const [range, setRange] = useState({ from: null, to: null });
 
@@ -39,13 +39,6 @@ export default function LabaRugiPage() {
 
   return (
     <div>
-      <div className="page-header">
-        <div>
-          <h2>Laporan Laba Rugi</h2>
-          <div className="page-sub">Dihitung otomatis dari Buku Kas &amp; Kalkulasi HPP — bukan angka statis</div>
-        </div>
-      </div>
-
       <DateRangeFilter from={range.from} to={range.to} onChange={setRange} />
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
         <ExportButtons title="Laporan Laba Rugi" rangeLabel={rangeLabel} columns={EXPORT_COLUMNS} rows={exportRows} />
@@ -69,7 +62,7 @@ export default function LabaRugiPage() {
       </div>
 
       <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 14, maxWidth: 520 }}>
-        ⚠ Ini perhitungan <b>kas masuk-keluar sederhana</b> (cash-basis), bukan laporan laba-rugi akrual formal.
+        Perhitungan <b>kas masuk-keluar sederhana</b> (cash-basis), bukan laporan laba-rugi akrual formal.
         Belum menghitung penyusutan, dan pengeluaran Pembelian tercampur dengan pengeluaran lain di Buku Kas —
         jadi anggap ini sebagai perkiraan kasar, bukan angka final buat pajak/audit.
       </p>

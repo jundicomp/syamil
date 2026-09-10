@@ -1,33 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
-import DataTable from '../../components/common/DataTable';
-import ExportButtons from '../../components/common/ExportButtons';
 import SupplierSearchSelect from './SupplierSearchSelect';
 import PembelianItemRow from './PembelianItemRow';
-import HutangBayarModal from './HutangBayarModal';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
-
-const ORDER_COLUMNS = [
-  { key: 'tanggalNota', label: 'Tgl. Nota' },
-  { key: 'noNotaSupplier', label: 'No. Nota Supplier' },
-  { key: 'noPO', label: 'No. PO' },
-  { key: 'supplier', label: 'Supplier' },
-  { key: 'total', label: 'Total', type: 'currency', align: 'r' },
-  { key: 'status', label: 'Status', type: 'badge' },
-];
-const HUTANG_COLUMNS = [
-  { key: 'tanggal', label: 'Tanggal' },
-  { key: 'noPO', label: 'No. PO' },
-  { key: 'supplier', label: 'Supplier' },
-  { key: 'total', label: 'Total', type: 'currency', align: 'r' },
-  { key: 'dibayar', label: 'Dibayar', type: 'currency', align: 'r' },
-  { key: 'sisa', label: 'Sisa', type: 'currency', align: 'r' },
-];
-const SUPPLIER_EXPORT_COLUMNS = [
-  { key: 'supplier', label: 'Supplier' },
-  { key: 'total', label: 'Total Dibeli', type: 'currency', align: 'r' },
-];
 
 function OrderPembelianForm() {
   const { data, addRow, addStokMovement, addBukuKasEntry } = useData();
@@ -35,6 +11,7 @@ function OrderPembelianForm() {
   const [noNotaSupplier, setNoNotaSupplier] = useState('');
   const [tanggalNota, setTanggalNota] = useState('2026-08-12');
   const [status, setStatus] = useState('Belum Lunas');
+  const [metodeBayar, setMetodeBayar] = useState('Tunai');
   const [cart, setCart] = useState([]);
   const tanggalInput = '12 Agu 2026'; // tanggal sistem saat data ini diinput — bukan tanggal nota supplier
 
@@ -54,7 +31,7 @@ function OrderPembelianForm() {
   }
   function editCartItem(cartId) { updateCartItem(cartId, { locked: false }); }
   function removeCartItem(cartId) { setCart(prev => prev.filter(it => it.cartId !== cartId)); }
-  function resetForm() { setCart([]); setStatus('Belum Lunas'); setNoNotaSupplier(''); }
+  function resetForm() { setCart([]); setStatus('Belum Lunas'); setNoNotaSupplier(''); setMetodeBayar('Tunai'); }
 
   function handleBatal() {
     if (cart.length === 0) return;
@@ -84,7 +61,7 @@ function OrderPembelianForm() {
     items.forEach(it => addStokMovement(it.bahan, 'Masuk', it.qty, it.satuan, noPO, `Pembelian dari ${supplier}`));
 
     if (status === 'Lunas') {
-      addBukuKasEntry('Keluar', subtotal, `Pembelian ${noPO} (${noNotaSupplier.trim()}) — ${supplier}`);
+      addBukuKasEntry('Keluar', subtotal, `Pembelian ${noPO} (${noNotaSupplier.trim()}) — ${supplier}`, metodeBayar);
     } else {
       addRow('hutang', {
         tanggal: tanggalNotaFmt, noPO, noNotaSupplier: noNotaSupplier.trim(), supplier,
@@ -121,6 +98,16 @@ function OrderPembelianForm() {
           </select>
         </div>
       </div>
+      {status === 'Lunas' && (
+        <div className="f-field" style={{ maxWidth: 260 }}>
+          <label>Metode Bayar</label>
+          <select value={metodeBayar} onChange={e => setMetodeBayar(e.target.value)}>
+            <option>Tunai</option>
+            <option>Transfer</option>
+            <option>QRIS</option>
+          </select>
+        </div>
+      )}
       <p style={{ fontSize: 11, color: 'var(--text-faint)', margin: '-2px 0 14px' }}>
         Tanggal input ke sistem: <b style={{ color: 'var(--text-soft)' }}>{tanggalInput}</b> (otomatis, beda dari tanggal nota di atas)
       </p>
@@ -161,105 +148,15 @@ function OrderPembelianForm() {
 }
 
 export default function PembelianPage() {
-  const [tab, setTab] = useState('order');
-  const { data } = useData();
-  const [bayarModal, setBayarModal] = useState(null);
-
-  const perSupplier = useMemo(() => {
-    const map = {};
-    data.pembelian.forEach(p => { map[p.supplier] = (map[p.supplier] || 0) + p.total; });
-    return Object.entries(map).sort((a, b) => b[1] - a[1]).map(([supplier, total]) => ({ supplier, total }));
-  }, [data.pembelian]);
-
-  const hutangBelumLunas = data.hutang.filter(h => h.status === 'Belum Lunas');
-  const totalHutang = hutangBelumLunas.reduce((s, h) => s + h.sisa, 0);
-
   return (
     <div>
       <div className="page-header">
         <div>
           <h2>Pembelian</h2>
-          <div className="page-sub">Order pembelian bahan baku ke supplier</div>
+          <div className="page-sub">Order pembelian bahan baku ke supplier — riwayat &amp; hutang lihat di menu Laporan Keuangan</div>
         </div>
       </div>
-      <div className="subtab-switch">
-        <button className={tab === 'order' ? 'active' : ''} onClick={() => setTab('order')}>Order Pembelian</button>
-        <button className={tab === 'laporan' ? 'active' : ''} onClick={() => setTab('laporan')}>Riwayat &amp; Laporan</button>
-        <button className={tab === 'hutang' ? 'active' : ''} onClick={() => setTab('hutang')}>
-          Hutang Supplier {hutangBelumLunas.length > 0 ? `(${hutangBelumLunas.length})` : ''}
-        </button>
-      </div>
-
-      {tab === 'order' && <OrderPembelianForm />}
-
-      {tab === 'laporan' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <ExportButtons title="Total Pembelian per Supplier" reportName="Ringkasan Pembelian per Supplier" columns={SUPPLIER_EXPORT_COLUMNS} rows={perSupplier} summaryKeys={['total']} summary={{ total: perSupplier.reduce((s, r) => s + r.total, 0) }} />
-          </div>
-          <div className="table-wrap" style={{ marginBottom: 16 }}>
-            <table className="data-table">
-              <thead><tr><th>Supplier</th><th className="r">Total Dibeli</th></tr></thead>
-              <tbody>
-                {perSupplier.map(row => (
-                  <tr key={row.supplier}><td>{row.supplier}</td><td className="r">Rp{fmt(row.total)}</td></tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <DataTable
-            title="Riwayat Pembelian"
-            columns={ORDER_COLUMNS}
-            rows={data.pembelian}
-            actions={[]}
-            dateKey="tanggalNota"
-            summaryKeys={['total']}
-          />
-        </div>
-      )}
-
-      {tab === 'hutang' && (
-        <div>
-          <div className="stat-grid" style={{ gridTemplateColumns: '1fr', marginBottom: 16, maxWidth: 280 }}>
-            <div className="stat-card"><div className="lbl">Total Hutang Belum Lunas</div><div className="val" style={{ color: 'var(--total-red)' }}>Rp{fmt(totalHutang)}</div></div>
-          </div>
-          <div className="table-wrap">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Tanggal</th><th>No. PO</th><th>Supplier</th>
-                  <th className="r">Total</th><th className="r">Dibayar</th><th className="r">Sisa</th><th>Status</th><th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.hutang.length === 0 ? (
-                  <tr><td colSpan={8} className="empty-row">Belum ada hutang tercatat — semua pembelian sejauh ini Lunas.</td></tr>
-                ) : data.hutang.map(h => (
-                  <tr key={h.id}>
-                    <td>{h.tanggal}</td>
-                    <td>{h.noPO}</td>
-                    <td>{h.supplier}</td>
-                    <td className="r">Rp{fmt(h.total)}</td>
-                    <td className="r">Rp{fmt(h.dibayar)}</td>
-                    <td className="r" style={{ color: h.sisa > 0 ? 'var(--total-red)' : undefined, fontWeight: 700 }}>Rp{fmt(h.sisa)}</td>
-                    <td><span className={`badge ${h.status === 'Lunas' ? 'badge-pos' : 'badge-neg'}`}>{h.status}</span></td>
-                    <td>
-                      {h.status === 'Belum Lunas' && (
-                        <button className="btn-outline" style={{ padding: '5px 12px', fontSize: 11.5 }} onClick={() => setBayarModal(h)}>Bayar</button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 12 }}>
-            Muncul otomatis dari Order Pembelian berstatus "Belum Lunas". Klik "Bayar" untuk mencatat pelunasan (sebagian atau penuh) — otomatis tercatat sebagai Kas Keluar di Buku Kas.
-          </p>
-        </div>
-      )}
-
-      {bayarModal && <HutangBayarModal hutang={bayarModal} onClose={() => setBayarModal(null)} />}
+      <OrderPembelianForm />
     </div>
   );
 }

@@ -78,7 +78,14 @@ export default function POSPage() {
       kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga }) => ({ produk, qty, satuan, harga })),
     };
     addRow('penjualan', sale);
-    addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`);
+    addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`, payment.metodeBayar);
+
+    if (payment.status === 'DP') {
+      addRow('piutang', {
+        tanggal: '12 Agu 2026', noNota, pelanggan: customer,
+        total: payment.total, dibayar: payment.dpDibayar, sisa: payment.sisaBayar, status: 'Belum Lunas',
+      });
+    }
 
     setShowPayment(false);
     window.print();

@@ -4,13 +4,14 @@ import { useData } from '../../context/DataContext';
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function StokOpnameModal({ existingRow, onClose }) {
-  const { data, addRow, updateRow } = useData();
+  const { data, addRow, updateRow, addStokMovement } = useData();
   const initBahan = existingRow ? existingRow.bahan : (data.bahanBaku[0]?.nama ?? '');
   const initStokSistem = existingRow ? existingRow.stokSistem : (data.bahanBaku.find(b => b.nama === initBahan)?.stok ?? 0);
 
   const [bahan, setBahan] = useState(initBahan);
   const [stokSistem, setStokSistem] = useState(initStokSistem);
   const [stokFisik, setStokFisik] = useState(existingRow ? existingRow.stokFisik : initStokSistem);
+  const [terapkan, setTerapkan] = useState(false);
 
   const selisih = (Number(stokFisik) || 0) - (Number(stokSistem) || 0);
 
@@ -26,6 +27,10 @@ export default function StokOpnameModal({ existingRow, onClose }) {
       updateRow('stokOpname', existingRow.id, { bahan, stokSistem: Number(stokSistem), stokFisik: Number(stokFisik), selisih });
     } else {
       addRow('stokOpname', { tanggal: '12 Agu 2026', bahan, stokSistem: Number(stokSistem), stokFisik: Number(stokFisik), selisih });
+    }
+    if (terapkan && selisih !== 0) {
+      const bahanObj = data.bahanBaku.find(b => b.nama === bahan);
+      addStokMovement(bahan, selisih > 0 ? 'Masuk' : 'Keluar', Math.abs(selisih), bahanObj?.satuan ?? '', 'OPNAME', 'Penyesuaian dari Stok Opname');
     }
     onClose();
   }
@@ -54,6 +59,12 @@ export default function StokOpnameModal({ existingRow, onClose }) {
           <span style={{ fontSize: 12.5 }}>Selisih</span>
           <b style={{ color: selisih !== 0 ? 'var(--total-red)' : 'var(--text)' }}>{selisih > 0 ? '+' : ''}{fmt(selisih)}</b>
         </div>
+        {selisih !== 0 && (
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11.5, color: 'var(--text-soft)', margin: '10px 2px 4px', cursor: 'pointer' }}>
+            <input type="checkbox" checked={terapkan} onChange={e => setTerapkan(e.target.checked)} />
+            Terapkan penyesuaian ini ke Stok Sistem sekarang (stok bahan baku akan disesuaikan jadi {fmt(stokFisik)})
+          </label>
+        )}
         <div className="modal-actions">
           <button type="button" className="btn-outline" onClick={onClose}>Batal</button>
           <button type="button" className="btn-gold" onClick={handleSave}>Simpan</button>

@@ -19,6 +19,7 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 - Fase 5 — Alur SPK (Kanban 4 tab), Status Pengerjaan, Kalkulasi HPP
 - Fase 6 — Dashboard Marketing (leaderboard, "Lihat Sebagai", Strategi + persetujuan anggaran)
 - Fase 7 — Buku Kas, Dashboard, Laba Rugi & Neraca (dihitung otomatis dari data riil)
+- **v0.15.0**: Buku Kas & Laba Rugi dikonsolidasi jadi halaman "Laporan Keuangan" (7 tab), plus Piutang, Rekonsiliasi Kas, Persediaan, Cashflow — lihat catatan di bawah
 - Export Excel & PDF sungguhan di semua tabel (v0.8.0)
 - Filter rentang tanggal + header laporan terstruktur (Nama Usaha/Nama Laporan/Rentang) + baris Total (v0.9.0)
 - Info versi & waktu push (footer sidebar) + halaman Changelog

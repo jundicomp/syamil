@@ -30,6 +30,8 @@ export function DataProvider({ children }) {
     stokOpname: seedStokOpname,
     posDraft: [],
     hutang: seedHutang,
+    piutang: [],
+    rekonsiliasiKas: [],
   });
   const [settings, setSettings] = useState(seedSettings);
   const [hakAkses, setHakAkses] = useState(seedHakAkses);
@@ -87,8 +89,9 @@ export function DataProvider({ children }) {
     });
   }, []);
 
-  const addBukuKasEntry = useCallback((tipe, jumlah, keterangan) => {
-    setBukuKas(prev => [{ id: prev.length + 1, tanggal: '12 Agu 2026', tipe, jumlah, keterangan }, ...prev]);
+  const addBukuKasEntry = useCallback((tipe, jumlah, keterangan, metodeBayar) => {
+    const jenisKas = metodeBayar === 'Tunai' ? 'Toko' : metodeBayar ? 'Bank' : 'Toko';
+    setBukuKas(prev => [{ id: prev.length + 1, tanggal: '12 Agu 2026', tipe, jumlah, keterangan, jenisKas }, ...prev]);
   }, []);
 
   const addStrategiJenis = useCallback((jenis) => {

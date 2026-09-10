@@ -3,6 +3,22 @@
 
 export const CHANGELOG = [
   {
+    version: '0.15.0',
+    tanggal: '2026-09-09',
+    judul: 'Laporan Keuangan Terkonsolidasi — 7 Laporan + Piutang + Rekonsiliasi Kas',
+    perubahan: [
+      'Halaman baru "Laporan Keuangan" — 1 halaman, 7 tab: Penjualan, Pembelian, Persediaan, Kas Toko/Bank, Piutang/Hutang, Laba Rugi, Cashflow',
+      'Kas dipisah Toko (Tunai) vs Bank (Transfer/QRIS) — otomatis dari Metode Bayar, ditambahkan juga ke form Pembelian & Bayar Hutang',
+      'Rekonsiliasi Kas baru — bandingkan Saldo Sistem vs Saldo Fisik (Toko) / Saldo Rekening (Bank), murni catatan pembanding',
+      'Piutang Pelanggan baru — otomatis tercatat dari Penjualan DP, tombol "Terima Pelunasan" (simetris Bayar Hutang)',
+      'Stok Opname: tambah opsi "Terapkan Penyesuaian ke Stok Sistem" — sebelumnya cuma catatan pasif, sekarang bisa dipakai koreksi stok sungguhan (opsional, harus dicentang manual)',
+      'Laporan Persediaan baru — Stok Awal/Masuk/Keluar/Akhir per bahan, dari data Kartu Stok yang sudah ada',
+      'Laporan Cashflow baru — Kas Masuk vs Kas Keluar per kategori (2 kelompok sederhana)',
+      'Laporan Penjualan & Pembelian: tambah kolom pemisah Tunai/Bank vs Piutang/Hutang',
+      'Dirapikan: Laporan Penjualan, Buku Kas, Laba Rugi (halaman lama) dihapus — semua pindah jadi tab di Laporan Keuangan; Pembelian disederhanakan jadi cuma form Order',
+    ],
+  },
+  {
     version: '0.14.0',
     tanggal: '2026-09-09',
     judul: 'Modul Stok Baru + Hutang Supplier + Nota vs Tanggal Input',

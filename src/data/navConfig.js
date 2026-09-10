@@ -6,7 +6,6 @@ export const NAV = [
     group: 'Penjualan', color: 'green',
     items: [
       { key: 'pos', label: 'Kasir (POS)', icon: 'cart', path: '/pos' },
-      { key: 'laporanPenjualan', label: 'Laporan Penjualan', icon: 'chart', path: '/laporan-penjualan' },
     ],
   },
   {
@@ -37,8 +36,7 @@ export const NAV = [
   {
     group: 'Laporan Keuangan', color: 'purple',
     items: [
-      { key: 'bukuKas', label: 'Buku Kas', icon: 'wallet', path: '/buku-kas' },
-      { key: 'labaRugi', label: 'Laporan Laba Rugi', icon: 'trending', path: '/laba-rugi' },
+      { key: 'laporanKeuangan', label: 'Laporan Keuangan', icon: 'wallet', path: '/laporan-keuangan' },
       { key: 'neraca', label: 'Laporan Neraca', icon: 'scale', path: '/neraca' },
       { key: 'dashboard', label: 'Dashboard', icon: 'home', path: '/dashboard' },
     ],

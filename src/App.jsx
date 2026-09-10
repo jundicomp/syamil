@@ -13,7 +13,6 @@ import KampanyePage from './pages/kampanye/KampanyePage';
 import LeadsPage from './pages/leads/LeadsPage';
 import PengaturanSistemPage from './pages/pengaturanSistem/PengaturanSistemPage';
 import ChangelogPage from './pages/changelog/ChangelogPage';
-import LaporanPenjualanPage from './pages/laporanPenjualan/LaporanPenjualanPage';
 import LaporanProduksiPage from './pages/laporanProduksi/LaporanProduksiPage';
 import StokPage from './pages/stok/StokPage';
 import POSPage from './pages/pos/POSPage';
@@ -22,9 +21,8 @@ import AntrianProduksiPage from './pages/antrianProduksi/AntrianProduksiPage';
 import StatusPengerjaanPage from './pages/statusPengerjaan/StatusPengerjaanPage';
 import KalkulasiHppPage from './pages/kalkulasiHpp/KalkulasiHppPage';
 import MarketingDashboardPage from './pages/marketingDashboard/MarketingDashboardPage';
-import BukuKasPage from './pages/bukuKas/BukuKasPage';
+import LaporanKeuanganPage from './pages/laporanKeuangan/LaporanKeuanganPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
-import LabaRugiPage from './pages/labaRugi/LabaRugiPage';
 import NeracaPage from './pages/neraca/NeracaPage';
 
 export default function App() {
@@ -46,7 +44,6 @@ export default function App() {
                   <Route path="/leads" element={<LeadsPage />} />
                   <Route path="/pengaturan-sistem" element={<PengaturanSistemPage />} />
                   <Route path="/changelog" element={<ChangelogPage />} />
-                  <Route path="/laporan-penjualan" element={<LaporanPenjualanPage />} />
                   <Route path="/laporan-produksi" element={<LaporanProduksiPage />} />
                   <Route path="/stok" element={<StokPage />} />
                   <Route path="/pos" element={<POSPage />} />
@@ -55,9 +52,8 @@ export default function App() {
                   <Route path="/status-pengerjaan" element={<StatusPengerjaanPage />} />
                   <Route path="/kalkulasi-hpp" element={<KalkulasiHppPage />} />
                   <Route path="/dashboard-marketing" element={<MarketingDashboardPage />} />
-                  <Route path="/buku-kas" element={<BukuKasPage />} />
+                  <Route path="/laporan-keuangan" element={<LaporanKeuanganPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/laba-rugi" element={<LabaRugiPage />} />
                   <Route path="/neraca" element={<NeracaPage />} />
                 </Route>
               </Route>
