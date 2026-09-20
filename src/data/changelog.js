@@ -3,6 +3,19 @@
 
 export const CHANGELOG = [
   {
+    version: '0.18.0',
+    tanggal: '2026-09-21',
+    judul: 'SPK: Kolom Dirapikan per Tabel + Dashboard Produksi (Infografis)',
+    perubahan: [
+      'Tabel SPK: hapus kolom Keterangan Penutupan & Alasan Batal (tidak relevan, tabel ini cuma isi yang Aktif)',
+      'Arsip SPK & SPK Batal: tambah kolom No. Nota',
+      'Laporan Produksi: kolom Status SPK dipindah ke paling ujung kanan',
+      'Header "No. Order" diganti "No. SPK" di Tabel SPK & Laporan Produksi',
+      'Status Pengerjaan dihapus sebagai tabel, diganti "Dashboard" berisi infografis: 5 kartu ringkasan (Aktif/Lewat Target/Target Dekat/Selesai/Batal), grafik batang distribusi per Tahap, grafik beban kerja per PIC, dan daftar SPK yang lewat target',
+      'Dashboard dipindah ke posisi paling atas grup Produksi (di atas Alur SPK)',
+    ],
+  },
+  {
     version: '0.17.1',
     tanggal: '2026-09-21',
     judul: 'Tabel SPK, Status Pengerjaan, Laporan Produksi: Semua Kolom Ditampilkan',

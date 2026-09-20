@@ -3,16 +3,7 @@ import { useData } from '../../context/DataContext';
 import { STAGES } from '../../data/seedData';
 import { SpkClosingModal, SpkCancelModal } from './SpkModals';
 import { useNotify } from '../../context/NotificationContext';
-
-// Warna persis versi HTML — tiap tahap punya nuansa pastel sendiri, teks selalu gelap
-// (independen dari tema Terang/Gelap aplikasi, karena latarnya selalu pastel terang).
-const STAGE_COLORS = {
-  Desain: { colBg: '#BFDBF5', headBg: '#5B9BD9', cardBg: '#DCEAFB', cardBorder: '#9EC8EF', accent: '#2E5FA3' },
-  Cetak: { colBg: '#F5D896', headBg: '#E8A93D', cardBg: '#FCE9C9', cardBorder: '#EBBE72', accent: '#B9791C' },
-  Finishing: { colBg: '#B8E5C4', headBg: '#4FAE6D', cardBg: '#D9F2DE', cardBorder: '#8FD4A0', accent: '#2E8B4C' },
-  CS: { colBg: '#F5BFDB', headBg: '#E066A0', cardBg: '#FBDEEA', cardBorder: '#ED9BC0', accent: '#C23D74' },
-  Konsumen: { colBg: '#EDDD9E', headBg: '#D4B347', cardBg: '#F6ECB8', cardBorder: '#DDBE55', accent: '#A9823C' },
-};
+import { STAGE_COLORS } from './produksiColumns';
 
 export default function KartuSpkTab() {
   const { data, updateRow } = useData();

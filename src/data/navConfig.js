@@ -18,8 +18,8 @@ export const NAV = [
   {
     group: 'Produksi', color: 'orange',
     items: [
+      { key: 'statusPengerjaan', label: 'Dashboard', icon: 'home', path: '/status-pengerjaan' },
       { key: 'antrianProduksi', label: 'Alur SPK', icon: 'printer', path: '/alur-spk' },
-      { key: 'statusPengerjaan', label: 'Status Pengerjaan', icon: 'activity', path: '/status-pengerjaan' },
       { key: 'laporanProduksi', label: 'Laporan Produksi', icon: 'chart', path: '/laporan-produksi' },
       { key: 'kalkulasiHpp', label: 'Kalkulasi HPP', icon: 'lock', path: '/kalkulasi-hpp' },
     ],
