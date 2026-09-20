@@ -6,6 +6,7 @@ import {
   seedPenjualan, seedProduksi, seedStokLedger, seedPembelian, seedHppCalc, seedStokOpname, seedHutang,
   seedStrategiMarketing, seedAnggaranMarketing, STRATEGI_JENIS_LIST_DEFAULT,
 } from '../data/seedData';
+import { todayID } from '../utils/dateUtils';
 
 const DataContext = createContext(null);
 
@@ -83,7 +84,7 @@ export function DataProvider({ children }) {
       const ledgerIds = prev.stokLedger.map(r => r.id);
       const newId = (ledgerIds.length ? Math.max(...ledgerIds) : 0) + 1;
       const entry = {
-        id: newId, tanggal: '12 Agu 2026', bahan: bahanNama, tipe, qty, satuan, referensi, keterangan,
+        id: newId, tanggal: todayID(), bahan: bahanNama, tipe, qty, satuan, referensi, keterangan,
       };
       return { ...prev, bahanBaku, stokLedger: [entry, ...prev.stokLedger] };
     });
@@ -91,7 +92,7 @@ export function DataProvider({ children }) {
 
   const addBukuKasEntry = useCallback((tipe, jumlah, keterangan, metodeBayar) => {
     const jenisKas = metodeBayar === 'Tunai' ? 'Toko' : metodeBayar ? 'Bank' : 'Toko';
-    setBukuKas(prev => [{ id: prev.length + 1, tanggal: '12 Agu 2026', tipe, jumlah, keterangan, jenisKas }, ...prev]);
+    setBukuKas(prev => [{ id: prev.length + 1, tanggal: todayID(), tipe, jumlah, keterangan, jenisKas }, ...prev]);
   }, []);
 
   const addStrategiJenis = useCallback((jenis) => {

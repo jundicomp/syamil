@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { todayID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -26,7 +27,7 @@ export default function StokOpnameModal({ existingRow, onClose }) {
     if (existingRow) {
       updateRow('stokOpname', existingRow.id, { bahan, stokSistem: Number(stokSistem), stokFisik: Number(stokFisik), selisih });
     } else {
-      addRow('stokOpname', { tanggal: '12 Agu 2026', bahan, stokSistem: Number(stokSistem), stokFisik: Number(stokFisik), selisih });
+      addRow('stokOpname', { tanggal: todayID(), bahan, stokSistem: Number(stokSistem), stokFisik: Number(stokFisik), selisih });
     }
     if (terapkan && selisih !== 0) {
       const bahanObj = data.bahanBaku.find(b => b.nama === bahan);

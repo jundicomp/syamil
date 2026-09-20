@@ -3,6 +3,7 @@ import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
 import LeaderboardBlock, { computeLeaderboard } from './LeaderboardBlock';
 import ExportButtons from '../../components/common/ExportButtons';
+import { todayID } from '../../utils/dateUtils';
 
 const SALES_EXPORT_COLUMNS = [
   { key: 'tanggal', label: 'Tanggal' },
@@ -56,7 +57,7 @@ export default function PersonalView({ nama }) {
     if (!catatan.trim()) { notifyError('Isi catatan strategi terlebih dahulu.'); return; }
     if (ajukan && jumlah <= 0) { notifyError('Isi jumlah anggaran yang diajukan.'); return; }
     addRow('strategiMarketing', {
-      userMarketing: nama, tanggal: '12 Agu 2026', jenis, catatan,
+      userMarketing: nama, tanggal: todayID(), jenis, catatan,
       ajukanAnggaran: ajukan, jumlahAnggaran: ajukan ? jumlah : 0,
       statusPengajuan: ajukan ? 'Menunggu' : 'Tanpa Pengajuan',
     });

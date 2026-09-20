@@ -1,11 +1,13 @@
-import { toInputDate, fromInputDate, APP_TODAY, startOfMonth, endOfMonth, startOfYear, endOfYear } from '../../utils/dateUtils';
+import { toInputDate, fromInputDate, startOfMonth, endOfMonth, startOfYear, endOfYear } from '../../utils/dateUtils';
 
 export default function DateRangeFilter({ from, to, onChange }) {
+  const today = new Date();
+
   function setPreset(f, t) {
     onChange({ from: f, to: t });
   }
   function lastMonth() {
-    const d = new Date(APP_TODAY.getFullYear(), APP_TODAY.getMonth() - 1, 1);
+    const d = new Date(today.getFullYear(), today.getMonth() - 1, 1);
     return [startOfMonth(d), endOfMonth(d)];
   }
 
@@ -28,9 +30,9 @@ export default function DateRangeFilter({ from, to, onChange }) {
           style={{ padding: '7px 9px', fontSize: 11.5 }}
         />
       </div>
-      <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={() => setPreset(startOfMonth(APP_TODAY), endOfMonth(APP_TODAY))}>Bulan Ini</button>
+      <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={() => setPreset(startOfMonth(today), endOfMonth(today))}>Bulan Ini</button>
       <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={() => setPreset(...lastMonth())}>Bulan Lalu</button>
-      <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={() => setPreset(startOfYear(APP_TODAY), endOfYear(APP_TODAY))}>Tahun Ini</button>
+      <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={() => setPreset(startOfYear(today), endOfYear(today))}>Tahun Ini</button>
       {(from || to) && (
         <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11, color: 'var(--danger)' }} onClick={() => setPreset(null, null)}>✕ Reset</button>
       )}

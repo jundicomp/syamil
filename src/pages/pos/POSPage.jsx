@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
 import { printStruk } from '../../utils/printUtils';
+import { todayID } from '../../utils/dateUtils';
 import CekStokModal from './CekStokModal';
 import PaymentModal from './PaymentModal';
 import PosItemRow from './PosItemRow';
@@ -56,7 +57,7 @@ export default function POSPage() {
   function handleSimpanDraft() {
     if (confirmedItems.length === 0) { notifyError('Belum ada item dikonfirmasi untuk disimpan.'); return; }
     addRow('posDraft', {
-      tanggal: '12 Agu 2026', customer, kodeMarketing,
+      tanggal: todayID(), customer, kodeMarketing,
       items: confirmedItems.map(({ produk, ket, qty, satuan, harga }) => ({ produk, ket, qty, satuan, harga })),
       subtotal,
     });
@@ -77,7 +78,7 @@ export default function POSPage() {
     const noNota = `INV-${String(nextNum).padStart(4, '0')}`;
 
     const sale = {
-      tanggal: '12 Agu 2026', noNota, pelanggan: customer, total: payment.total,
+      tanggal: todayID(), noNota, pelanggan: customer, total: payment.total,
       status: payment.status, dpDibayar: payment.dpDibayar, sisaBayar: payment.sisaBayar,
       kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga }) => ({ produk, qty, satuan, harga })),
     };
@@ -86,7 +87,7 @@ export default function POSPage() {
 
     if (payment.status === 'DP') {
       addRow('piutang', {
-        tanggal: '12 Agu 2026', noNota, pelanggan: customer,
+        tanggal: todayID(), noNota, pelanggan: customer,
         total: payment.total, dibayar: payment.dpDibayar, sisa: payment.sisaBayar, status: 'Belum Lunas',
       });
     }

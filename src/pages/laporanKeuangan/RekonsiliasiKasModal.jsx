@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { todayID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -11,7 +12,7 @@ export default function RekonsiliasiKasModal({ jenisKas, saldoSistem, onClose })
 
   function handleSave() {
     addRow('rekonsiliasiKas', {
-      tanggal: '12 Agu 2026', jenisKas, saldoSistem, saldoFisik: Number(saldoFisik), selisih,
+      tanggal: todayID(), jenisKas, saldoSistem, saldoFisik: Number(saldoFisik), selisih,
     });
     onClose();
   }

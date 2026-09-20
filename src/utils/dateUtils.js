@@ -4,6 +4,20 @@ export const BULAN_LENGKAP = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'J
 // "Hari ini" simulasi aplikasi — konsisten dengan data contoh yang dianchor ke 12 Agustus 2026.
 export const APP_TODAY = new Date(2026, 7, 12);
 
+/** Tanggal hari ini SUNGGUHAN (dari jam komputer/server), format "12 Sep 2026" — dipakai untuk transaksi baru. */
+export function todayID() {
+  const d = new Date();
+  return `${d.getDate()} ${BULAN_SINGKAT[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+/** Tanggal + jam sungguhan, format "12 Sep 2026, 14:05". */
+export function nowID() {
+  const d = new Date();
+  const jam = String(d.getHours()).padStart(2, '0');
+  const menit = String(d.getMinutes()).padStart(2, '0');
+  return `${todayID()}, ${jam}:${menit}`;
+}
+
 /** Parse "12 Agu 2026" atau "12 Agu 2026, 10:24" jadi objek Date. Null kalau gagal. */
 export function parseTanggalID(str) {
   if (!str) return null;

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
+import { todayID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -51,7 +52,7 @@ export default function HppCreateModal({ onClose }) {
     if (!spk) { notifyError('Pilih SPK terlebih dahulu.'); return; }
 
     addRow('hppCalc', {
-      noOrder, produk: spk.produk, pelanggan: spk.pelanggan, tanggal: '12 Agu 2026',
+      noOrder, produk: spk.produk, pelanggan: spk.pelanggan, tanggal: todayID(),
       hargaJual, items: validItems, totalHpp, dibuatOleh: 'Pak Budi',
     });
 

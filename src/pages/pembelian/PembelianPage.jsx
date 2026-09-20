@@ -3,6 +3,7 @@ import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
 import SupplierSearchSelect from './SupplierSearchSelect';
 import PembelianItemRow from './PembelianItemRow';
+import { todayID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -15,7 +16,7 @@ function OrderPembelianForm() {
   const [status, setStatus] = useState('Belum Lunas');
   const [metodeBayar, setMetodeBayar] = useState('Tunai');
   const [cart, setCart] = useState([]);
-  const tanggalInput = '12 Agu 2026'; // tanggal sistem saat data ini diinput — bukan tanggal nota supplier
+  const tanggalInput = todayID(); // tanggal sistem saat data ini diinput — bukan tanggal nota supplier
 
   const confirmedItems = useMemo(() => cart.filter(it => it.locked), [cart]);
   const subtotal = useMemo(() => confirmedItems.reduce((s, it) => s + it.qty * it.harga, 0), [confirmedItems]);

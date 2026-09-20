@@ -1,6 +1,6 @@
 import { useData } from '../../context/DataContext';
 import ExportButtons from '../../components/common/ExportButtons';
-import { APP_TODAY, BULAN_LENGKAP } from '../../utils/dateUtils';
+import { todayID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
@@ -18,7 +18,7 @@ export default function NeracaPage() {
   const totalAset = kas + nilaiStok + piutang;
 
   const hutangBelumLunas = data.pembelian.filter(p => p.status === 'Belum Lunas').reduce((s, p) => s + p.total, 0);
-  const snapshotLabel = `Per ${APP_TODAY.getDate()} ${BULAN_LENGKAP[APP_TODAY.getMonth()]} ${APP_TODAY.getFullYear()} (posisi saat ini)`;
+  const snapshotLabel = `Per ${todayID()} (posisi saat ini)`;
 
   const exportRows = [
     { label: 'Kas', nilai: kas },

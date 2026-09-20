@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.16.1',
+    tanggal: '2026-09-20',
+    judul: 'Tanggal Transaksi Baru Pakai Jam Komputer Sungguhan',
+    perubahan: [
+      'FIX: transaksi baru (Penjualan, Pembelian, Kalkulasi HPP, Stok Opname, Rekonsiliasi Kas, Strategi Marketing, pergerakan stok, entri Buku Kas) sebelumnya selalu tercatat "12 Agu 2026" — tanggal simulasi tetap, bukan tanggal asli dari komputer',
+      'Sekarang semua transaksi baru pakai tanggal+jam sungguhan (new Date()) — cuma data contoh/dummy lama yang masih memakai tanggal simulasi itu',
+      'Filter cepat "Bulan Ini/Bulan Lalu/Tahun Ini" di semua laporan ikut disesuaikan ke tanggal sungguhan, supaya transaksi baru benar-benar kejaring filternya',
+      'Label "posisi saat ini" di Laporan Neraca juga ikut pakai tanggal sungguhan',
+    ],
+  },
+  {
     version: '0.16.0',
     tanggal: '2026-09-10',
     judul: 'Struk Cetak Sesuai Ukuran + Format Rupiah Konsisten + Notifikasi Modal',
