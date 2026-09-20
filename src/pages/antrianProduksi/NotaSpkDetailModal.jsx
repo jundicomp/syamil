@@ -90,9 +90,9 @@ export default function NotaSpkDetailModal({ noNota, onClose }) {
   return (
     <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="modal-card" style={{ maxWidth: 720, background: 'transparent', border: 'none', boxShadow: 'none', padding: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <b style={{ color: '#fff', fontSize: 14 }}>Laporan SPK — {noNota}</b>
-          <button type="button" className="x" style={{ color: '#fff' }} onClick={onClose}>✕</button>
+        <div className="a4-modal-topbar">
+          <b>Laporan SPK — {noNota}</b>
+          <button type="button" className="a4-modal-x" onClick={onClose}>✕</button>
         </div>
 
         <div ref={reportRef} className="a4-report">
@@ -151,9 +151,9 @@ export default function NotaSpkDetailModal({ noNota, onClose }) {
           <div className="a4-footer">Dicetak dari Sistem {settings.namaUsaha} — {new Date().toLocaleString('id-ID')}</div>
         </div>
 
-        <div className="modal-actions" style={{ marginTop: 14, maxWidth: 720 }}>
-          <button type="button" className="btn-outline" onClick={onClose} disabled={busy}>Tutup</button>
-          <button type="button" className="btn-outline" onClick={handleSaveJPG} disabled={busy}>Simpan JPG</button>
+        <div className="a4-modal-actions">
+          <button type="button" className="a4-btn-outline" onClick={onClose} disabled={busy}>Tutup</button>
+          <button type="button" className="a4-btn-outline" onClick={handleSaveJPG} disabled={busy}>Simpan JPG</button>
           <button type="button" className="btn-gold" onClick={handleSavePDF} disabled={busy}>Simpan PDF</button>
         </div>
       </div>

@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.19.1',
+    tanggal: '2026-09-21',
+    judul: 'Fix: Latar Transparan & Teks Hilang di Modal Laporan A4',
+    perubahan: [
+      'FIX: tombol Tutup/Simpan JPG/Simpan PDF di modal Laporan SPK per Nota latarnya transparan — sekarang punya latar sendiri yang selalu opak',
+      'FIX: teks jadi hilang di mode Terang — akar masalahnya, modal-card modal ini sengaja dibuat transparan (efek "kertas mengambang"), tapi teks di dalamnya masih ikut warna tema yang berubah jadi gelap di mode Terang, padahal latarnya (backdrop gelap) tidak ikut berubah',
+      'Sudah disapu ke seluruh aplikasi — cuma modal ini yang kena, tempat lain aman',
+    ],
+  },
+  {
     version: '0.19.0',
     tanggal: '2026-09-21',
     judul: 'No. SPK (bukan PRD), Terkelompok per Nota, Laporan A4 Interaktif',
