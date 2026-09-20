@@ -3,6 +3,19 @@
 
 export const CHANGELOG = [
   {
+    version: '0.17.0',
+    tanggal: '2026-09-21',
+    judul: 'SPK: Warna Kanban Persis HTML + Ciptakan SPK Multi-Item + Prompt Jadi Modal',
+    perubahan: [
+      'Warna Kanban (kolom, header, kartu) disamakan persis dengan versi HTML — 5 tahap masing-masing punya nuansa pastel sendiri',
+      'Semua prompt() browser bawaan (catatan pindah tahap, tambah jenis strategi baru) diganti modal blur dengan textarea — konsisten dengan sistem notifikasi lainnya',
+      'Ciptakan SPK dirombak mengikuti logika HTML asli (getRemainingItemsForNota): pilih No. Nota, dropdown menunjukkan "X item, Y belum ada SPK" kalau nota itu multi-item',
+      'Kalau nota punya banyak item yang belum ada SPK-nya, muncul checklist untuk pilih item mana saja yang mau diciptakan SPK-nya sekaligus (bisa lebih dari 1 SPK dalam satu submit)',
+      'Nota yang semua itemnya sudah punya SPK otomatis hilang dari pilihan',
+      'Data contoh ditambah 2 nota multi-item (INV-0230, INV-0227) untuk mendemokan fitur ini',
+    ],
+  },
+  {
     version: '0.16.1',
     tanggal: '2026-09-20',
     judul: 'Tanggal Transaksi Baru Pakai Jam Komputer Sungguhan',

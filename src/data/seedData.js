@@ -121,10 +121,12 @@ export const seedHakAkses = {
 
 export const seedPenjualan = withIds([
   { tanggal: '12 Agu 2026', noNota: 'INV-0231', pelanggan: 'Toko Sinar Jaya', total: 320000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: 'FAJ01' },
-  { tanggal: '12 Agu 2026', noNota: 'INV-0230', pelanggan: 'CV Abadi Sentosa', total: 700000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
+  { tanggal: '12 Agu 2026', noNota: 'INV-0230', pelanggan: 'CV Abadi Sentosa', total: 690000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '',
+    items: [{ produk: 'Buku Nota Rangkap 2', qty: 10, satuan: 'pak', harga: 35000 }, { produk: 'X-Banner 60x160', qty: 4, satuan: 'pcs', harga: 85000 }] },
   { tanggal: '11 Agu 2026', noNota: 'INV-0229', pelanggan: 'Pelanggan Umum', total: 180000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
   { tanggal: '11 Agu 2026', noNota: 'INV-0228', pelanggan: 'UD Makmur Jaya', total: 1250000, status: 'DP', dpDibayar: 500000, sisaBayar: 750000, kodeMarketing: 'NIA02' },
-  { tanggal: '10 Agu 2026', noNota: 'INV-0227', pelanggan: 'Toko Sinar Jaya', total: 455000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: 'FAJ01' },
+  { tanggal: '10 Agu 2026', noNota: 'INV-0227', pelanggan: 'Toko Sinar Jaya', total: 455000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: 'FAJ01',
+    items: [{ produk: 'X-Banner 60x160', qty: 2, satuan: 'pcs', harga: 85000 }, { produk: 'Kartu Nama 1 Box', qty: 4, satuan: 'box', harga: 45000 }, { produk: 'Buku Nota Rangkap 2', qty: 3, satuan: 'pak', harga: 35000 }] },
   { tanggal: '09 Agu 2026', noNota: 'INV-0226', pelanggan: 'CV Abadi Sentosa', total: 90000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },
   { tanggal: '08 Agu 2026', noNota: 'INV-0225', pelanggan: 'Pelanggan Umum', total: 620000, status: 'DP', dpDibayar: 200000, sisaBayar: 420000, kodeMarketing: 'REZ03' },
   { tanggal: '07 Agu 2026', noNota: 'INV-0224', pelanggan: 'UD Makmur Jaya', total: 340000, status: 'Lunas', dpDibayar: 0, sisaBayar: 0, kodeMarketing: '' },

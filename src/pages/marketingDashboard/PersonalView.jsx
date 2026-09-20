@@ -28,7 +28,7 @@ function StatusBadge({ status }) {
 
 export default function PersonalView({ nama }) {
   const { data, addRow, strategiJenisList, addStrategiJenis } = useData();
-  const { notifyError, notifySuccess } = useNotify();
+  const { notifyError, notifySuccess, promptDialog } = useNotify();
   const user = data.pengguna.find(p => p.nama === nama);
   const marketers = data.pengguna.filter(p => p.role === 'Marketing' && p.status === 'Aktif');
   const ranked = computeLeaderboard(marketers, data.penjualan);
@@ -44,9 +44,9 @@ export default function PersonalView({ nama }) {
   const [ajukan, setAjukan] = useState(false);
   const [jumlah, setJumlah] = useState(0);
 
-  function handleJenisChange(e) {
+  async function handleJenisChange(e) {
     if (e.target.value === '__new__') {
-      const v = prompt('Tambah jenis strategi baru:');
+      const v = await promptDialog('Tambah jenis strategi baru:', { placeholder: 'mis. Promo Bundling' });
       if (v && v.trim()) { addStrategiJenis(v.trim()); setJenis(v.trim()); }
       return;
     }

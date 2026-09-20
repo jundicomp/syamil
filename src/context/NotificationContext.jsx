@@ -4,6 +4,7 @@ const NotificationContext = createContext(null);
 
 export function NotificationProvider({ children }) {
   const [modal, setModal] = useState(null);
+  const [promptValue, setPromptValue] = useState('');
   const timerRef = useRef(null);
 
   const clearTimer = () => { if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; } };
@@ -39,13 +40,29 @@ export function NotificationProvider({ children }) {
     });
   }, []);
 
+  /** Pengganti prompt() — modal dengan input teks, kembalikan Promise<string|null> (null = batal). */
+  const promptDialog = useCallback((message, opts = {}) => {
+    clearTimer();
+    setPromptValue(opts.defaultValue || '');
+    return new Promise(resolve => {
+      setModal({
+        type: 'prompt', message,
+        placeholder: opts.placeholder || '',
+        confirmLabel: opts.confirmLabel || 'OK',
+        cancelLabel: opts.cancelLabel || 'Batal',
+        onConfirm: (val) => { setModal(null); resolve(val); },
+        onCancel: () => { setModal(null); resolve(null); },
+      });
+    });
+  }, []);
+
   function closeModal() {
     clearTimer();
     setModal(null);
   }
 
   return (
-    <NotificationContext.Provider value={{ notifySuccess, notifyError, confirmDialog }}>
+    <NotificationContext.Provider value={{ notifySuccess, notifyError, confirmDialog, promptDialog }}>
       {children}
       {modal && (
         <div className="notif-backdrop">
@@ -78,6 +95,22 @@ export function NotificationProvider({ children }) {
                   <button type="button" className={modal.danger ? 'btn-danger' : 'btn-gold'} onClick={modal.onConfirm}>{modal.confirmLabel}</button>
                 </div>
               </>
+            )}
+            {modal.type === 'prompt' && (
+              <form onSubmit={e => { e.preventDefault(); modal.onConfirm(promptValue); }}>
+                <p className="notif-msg" style={{ textAlign: 'left', fontWeight: 600 }}>{modal.message}</p>
+                <textarea
+                  autoFocus
+                  className="notif-textarea"
+                  placeholder={modal.placeholder}
+                  value={promptValue}
+                  onChange={e => setPromptValue(e.target.value)}
+                />
+                <div className="notif-actions">
+                  <button type="button" className="btn-outline" onClick={modal.onCancel}>{modal.cancelLabel}</button>
+                  <button type="submit" className="btn-gold">{modal.confirmLabel}</button>
+                </div>
+              </form>
             )}
           </div>
         </div>
