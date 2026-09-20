@@ -3,6 +3,19 @@
 
 export const CHANGELOG = [
   {
+    version: '0.19.0',
+    tanggal: '2026-09-21',
+    judul: 'No. SPK (bukan PRD), Terkelompok per Nota, Laporan A4 Interaktif',
+    perubahan: [
+      'Nomor SPK sekarang pakai prefix "SPK-" (dulu "PRD-") — SPK-0091, dst',
+      'Kolom No. Nota dipindah ke paling awal (sebelum No. SPK) di Tabel SPK & Laporan Produksi',
+      'Baris otomatis terkelompok berdasarkan No. Nota — semua SPK dari nota yang sama langsung terlihat berdekatan, jawab pertanyaan klasik "nota ini, mana SPK-nya?"',
+      'Laporan Produksi: tombol Lihat (ikon mata) baru — buka laporan gaya kertas A4, menampilkan SEMUA SPK dalam satu Nota sekaligus (bukan cuma 1 baris)',
+      'Laporan A4 interaktif — klik tiap kartu SPK untuk buka/tutup detail (riwayat pindah tahap, keterangan penutupan/pembatalan)',
+      'Tombol Simpan JPG dan Simpan PDF di laporan A4 — PDF otomatis pecah ke halaman berikutnya kalau daftar SPK-nya panjang',
+    ],
+  },
+  {
     version: '0.18.0',
     tanggal: '2026-09-21',
     judul: 'SPK: Kolom Dirapikan per Tabel + Dashboard Produksi (Infografis)',

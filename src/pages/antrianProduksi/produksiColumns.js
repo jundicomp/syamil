@@ -20,8 +20,8 @@ export const STAGE_COLORS = {
  * id sengaja tidak ditampilkan (nomor baris "No" dari DataTable sudah cukup).
  */
 export const PRODUKSI_COLUMNS_AKTIF = [
-  { key: 'noOrder', label: 'No. SPK' },
   { key: 'noNota', label: 'No. Nota' },
+  { key: 'noOrder', label: 'No. SPK' },
   { key: 'produk', label: 'Produk' },
   { key: 'pelanggan', label: 'Pelanggan' },
   { key: 'tahap', label: 'Tahap', type: 'badge' },
@@ -33,8 +33,8 @@ export const PRODUKSI_COLUMNS_AKTIF = [
 ];
 
 export const PRODUKSI_COLUMNS_LAPORAN = [
-  { key: 'noOrder', label: 'No. SPK' },
   { key: 'noNota', label: 'No. Nota' },
+  { key: 'noOrder', label: 'No. SPK' },
   { key: 'produk', label: 'Produk' },
   { key: 'pelanggan', label: 'Pelanggan' },
   { key: 'tahap', label: 'Tahap', type: 'badge' },
@@ -47,6 +47,11 @@ export const PRODUKSI_COLUMNS_LAPORAN = [
   { key: 'cancelNote', label: 'Alasan Batal' },
   { key: 'statusSpk', label: 'Status SPK', type: 'badge' },
 ];
+
+/** Urutkan berdasarkan No. Nota supaya SPK-SPK dari nota yang sama otomatis terkelompok. */
+export function groupByNota(rows) {
+  return [...rows].sort((a, b) => String(a.noNota ?? '').localeCompare(String(b.noNota ?? '')));
+}
 
 /** history adalah array — diringkas jadi 1 baris teks supaya bisa tampil di sel tabel biasa. */
 export function withHistoryRingkas(rows) {

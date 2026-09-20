@@ -84,7 +84,7 @@ export default function SpkCreateModal({ onClose }) {
     const createdOrders = [];
 
     produkList.forEach((produkNama, i) => {
-      const noOrder = `PRD-${String(startNum + i).padStart(4, '0')}`;
+      const noOrder = `SPK-${String(startNum + i).padStart(4, '0')}`;
       addRow('produksi', {
         noOrder, statusSpk: 'Aktif', noNota, produk: produkNama,
         pelanggan: notaTerpilih.pelanggan, tahap: 'Desain',
