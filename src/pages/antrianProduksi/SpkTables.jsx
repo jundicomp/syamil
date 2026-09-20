@@ -1,14 +1,6 @@
 import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
-
-const COLUMNS_AKTIF = [
-  { key: 'noOrder', label: 'No. Order' },
-  { key: 'produk', label: 'Produk' },
-  { key: 'pelanggan', label: 'Pelanggan' },
-  { key: 'tahap', label: 'Tahap', type: 'badge' },
-  { key: 'target', label: 'Target' },
-  { key: 'pic', label: 'PIC' },
-];
+import { PRODUKSI_FULL_COLUMNS, withHistoryRingkas } from './produksiColumns';
 
 const COLUMNS_ARSIP = [
   { key: 'noOrder', label: 'No. Order' },
@@ -28,7 +20,8 @@ const COLUMNS_BATAL = [
 
 export function TabelSpkTab() {
   const { data } = useData();
-  return <DataTable title="Tabel SPK" columns={COLUMNS_AKTIF} rows={data.produksi.filter(p => p.statusSpk === 'Aktif')} actions={[]} dateKey="target" />;
+  const rows = withHistoryRingkas(data.produksi.filter(p => p.statusSpk === 'Aktif'));
+  return <DataTable title="Tabel SPK" columns={PRODUKSI_FULL_COLUMNS} rows={rows} actions={[]} dateKey="target" />;
 }
 
 export function ArsipSpkTab() {

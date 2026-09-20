@@ -1,26 +1,18 @@
 import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
-
-const COLUMNS = [
-  { key: 'noOrder', label: 'No. Order' },
-  { key: 'produk', label: 'Produk' },
-  { key: 'pelanggan', label: 'Pelanggan' },
-  { key: 'tahap', label: 'Tahap', type: 'badge' },
-  { key: 'target', label: 'Target' },
-  { key: 'pic', label: 'PIC' },
-  { key: 'statusSpk', label: 'Status SPK', type: 'badge' },
-];
+import { PRODUKSI_FULL_COLUMNS, withHistoryRingkas } from '../antrianProduksi/produksiColumns';
 
 export default function LaporanProduksiPage() {
   const { data } = useData();
+  const rows = withHistoryRingkas(data.produksi);
 
   return (
     <div>
       <DataTable
         title="Laporan Produksi"
         subtitle={`${data.produksi.length} SPK tercatat`}
-        columns={COLUMNS}
-        rows={data.produksi}
+        columns={PRODUKSI_FULL_COLUMNS}
+        rows={rows}
         actions={[]}
         dateKey="target"
       />

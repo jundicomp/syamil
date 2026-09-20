@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.17.1',
+    tanggal: '2026-09-21',
+    judul: 'Tabel SPK, Status Pengerjaan, Laporan Produksi: Semua Kolom Ditampilkan',
+    perubahan: [
+      'Ketiga tabel sekarang menampilkan SEMUA field yang ada di data SPK (produksi) — No. Order, Status SPK, No. Nota, Produk, Pelanggan, Tahap, Target, PIC, Detail Pekerjaan, Dibuat Oleh, Riwayat Pindah Tahap, Keterangan Penutupan, Alasan Batal',
+      'Kolom sama persis dan urutan sama di ketiganya, biar gampang dibandingkan — bedanya cuma baris mana yang ditampilkan (Tabel SPK & Status Pengerjaan: cuma Aktif · Laporan Produksi: semua status)',
+      'history (riwayat pindah tahap) yang tadinya cuma data internal, sekarang diringkas jadi 1 baris teks di kolom "Riwayat Pindah Tahap"',
+    ],
+  },
+  {
     version: '0.17.0',
     tanggal: '2026-09-21',
     judul: 'SPK: Warna Kanban Persis HTML + Ciptakan SPK Multi-Item + Prompt Jadi Modal',
