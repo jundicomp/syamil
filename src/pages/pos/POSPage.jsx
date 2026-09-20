@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
+import { printStruk } from '../../utils/printUtils';
 import CekStokModal from './CekStokModal';
 import PaymentModal from './PaymentModal';
 import PosItemRow from './PosItemRow';
@@ -10,7 +12,8 @@ import DraftListModal from './DraftListModal';
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function POSPage() {
-  const { data, addRow, deleteRow, addBukuKasEntry } = useData();
+  const { data, settings, addRow, deleteRow, addBukuKasEntry } = useData();
+  const { notifyError, notifySuccess, confirmDialog } = useNotify();
   const [cart, setCart] = useState([]);
   const [customer, setCustomer] = useState(data.pelanggan[0]?.nama ?? '');
   const [kodeMarketing, setKodeMarketing] = useState('');
@@ -32,7 +35,7 @@ export default function POSPage() {
   }
   function confirmCartItem(cartId) {
     const item = cart.find(it => it.cartId === cartId);
-    if (!item.produk) { alert('Pilih produk terlebih dahulu.'); return; }
+    if (!item.produk) { notifyError('Pilih produk terlebih dahulu.'); return; }
     updateCartItem(cartId, { locked: true });
   }
   function editCartItem(cartId) {
@@ -45,19 +48,20 @@ export default function POSPage() {
     setCart([]); setKodeMarketing('');
   }
 
-  function handleBatal() {
+  async function handleBatal() {
     if (cart.length === 0) return;
-    if (confirm('Batalkan transaksi ini? Semua item akan dikosongkan.')) resetTransaksi();
+    const ok = await confirmDialog('Batalkan transaksi ini? Semua item akan dikosongkan.', { danger: true, confirmLabel: 'Ya, Batalkan' });
+    if (ok) resetTransaksi();
   }
   function handleSimpanDraft() {
-    if (confirmedItems.length === 0) { alert('Belum ada item dikonfirmasi untuk disimpan.'); return; }
+    if (confirmedItems.length === 0) { notifyError('Belum ada item dikonfirmasi untuk disimpan.'); return; }
     addRow('posDraft', {
       tanggal: '12 Agu 2026', customer, kodeMarketing,
       items: confirmedItems.map(({ produk, ket, qty, satuan, harga }) => ({ produk, ket, qty, satuan, harga })),
       subtotal,
     });
     resetTransaksi();
-    alert('Draft tersimpan — bisa dilanjutkan lewat tombol "Draft Tersimpan".');
+    notifySuccess('Draft tersimpan — bisa dilanjutkan lewat tombol "Draft Tersimpan".');
   }
   function handleResumeDraft(draft) {
     setCustomer(draft.customer);
@@ -88,9 +92,9 @@ export default function POSPage() {
     }
 
     setShowPayment(false);
-    window.print();
+    printStruk(settings.strukWidth);
     resetTransaksi();
-    alert(`Transaksi berhasil — No. Nota: ${noNota}`);
+    notifySuccess(`Transaksi berhasil — No. Nota: ${noNota}`);
   }
 
   const marketers = data.pengguna.filter(p => p.role === 'Marketing' && p.status === 'Aktif');

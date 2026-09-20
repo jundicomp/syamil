@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNotify } from '../../context/NotificationContext';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function PaymentModal({ subtotal, onClose, onConfirm }) {
+  const { notifyError } = useNotify();
   const [diskon, setDiskon] = useState(0);
   const [payStatus, setPayStatus] = useState('Lunas');
   const [dpAmount, setDpAmount] = useState(0);
@@ -13,7 +15,7 @@ export default function PaymentModal({ subtotal, onClose, onConfirm }) {
   const dpValid = payStatus !== 'DP' || (dpAmount > 0 && dpAmount < total);
 
   function handleConfirm() {
-    if (!dpValid) { alert('Jumlah DP harus lebih dari 0 dan kurang dari total.'); return; }
+    if (!dpValid) { notifyError('Jumlah DP harus lebih dari 0 dan kurang dari total.'); return; }
     onConfirm({
       diskon, total,
       status: payStatus,

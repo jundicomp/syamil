@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import DateRangeFilter from '../../components/common/DateRangeFilter';
 import ExportButtons from '../../components/common/ExportButtons';
+import Currency from '../../components/common/Currency';
 import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
@@ -45,7 +46,7 @@ export default function TabPersediaan() {
   return (
     <div>
       <div className="stat-grid" style={{ gridTemplateColumns: '1fr', marginBottom: 16, maxWidth: 280 }}>
-        <div className="stat-card"><div className="lbl">Total Nilai Persediaan Saat Ini</div><div className="val" style={{ color: 'var(--gold)' }}>Rp{fmt(totalNilai)}</div></div>
+        <div className="stat-card"><div className="lbl">Total Nilai Persediaan Saat Ini</div><div className="val" style={{ color: 'var(--gold)' }}><Currency value={totalNilai} /></div></div>
       </div>
 
       <DateRangeFilter from={range.from} to={range.to} onChange={setRange} />
@@ -71,7 +72,7 @@ export default function TabPersediaan() {
                 <td className="r" style={{ color: '#1F6B39' }}>{r.masuk > 0 ? `+${r.masuk}` : '0'}</td>
                 <td className="r" style={{ color: 'var(--total-red)' }}>{r.keluar > 0 ? `-${r.keluar}` : '0'}</td>
                 <td className="r"><b>{r.stokAkhir}</b></td>
-                <td className="r">Rp{fmt(r.nilai)}</td>
+                <td className="r"><Currency value={r.nilai} /></td>
               </tr>
             ))}
           </tbody>

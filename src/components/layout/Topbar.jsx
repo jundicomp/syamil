@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../common/Icon';
 
 function initials(nama) {
@@ -16,12 +17,14 @@ function Avatar({ user, className }) {
 export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
+  const { confirmDialog } = useNotify();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  function handleLogout() {
+  async function handleLogout() {
     setMenuOpen(false);
-    if (confirm('Keluar dari akun ini?')) {
+    const ok = await confirmDialog('Keluar dari akun ini?', { confirmLabel: 'Ya, Keluar' });
+    if (ok) {
       logout();
       navigate('/login');
     }

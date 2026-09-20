@@ -3,6 +3,7 @@ import Icon from './Icon';
 import Badge from './Badge';
 import DateRangeFilter from './DateRangeFilter';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50];
@@ -24,6 +25,7 @@ export default function DataTable({
   dateKey, summaryKeys, reportName,
 }) {
   const { settings } = useData();
+  const { confirmDialog } = useNotify();
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState(null);
   const [sortDir, setSortDir] = useState(1);
@@ -163,7 +165,7 @@ export default function DataTable({
                           title={ACTION_LABEL[a]}
                           onClick={() => {
                             if (a === 'edit') onEdit?.(row);
-                            else if (a === 'delete') { if (confirm('Hapus data ini?')) onDelete?.(row); }
+                            else if (a === 'delete') { confirmDialog('Hapus data ini? Tindakan ini tidak bisa dibatalkan.', { danger: true, confirmLabel: 'Ya, Hapus' }).then(ok => { if (ok) onDelete?.(row); }); }
                             else if (a === 'view') onView?.(row);
                           }}
                         >

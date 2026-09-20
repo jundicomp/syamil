@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function DraftListModal({ onClose, onResume }) {
   const { data, updateRow, deleteRow } = useData();
+  const { confirmDialog } = useNotify();
   const [editId, setEditId] = useState(null);
   const [editCustomer, setEditCustomer] = useState('');
   const [editKode, setEditKode] = useState('');
@@ -20,8 +22,9 @@ export default function DraftListModal({ onClose, onResume }) {
     updateRow('posDraft', editId, { customer: editCustomer, kodeMarketing: editKode });
     setEditId(null);
   }
-  function handleHapus(id) {
-    if (confirm('Hapus draft ini? Tidak bisa dikembalikan.')) deleteRow('posDraft', id);
+  async function handleHapus(id) {
+    const ok = await confirmDialog('Hapus draft ini? Tidak bisa dikembalikan.', { danger: true, confirmLabel: 'Ya, Hapus' });
+    if (ok) deleteRow('posDraft', id);
   }
 
   return (

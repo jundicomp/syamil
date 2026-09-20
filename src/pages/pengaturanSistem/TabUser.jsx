@@ -3,6 +3,7 @@ import { useData } from '../../context/DataContext';
 import { HAK_AKSES_ROLES, HAK_AKSES_MODULES } from '../../data/seedData';
 import DataTable from '../../components/common/DataTable';
 import FormModal from '../../components/common/FormModal';
+import { useNotify } from '../../context/NotificationContext';
 
 const COLUMNS = [
   { key: 'nama', label: 'Nama' },
@@ -20,6 +21,7 @@ const FIELDS = [
 
 export default function TabUser() {
   const { data, addRow, updateRow, deleteRow, hakAkses, toggleHakAkses } = useData();
+  const { notifySuccess } = useNotify();
   const [modal, setModal] = useState(null);
 
   function handleSave(values) {
@@ -69,7 +71,7 @@ export default function TabUser() {
             </tbody>
           </table>
         </div>
-        <button className="btn-gold" style={{ marginTop: 14 }} onClick={() => alert('Hak akses tersimpan.')}>Simpan Hak Akses</button>
+        <button className="btn-gold" style={{ marginTop: 14 }} onClick={() => notifySuccess('Hak akses tersimpan.')}>Simpan Hak Akses</button>
       </div>
 
       {modal && (

@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
 import AppShell from './components/layout/AppShell';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import LoginPage from './pages/login/LoginPage';
@@ -30,6 +31,7 @@ export default function App() {
     <DataProvider>
       <ThemeProvider>
         <AuthProvider>
+          <NotificationProvider>
           <HashRouter>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
@@ -59,6 +61,7 @@ export default function App() {
               </Route>
             </Routes>
           </HashRouter>
+          </NotificationProvider>
         </AuthProvider>
       </ThemeProvider>
     </DataProvider>

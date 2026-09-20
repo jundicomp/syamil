@@ -2,9 +2,8 @@ import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import DateRangeFilter from '../../components/common/DateRangeFilter';
 import ExportButtons from '../../components/common/ExportButtons';
+import Currency from '../../components/common/Currency';
 import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
-
-function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 function kategoriDari(keterangan) {
   if (keterangan.startsWith('Penjualan')) return 'Penjualan';
@@ -66,11 +65,11 @@ export default function TabCashflow() {
             <p style={{ fontSize: 12, color: 'var(--text-faint)' }}>Tidak ada kas masuk pada rentang ini.</p>
           ) : masukPerKategori.map(r => (
             <div key={r.kategori} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--line-soft)', fontSize: 12.5 }}>
-              <span>{r.kategori}</span><span>Rp{fmt(r.jumlah)}</span>
+              <span>{r.kategori}</span><Currency value={r.jumlah} />
             </div>
           ))}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 0', fontWeight: 800 }}>
-            <span>Total Masuk</span><span style={{ color: '#1F6B39' }}>Rp{fmt(totalMasuk)}</span>
+            <span>Total Masuk</span><Currency value={totalMasuk} numColor="#1F6B39" />
           </div>
         </div>
 
@@ -80,11 +79,11 @@ export default function TabCashflow() {
             <p style={{ fontSize: 12, color: 'var(--text-faint)' }}>Tidak ada kas keluar pada rentang ini.</p>
           ) : keluarPerKategori.map(r => (
             <div key={r.kategori} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--line-soft)', fontSize: 12.5 }}>
-              <span>{r.kategori}</span><span>Rp{fmt(r.jumlah)}</span>
+              <span>{r.kategori}</span><Currency value={r.jumlah} />
             </div>
           ))}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 0', fontWeight: 800 }}>
-            <span>Total Keluar</span><span style={{ color: 'var(--total-red)' }}>Rp{fmt(totalKeluar)}</span>
+            <span>Total Keluar</span><Currency value={totalKeluar} numColor="var(--total-red)" />
           </div>
         </div>
       </div>
@@ -92,7 +91,7 @@ export default function TabCashflow() {
       <div className="table-wrap" style={{ padding: '18px 20px', maxWidth: 420 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15 }}>
           <b>Arus Kas Bersih (Net Cashflow)</b>
-          <b style={{ color: netCashflow >= 0 ? '#1F6B39' : 'var(--total-red)' }}>Rp{fmt(netCashflow)}</b>
+          <b style={{ color: netCashflow >= 0 ? '#1F6B39' : 'var(--total-red)' }}><Currency value={netCashflow} /></b>
         </div>
       </div>
       <p style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 12, maxWidth: 520 }}>

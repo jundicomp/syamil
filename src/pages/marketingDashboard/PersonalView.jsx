@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import LeaderboardBlock, { computeLeaderboard } from './LeaderboardBlock';
 import ExportButtons from '../../components/common/ExportButtons';
 
@@ -26,6 +27,7 @@ function StatusBadge({ status }) {
 
 export default function PersonalView({ nama }) {
   const { data, addRow, strategiJenisList, addStrategiJenis } = useData();
+  const { notifyError, notifySuccess } = useNotify();
   const user = data.pengguna.find(p => p.nama === nama);
   const marketers = data.pengguna.filter(p => p.role === 'Marketing' && p.status === 'Aktif');
   const ranked = computeLeaderboard(marketers, data.penjualan);
@@ -51,14 +53,15 @@ export default function PersonalView({ nama }) {
   }
 
   function handleSubmitStrategi() {
-    if (!catatan.trim()) { alert('Isi catatan strategi terlebih dahulu.'); return; }
-    if (ajukan && jumlah <= 0) { alert('Isi jumlah anggaran yang diajukan.'); return; }
+    if (!catatan.trim()) { notifyError('Isi catatan strategi terlebih dahulu.'); return; }
+    if (ajukan && jumlah <= 0) { notifyError('Isi jumlah anggaran yang diajukan.'); return; }
     addRow('strategiMarketing', {
       userMarketing: nama, tanggal: '12 Agu 2026', jenis, catatan,
       ajukanAnggaran: ajukan, jumlahAnggaran: ajukan ? jumlah : 0,
       statusPengajuan: ajukan ? 'Menunggu' : 'Tanpa Pengajuan',
     });
     setCatatan(''); setAjukan(false); setJumlah(0);
+    notifySuccess('Strategi tersimpan.');
   }
 
   return (

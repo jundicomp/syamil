@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
+import Currency from '../../components/common/Currency';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function HutangBayarModal({ hutang, onClose }) {
   const { data, updateRow, addBukuKasEntry } = useData();
+  const { notifyError, notifySuccess } = useNotify();
   const [jumlah, setJumlah] = useState(hutang.sisa);
   const [metodeBayar, setMetodeBayar] = useState('Tunai');
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (jumlah <= 0 || jumlah > hutang.sisa) { alert(`Jumlah harus antara Rp1 dan Rp${fmt(hutang.sisa)}.`); return; }
+    if (jumlah <= 0 || jumlah > hutang.sisa) { notifyError(`Jumlah harus antara Rp1 dan Rp${fmt(hutang.sisa)}.`); return; }
 
     const sisaBaru = hutang.sisa - jumlah;
     updateRow('hutang', hutang.id, {
@@ -25,6 +28,7 @@ export default function HutangBayarModal({ hutang, onClose }) {
       if (pembelianRow) updateRow('pembelian', pembelianRow.id, { status: 'Lunas' });
     }
 
+    notifySuccess('Pembayaran hutang tercatat.');
     onClose();
   }
 
@@ -40,7 +44,7 @@ export default function HutangBayarModal({ hutang, onClose }) {
             <span>No. PO / Nota</span><span>{hutang.noPO} / {hutang.noNotaSupplier}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 12 }}>
-            <span>Sisa Hutang</span><b style={{ color: 'var(--total-red)' }}>Rp{fmt(hutang.sisa)}</b>
+            <span>Sisa Hutang</span><b style={{ color: 'var(--total-red)' }}><Currency value={hutang.sisa} /></b>
           </div>
           <div className="f-field">
             <label>Jumlah Dibayar (Rp)</label>

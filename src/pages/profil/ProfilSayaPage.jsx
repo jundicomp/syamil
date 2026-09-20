@@ -1,11 +1,13 @@
 import { useState, useRef } from 'react';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../../components/common/Icon';
 
 export default function ProfilSayaPage() {
   const { updateRow } = useData();
   const { user, updateUser } = useAuth();
+  const { notifyError, notifySuccess } = useNotify();
   const fileInputRef = useRef(null);
 
   const [nama, setNama] = useState(user?.nama ?? '');
@@ -25,17 +27,17 @@ export default function ProfilSayaPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!nama.trim() || !email.trim()) { alert('Nama dan email wajib diisi.'); return; }
+    if (!nama.trim() || !email.trim()) { notifyError('Nama dan email wajib diisi.'); return; }
     if (passwordBaru || konfirmasiPassword) {
-      if (passwordBaru.length < 6) { alert('Password baru minimal 6 karakter.'); return; }
-      if (passwordBaru !== konfirmasiPassword) { alert('Konfirmasi password tidak sama.'); return; }
+      if (passwordBaru.length < 6) { notifyError('Password baru minimal 6 karakter.'); return; }
+      if (passwordBaru !== konfirmasiPassword) { notifyError('Konfirmasi password tidak sama.'); return; }
     }
 
     const patch = { nama: nama.trim(), email: email.trim(), hp: hp.trim(), fotoDataUrl: foto };
     updateRow('pengguna', user.id, patch);
     updateUser(patch);
     setPasswordBaru(''); setKonfirmasiPassword('');
-    alert('Profil tersimpan.' + (passwordBaru ? ' Password juga diperbarui (demo, belum ada verifikasi sungguhan).' : ''));
+    notifySuccess('Profil tersimpan.' + (passwordBaru ? ' Password juga diperbarui (demo, belum ada verifikasi sungguhan).' : ''));
   }
 
   if (!user) return null;

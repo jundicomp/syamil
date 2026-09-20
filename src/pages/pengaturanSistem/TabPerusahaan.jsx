@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../../components/common/Icon';
 
 const PLACEMENTS = [
@@ -12,6 +13,7 @@ const PLACEMENTS = [
 
 export default function TabPerusahaan() {
   const { settings, updateSettings } = useData();
+  const { notifySuccess } = useNotify();
   const fileInputRef = useRef(null);
 
   function handleLogoUpload(e) {
@@ -71,7 +73,7 @@ export default function TabPerusahaan() {
         <div className="f-field"><label>Website</label><input value={settings.website} onChange={e => updateSettings({ website: e.target.value })} /></div>
         <div className="f-field"><label>Instagram / Sosmed</label><input value={settings.instagram} onChange={e => updateSettings({ instagram: e.target.value })} /></div>
       </div>
-      <button className="btn-gold" onClick={() => alert('Pengaturan tersimpan.')}>Simpan Pengaturan</button>
+      <button className="btn-gold" onClick={() => notifySuccess('Pengaturan tersimpan.')}>Simpan Pengaturan</button>
     </div>
   );
 }

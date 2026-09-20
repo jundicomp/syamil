@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import SupplierSearchSelect from './SupplierSearchSelect';
 import PembelianItemRow from './PembelianItemRow';
 
@@ -7,6 +8,7 @@ function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 function OrderPembelianForm() {
   const { data, addRow, addStokMovement, addBukuKasEntry } = useData();
+  const { notifyError, notifySuccess, confirmDialog } = useNotify();
   const [supplier, setSupplier] = useState(data.supplier[0]?.nama ?? '');
   const [noNotaSupplier, setNoNotaSupplier] = useState('');
   const [tanggalNota, setTanggalNota] = useState('2026-08-12');
@@ -26,16 +28,17 @@ function OrderPembelianForm() {
   }
   function confirmCartItem(cartId) {
     const item = cart.find(it => it.cartId === cartId);
-    if (!item.bahan) { alert('Pilih bahan terlebih dahulu.'); return; }
+    if (!item.bahan) { notifyError('Pilih bahan terlebih dahulu.'); return; }
     updateCartItem(cartId, { locked: true });
   }
   function editCartItem(cartId) { updateCartItem(cartId, { locked: false }); }
   function removeCartItem(cartId) { setCart(prev => prev.filter(it => it.cartId !== cartId)); }
   function resetForm() { setCart([]); setStatus('Belum Lunas'); setNoNotaSupplier(''); setMetodeBayar('Tunai'); }
 
-  function handleBatal() {
+  async function handleBatal() {
     if (cart.length === 0) return;
-    if (confirm('Batalkan order ini? Semua item akan dikosongkan.')) resetForm();
+    const ok = await confirmDialog('Batalkan order ini? Semua item akan dikosongkan.', { danger: true, confirmLabel: 'Ya, Batalkan' });
+    if (ok) resetForm();
   }
 
   function formatTanggalNota(isoDate) {
@@ -45,8 +48,8 @@ function OrderPembelianForm() {
   }
 
   function handleSubmit() {
-    if (confirmedItems.length === 0) { alert('Konfirmasi minimal 1 bahan terlebih dahulu.'); return; }
-    if (!noNotaSupplier.trim()) { alert('Isi No. Nota dari supplier terlebih dahulu.'); return; }
+    if (confirmedItems.length === 0) { notifyError('Konfirmasi minimal 1 bahan terlebih dahulu.'); return; }
+    if (!noNotaSupplier.trim()) { notifyError('Isi No. Nota dari supplier terlebih dahulu.'); return; }
 
     const poIds = data.pembelian.map(r => r.id);
     const nextNum = 231 + (poIds.length ? Math.max(...poIds) : 0);
@@ -70,7 +73,7 @@ function OrderPembelianForm() {
     }
 
     resetForm();
-    alert(`Order pembelian berhasil dibuat — No. PO: ${noPO}` + (status === 'Belum Lunas' ? ' (tercatat sebagai Hutang Supplier)' : ''));
+    notifySuccess(`Order pembelian berhasil dibuat — No. PO: ${noPO}` + (status === 'Belum Lunas' ? ' (tercatat sebagai Hutang Supplier)' : ''));
   }
 
   return (

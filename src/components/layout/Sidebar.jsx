@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllNavGroups } from '../../data/navConfig';
 import { CURRENT_VERSION } from '../../data/changelog';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../common/Icon';
 
 function formatBuildTime(iso) {
@@ -14,6 +15,7 @@ export default function Sidebar({ collapsed }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { settings } = useData();
+  const { notifyError } = useNotify();
   const [openGroup, setOpenGroup] = useState(null);
   const [flyoutGroup, setFlyoutGroup] = useState(null);
 
@@ -34,7 +36,7 @@ export default function Sidebar({ collapsed }) {
   }
   function go(path, label) {
     if (path) navigate(path);
-    else alert(`Halaman "${label}" belum dimigrasi (belum masuk Fase 1).`);
+    else notifyError(`Halaman "${label}" belum dimigrasi (belum masuk Fase 1).`);
     setFlyoutGroup(null);
   }
 

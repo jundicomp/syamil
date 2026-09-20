@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 
 export default function SpkCreateModal({ onClose }) {
   const { data, addRow } = useData();
+  const { notifyError, notifySuccess } = useNotify();
   const [noNota, setNoNota] = useState(data.penjualan[0]?.noNota ?? '');
   const [produk, setProduk] = useState(data.produk[0]?.nama ?? '');
   const [target, setTarget] = useState('');
@@ -13,7 +15,7 @@ export default function SpkCreateModal({ onClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!target.trim()) { alert('Isi Target terlebih dahulu.'); return; }
+    if (!target.trim()) { notifyError('Isi Target terlebih dahulu.'); return; }
 
     const ids = data.produksi.map(r => r.id);
     const nextNum = 91 + (ids.length ? Math.max(...ids) : 0);
@@ -24,6 +26,7 @@ export default function SpkCreateModal({ onClose }) {
       pelanggan: notaTerpilih?.pelanggan ?? '-', tahap: 'Desain',
       target, pic, detail, dibuatOleh: 'Pak Budi', history: [],
     });
+    notifySuccess(`SPK ${noOrder} berhasil dibuat.`);
     onClose();
   }
 

@@ -2,9 +2,8 @@ import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import DateRangeFilter from '../../components/common/DateRangeFilter';
 import ExportButtons from '../../components/common/ExportButtons';
+import Currency from '../../components/common/Currency';
 import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
-
-function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 const EXPORT_COLUMNS = [
   { key: 'label', label: 'Keterangan' },
@@ -47,17 +46,17 @@ export default function TabLabaRugi() {
       <div className="table-wrap" style={{ padding: '20px 24px', maxWidth: 520 }}>
         <div style={{ fontSize: 11, color: 'var(--text-faint)', marginBottom: 10 }}>{rangeLabel}</div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--line-soft)' }}>
-          <span>Pendapatan (kas masuk)</span><b style={{ color: '#1F6B39' }}>Rp{fmt(pendapatan)}</b>
+          <span>Pendapatan (kas masuk)</span><b><Currency value={pendapatan} numColor="#1F6B39" /></b>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--line-soft)' }}>
-          <span>Total Pengeluaran (kas keluar)</span><b style={{ color: 'var(--total-red)' }}>Rp{fmt(totalBebanKas)}</b>
+          <span>Total Pengeluaran (kas keluar)</span><b><Currency value={totalBebanKas} numColor="var(--total-red)" /></b>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', fontSize: 15 }}>
           <b>Estimasi Laba Kotor</b>
-          <b style={{ color: labaKotor >= 0 ? '#1F6B39' : 'var(--total-red)' }}>Rp{fmt(labaKotor)}</b>
+          <b><Currency value={labaKotor} numColor={labaKotor >= 0 ? '#1F6B39' : 'var(--total-red)'} /></b>
         </div>
         <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px dashed var(--line)', fontSize: 12, color: 'var(--text-faint)' }}>
-          Referensi — Total HPP tercatat (Kalkulasi HPP) pada periode ini: <b style={{ color: 'var(--text-soft)' }}>Rp{fmt(totalHppTercatat)}</b>
+          Referensi — Total HPP tercatat (Kalkulasi HPP) pada periode ini: <b><Currency value={totalHppTercatat} numColor="var(--text-soft)" /></b>
         </div>
       </div>
 

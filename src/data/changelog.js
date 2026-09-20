@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.16.0',
+    tanggal: '2026-09-10',
+    judul: 'Struk Cetak Sesuai Ukuran + Format Rupiah Konsisten + Notifikasi Modal',
+    perubahan: [
+      'FIX: ukuran cetak struk 58mm/80mm sekarang benar-benar kepakai — sebelumnya kalah spesifisitas CSS sama gaya layar (.struk-paper.live), jadi selalu tercetak ukuran penuh',
+      'Format Rupiah "Rp" rata kiri + angka rata kanan sekarang konsisten juga di Persediaan, Kas Toko/Bank, Piutang/Hutang, Laba Rugi, Cashflow (sebelumnya cuma sebagian yang rapi)',
+      'Notifikasi baru: semua alert()/confirm() bawaan browser diganti modal dengan latar blur — sukses (progress % lalu centang), error, dan konfirmasi (Ya/Batal) — dipakai di ~20 tabel (hapus data) dan hampir semua tombol Simpan di seluruh aplikasi',
+    ],
+  },
+  {
     version: '0.15.0',
     tanggal: '2026-09-09',
     judul: 'Laporan Keuangan Terkonsolidasi — 7 Laporan + Piutang + Rekonsiliasi Kas',

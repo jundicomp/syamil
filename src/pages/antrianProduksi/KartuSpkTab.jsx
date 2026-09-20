@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import { STAGES } from '../../data/seedData';
 import { SpkClosingModal, SpkCancelModal } from './SpkModals';
+import { useNotify } from '../../context/NotificationContext';
 
 export default function KartuSpkTab() {
   const { data, updateRow } = useData();
+  const { notifyError, notifySuccess } = useNotify();
   const [closingSpk, setClosingSpk] = useState(null);
   const [cancelSpk, setCancelSpk] = useState(null);
 
@@ -16,17 +18,19 @@ export default function KartuSpkTab() {
     if (nextIdx < 0 || nextIdx >= STAGES.length) return;
     const note = prompt(`Catatan pindah dari "${spk.tahap}" ke "${STAGES[nextIdx]}" (wajib diisi):`);
     if (note === null) return; // batal
-    if (!note.trim()) { alert('Catatan wajib diisi.'); return; }
+    if (!note.trim()) { notifyError('Catatan wajib diisi.'); return; }
     const entry = { from: spk.tahap, to: STAGES[nextIdx], action: direction > 0 ? 'done' : 'back', note: note.trim() };
     updateRow('produksi', spk.id, { tahap: STAGES[nextIdx], history: [...(spk.history || []), entry] });
   }
 
   function handleClose(note) {
     updateRow('produksi', closingSpk.id, { statusSpk: 'Selesai', closingNote: note });
+    notifySuccess(`SPK ${closingSpk.noOrder} ditutup.`);
     setClosingSpk(null);
   }
   function handleCancel(note) {
     updateRow('produksi', cancelSpk.id, { statusSpk: 'Batal', cancelNote: note });
+    notifySuccess(`SPK ${cancelSpk.noOrder} dibatalkan.`);
     setCancelSpk(null);
   }
 

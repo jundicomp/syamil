@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../../components/common/Icon';
 
 export default function TabKeuangan() {
+  const { notifySuccess } = useNotify();
   const { settings, updateSettings } = useData();
   const qrisInputRef = useRef(null);
 
@@ -84,7 +86,7 @@ export default function TabKeuangan() {
         <input ref={qrisInputRef} type="file" accept="image/*" onChange={handleQrisUpload} style={{ display: 'none' }} />
       </div>
 
-      <button className="btn-gold" style={{ marginTop: 12 }} onClick={() => alert('Pengaturan tersimpan.')}>Simpan Pengaturan</button>
+      <button className="btn-gold" style={{ marginTop: 12 }} onClick={() => notifySuccess('Pengaturan tersimpan.')}>Simpan Pengaturan</button>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { useData } from '../../context/DataContext';
 import DateRangeFilter from '../../components/common/DateRangeFilter';
 import ExportButtons from '../../components/common/ExportButtons';
 import RekonsiliasiKasModal from './RekonsiliasiKasModal';
+import Currency from '../../components/common/Currency';
+import { useNotify } from '../../context/NotificationContext';
 import { parseTanggalID, inRange, formatRangeLabel } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
@@ -17,6 +19,7 @@ const EXPORT_COLUMNS = [
 
 export default function TabKas() {
   const { bukuKas, addBukuKasEntry } = useData();
+  const { notifyError, notifySuccess } = useNotify();
   const [jenisAktif, setJenisAktif] = useState('Toko');
   const [tipe, setTipe] = useState('Masuk');
   const [jumlah, setJumlah] = useState(0);
@@ -48,17 +51,18 @@ export default function TabKas() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!keterangan.trim() || jumlah <= 0) { alert('Isi jumlah dan keterangan terlebih dahulu.'); return; }
+    if (!keterangan.trim() || jumlah <= 0) { notifyError('Isi jumlah dan keterangan terlebih dahulu.'); return; }
     addBukuKasEntry(tipe, jumlah, keterangan.trim(), metodeBayar);
     setJumlah(0); setKeterangan('');
+    notifySuccess('Catatan kas tersimpan.');
   }
 
   return (
     <div>
       <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 16 }}>
-        <div className="stat-card"><div className="lbl">Saldo Kas Toko (Tunai)</div><div className="val" style={{ color: 'var(--gold)' }}>Rp{fmt(saldoToko)}</div></div>
-        <div className="stat-card"><div className="lbl">Saldo Kas Bank</div><div className="val" style={{ color: 'var(--gold)' }}>Rp{fmt(saldoBank)}</div></div>
-        <div className="stat-card"><div className="lbl">Total Kas</div><div className="val">Rp{fmt(saldoToko + saldoBank)}</div></div>
+        <div className="stat-card"><div className="lbl">Saldo Kas Toko (Tunai)</div><div className="val" style={{ color: 'var(--gold)' }}><Currency value={saldoToko} /></div></div>
+        <div className="stat-card"><div className="lbl">Saldo Kas Bank</div><div className="val" style={{ color: 'var(--gold)' }}><Currency value={saldoBank} /></div></div>
+        <div className="stat-card"><div className="lbl">Total Kas</div><div className="val"><Currency value={saldoToko + saldoBank} /></div></div>
       </div>
 
       <div className="subtab-switch" style={{ marginBottom: 14 }}>
@@ -108,8 +112,10 @@ export default function TabKas() {
                 <td>{r.tanggal}</td>
                 <td><span className={`badge ${r.tipe === 'Masuk' ? 'badge-pos' : 'badge-neg'}`}>{r.tipe}</span></td>
                 <td>{r.keterangan}</td>
-                <td className="r" style={{ color: r.tipe === 'Masuk' ? '#1F6B39' : 'var(--total-red)' }}>{r.tipe === 'Masuk' ? '+' : '-'}Rp{fmt(r.jumlah)}</td>
-                <td className="r"><b>Rp{fmt(r.saldo)}</b></td>
+                <td className="r" style={{ color: r.tipe === 'Masuk' ? '#1F6B39' : 'var(--total-red)' }}>
+                  <span className="curr-cell"><span className="curr-sym">{r.tipe === 'Masuk' ? '+Rp' : '-Rp'}</span><span className="curr-num">{fmt(r.jumlah)}</span></span>
+                </td>
+                <td className="r"><Currency value={r.saldo} bold /></td>
               </tr>
             ))}
           </tbody>

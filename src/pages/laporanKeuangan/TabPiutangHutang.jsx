@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import PiutangTerimaModal from './PiutangTerimaModal';
 import HutangBayarModal from '../pembelian/HutangBayarModal';
-
-function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
+import Currency from '../../components/common/Currency';
 
 export default function TabPiutangHutang() {
   const { data } = useData();
@@ -17,9 +16,9 @@ export default function TabPiutangHutang() {
   return (
     <div>
       <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 16 }}>
-        <div className="stat-card"><div className="lbl">Total Piutang Belum Lunas</div><div className="val" style={{ color: 'var(--total-red)' }}>Rp{fmt(totalPiutang)}</div></div>
-        <div className="stat-card"><div className="lbl">Total Hutang Belum Lunas</div><div className="val" style={{ color: 'var(--total-red)' }}>Rp{fmt(totalHutang)}</div></div>
-        <div className="stat-card"><div className="lbl">Posisi Bersih (Piutang &minus; Hutang)</div><div className="val">Rp{fmt(totalPiutang - totalHutang)}</div></div>
+        <div className="stat-card"><div className="lbl">Total Piutang Belum Lunas</div><div className="val" style={{ color: 'var(--total-red)' }}><Currency value={totalPiutang} /></div></div>
+        <div className="stat-card"><div className="lbl">Total Hutang Belum Lunas</div><div className="val" style={{ color: 'var(--total-red)' }}><Currency value={totalHutang} /></div></div>
+        <div className="stat-card"><div className="lbl">Posisi Bersih (Piutang &minus; Hutang)</div><div className="val"><Currency value={totalPiutang - totalHutang} /></div></div>
       </div>
 
       <div className="subtab-switch" style={{ marginBottom: 14 }}>
@@ -39,8 +38,8 @@ export default function TabPiutangHutang() {
               ) : data.piutang.map(p => (
                 <tr key={p.id}>
                   <td>{p.tanggal}</td><td>{p.noNota}</td><td>{p.pelanggan}</td>
-                  <td className="r">Rp{fmt(p.total)}</td><td className="r">Rp{fmt(p.dibayar)}</td>
-                  <td className="r" style={{ color: p.sisa > 0 ? 'var(--total-red)' : undefined, fontWeight: 700 }}>Rp{fmt(p.sisa)}</td>
+                  <td className="r"><Currency value={p.total} /></td><td className="r"><Currency value={p.dibayar} /></td>
+                  <td className="r" style={{ fontWeight: 700 }}><Currency value={p.sisa} numColor={p.sisa > 0 ? 'var(--total-red)' : undefined} /></td>
                   <td><span className={`badge ${p.status === 'Lunas' ? 'badge-pos' : 'badge-neg'}`}>{p.status}</span></td>
                   <td>{p.status === 'Belum Lunas' && <button className="btn-outline" style={{ padding: '5px 12px', fontSize: 11.5 }} onClick={() => setTerimaModal(p)}>Terima</button>}</td>
                 </tr>
@@ -63,8 +62,8 @@ export default function TabPiutangHutang() {
               ) : data.hutang.map(h => (
                 <tr key={h.id}>
                   <td>{h.tanggal}</td><td>{h.noPO}</td><td>{h.supplier}</td>
-                  <td className="r">Rp{fmt(h.total)}</td><td className="r">Rp{fmt(h.dibayar)}</td>
-                  <td className="r" style={{ color: h.sisa > 0 ? 'var(--total-red)' : undefined, fontWeight: 700 }}>Rp{fmt(h.sisa)}</td>
+                  <td className="r"><Currency value={h.total} /></td><td className="r"><Currency value={h.dibayar} /></td>
+                  <td className="r" style={{ fontWeight: 700 }}><Currency value={h.sisa} numColor={h.sisa > 0 ? 'var(--total-red)' : undefined} /></td>
                   <td><span className={`badge ${h.status === 'Lunas' ? 'badge-pos' : 'badge-neg'}`}>{h.status}</span></td>
                   <td>{h.status === 'Belum Lunas' && <button className="btn-outline" style={{ padding: '5px 12px', fontSize: 11.5 }} onClick={() => setBayarModal(h)}>Bayar</button>}</td>
                 </tr>

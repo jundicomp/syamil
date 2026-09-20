@@ -235,11 +235,25 @@ table.matrix-table{width:100%;border-collapse:collapse;min-width:640px;}
 @media print{
   body *{visibility:hidden;}
   #struk-print-area, #struk-print-area *{visibility:visible;}
-  #struk-print-area{position:fixed;top:0;left:0;}
-  .struk-paper{width:58mm;}
-  .struk-paper.w80{width:80mm;}
+  #struk-print-area{position:absolute;top:0;left:0;margin:0;width:auto;}
+  .struk-paper.live{width:58mm;}
+  .struk-paper.live.w80{width:80mm;}
 }
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px;}
+.notif-backdrop{position:fixed;inset:0;background:rgba(8,12,20,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:90;padding:20px;}
+.notif-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px 26px;width:100%;max-width:320px;box-shadow:0 30px 70px rgba(0,0,0,.5);text-align:center;}
+.notif-progress-track{width:100%;height:6px;border-radius:6px;background:var(--panel-2);overflow:hidden;margin-bottom:16px;}
+.notif-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold-deep),var(--gold));border-radius:6px;animation:notifProgress .65s ease-out forwards;}
+@keyframes notifProgress{from{width:0%;}to{width:100%;}}
+.notif-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;font-weight:800;}
+.notif-icon-success{background:rgba(47,174,109,.15);color:#2FAE6D;}
+.notif-icon-error{background:rgba(229,52,43,.15);color:var(--total-red);}
+.notif-icon-confirm{background:var(--gold-bg);color:var(--gold);}
+.notif-msg{font-size:13px;color:var(--text);line-height:1.5;margin:0 0 4px;}
+.notif-error .notif-msg, .notif-confirm .notif-msg{margin-bottom:18px;}
+.notif-actions{display:flex;gap:10px;}
+.notif-actions button{flex:1;}
+.btn-danger{background:var(--total-red);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:12.5px;font-weight:700;cursor:pointer;}
 .modal-card{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:18px 20px;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 60px rgba(0,0,0,.5);}
 .modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
 .modal-head b{font-size:15px;font-weight:700;}

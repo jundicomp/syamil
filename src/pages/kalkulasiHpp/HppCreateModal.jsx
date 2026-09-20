@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function HppCreateModal({ onClose }) {
   const { data, addRow, addStokMovement } = useData();
+  const { notifyError, notifySuccess } = useNotify();
   const spkAktif = data.produksi.filter(p => p.statusSpk === 'Aktif');
   const [noOrder, setNoOrder] = useState(spkAktif[0]?.noOrder ?? '');
   const [items, setItems] = useState([{ sumber: 'Bebas', nama: '', bahanRef: '', qty: 1, satuan: '', harga: 0 }]);
@@ -45,8 +47,8 @@ export default function HppCreateModal({ onClose }) {
   function handleSubmit(e) {
     e.preventDefault();
     const validItems = items.filter(it => it.nama && it.qty > 0);
-    if (validItems.length === 0) { alert('Tambahkan minimal 1 item biaya.'); return; }
-    if (!spk) { alert('Pilih SPK terlebih dahulu.'); return; }
+    if (validItems.length === 0) { notifyError('Tambahkan minimal 1 item biaya.'); return; }
+    if (!spk) { notifyError('Pilih SPK terlebih dahulu.'); return; }
 
     addRow('hppCalc', {
       noOrder, produk: spk.produk, pelanggan: spk.pelanggan, tanggal: '12 Agu 2026',
@@ -58,6 +60,7 @@ export default function HppCreateModal({ onClose }) {
       addStokMovement(it.nama, 'Keluar', it.qty, it.satuan, noOrder, `Dipakai untuk HPP ${noOrder}`);
     });
 
+    notifySuccess('Kalkulasi HPP tersimpan.');
     onClose();
   }
 

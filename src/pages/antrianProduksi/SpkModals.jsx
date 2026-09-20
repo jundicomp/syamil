@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNotify } from '../../context/NotificationContext';
 
 export function SpkClosingModal({ spk, onClose, onConfirm }) {
+  const { notifyError } = useNotify();
   const [note, setNote] = useState('');
   return (
     <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
@@ -17,7 +19,7 @@ export function SpkClosingModal({ spk, onClose, onConfirm }) {
           <button type="button" className="btn-outline" onClick={onClose}>Batal</button>
           <button
             type="button" className="btn-gold"
-            onClick={() => { if (!note.trim()) { alert('Keterangan wajib diisi.'); return; } onConfirm(note.trim()); }}
+            onClick={() => { if (!note.trim()) { notifyError('Keterangan wajib diisi.'); return; } onConfirm(note.trim()); }}
           >
             Tutup SPK
           </button>
@@ -28,6 +30,7 @@ export function SpkClosingModal({ spk, onClose, onConfirm }) {
 }
 
 export function SpkCancelModal({ spk, onClose, onConfirm }) {
+  const { notifyError } = useNotify();
   const [note, setNote] = useState('');
   return (
     <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
@@ -44,7 +47,7 @@ export function SpkCancelModal({ spk, onClose, onConfirm }) {
           <button type="button" className="btn-outline" onClick={onClose}>Tutup</button>
           <button
             type="button" className="btn-gold" style={{ background: 'var(--danger)' }}
-            onClick={() => { if (!note.trim()) { alert('Alasan wajib diisi.'); return; } onConfirm(note.trim()); }}
+            onClick={() => { if (!note.trim()) { notifyError('Alasan wajib diisi.'); return; } onConfirm(note.trim()); }}
           >
             Batalkan
           </button>

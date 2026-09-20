@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../../components/common/Icon';
 
 /**
@@ -8,6 +9,7 @@ import Icon from '../../components/common/Icon';
  * lewat halaman Pelanggan & Supplier).
  */
 export default function CustomerSearchSelect({ value, onChange }) {
+  const { notifyError } = useNotify();
   const { data, addRow } = useData();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -42,7 +44,7 @@ export default function CustomerSearchSelect({ value, onChange }) {
     setAddMode(true);
   }
   function handleSaveNew() {
-    if (!newNama.trim()) { alert('Nama pelanggan wajib diisi.'); return; }
+    if (!newNama.trim()) { notifyError('Nama pelanggan wajib diisi.'); return; }
     addRow('pelanggan', { nama: newNama.trim(), kontak: newHp.trim() || '-', kota: '-', alamat: '-', kategori: 'Ritel', marketingTerkait: '-' });
     onChange(newNama.trim());
     setOpen(false); setAddMode(false); setSearch('');

@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import Icon from '../../components/common/Icon';
 
 export default function SupplierSearchSelect({ value, onChange }) {
+  const { notifyError } = useNotify();
   const { data, addRow } = useData();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -37,7 +39,7 @@ export default function SupplierSearchSelect({ value, onChange }) {
     setAddMode(true);
   }
   function handleSaveNew() {
-    if (!newNama.trim()) { alert('Nama supplier wajib diisi.'); return; }
+    if (!newNama.trim()) { notifyError('Nama supplier wajib diisi.'); return; }
     addRow('supplier', { nama: newNama.trim(), kontak: newKontak.trim() || '-', kota: '-', alamat: '-', pic: '-', tipeSupplier: 'Perorangan', kategoriBahan: '-' });
     onChange(newNama.trim());
     setOpen(false); setAddMode(false); setSearch('');
