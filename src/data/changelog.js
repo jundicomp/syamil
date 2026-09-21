@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.20.0',
+    tanggal: '2026-09-21',
+    judul: 'SPK: Edit & Hapus di Tabel SPK + Fix Bug View Tanpa Nota',
+    perubahan: [
+      'FIX: tombol Lihat (mata) di Laporan Produksi tidak merespons untuk SPK yang tidak punya No. Nota — sekarang tetap terbuka, menampilkan detail SPK itu sendiri (bukan dikelompokkan per nota)',
+      'JAWABAN: hapus SPK yang salah input sekarang ada di Tabel SPK (Alur SPK) — bukan di Laporan Produksi, karena itu laporan riwayat semua status (Aktif/Selesai/Batal), sementara Tabel SPK adalah tempat kelola SPK yang masih Aktif',
+      'Tabel SPK: tombol Edit (✎) baru — koreksi Produk, Pelanggan, Target, PIC, Detail Pekerjaan. No. SPK/No. Nota/Tahap sengaja tidak bisa diubah dari sini (Tahap tetap lewat Kanban)',
+      'Tabel SPK: tombol Hapus (🗑) baru — menghapus SPK sepenuhnya dari sistem, ada konfirmasi dulu',
+    ],
+  },
+  {
     version: '0.19.1',
     tanggal: '2026-09-21',
     judul: 'Fix: Latar Transparan & Teks Hilang di Modal Laporan A4',

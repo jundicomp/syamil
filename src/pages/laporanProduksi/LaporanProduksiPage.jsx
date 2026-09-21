@@ -7,7 +7,7 @@ import NotaSpkDetailModal from '../antrianProduksi/NotaSpkDetailModal';
 export default function LaporanProduksiPage() {
   const { data } = useData();
   const rows = groupByNota(withHistoryRingkas(data.produksi));
-  const [viewNota, setViewNota] = useState(null);
+  const [viewTarget, setViewTarget] = useState(null);
 
   return (
     <div>
@@ -17,10 +17,12 @@ export default function LaporanProduksiPage() {
         columns={PRODUKSI_COLUMNS_LAPORAN}
         rows={rows}
         actions={['view']}
-        onView={row => setViewNota(row.noNota)}
+        onView={row => setViewTarget({ noNota: row.noNota || null, fallbackId: row.id })}
         dateKey="target"
       />
-      {viewNota && <NotaSpkDetailModal noNota={viewNota} onClose={() => setViewNota(null)} />}
+      {viewTarget && (
+        <NotaSpkDetailModal noNota={viewTarget.noNota} fallbackId={viewTarget.fallbackId} onClose={() => setViewTarget(null)} />
+      )}
     </div>
   );
 }

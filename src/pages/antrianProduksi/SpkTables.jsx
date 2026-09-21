@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
 import { PRODUKSI_COLUMNS_AKTIF, withHistoryRingkas, groupByNota } from './produksiColumns';
+import SpkEditModal from './SpkEditModal';
 
 const COLUMNS_ARSIP = [
   { key: 'noOrder', label: 'No. SPK' },
@@ -21,9 +23,25 @@ const COLUMNS_BATAL = [
 ];
 
 export function TabelSpkTab() {
-  const { data } = useData();
+  const { data, deleteRow } = useData();
   const rows = groupByNota(withHistoryRingkas(data.produksi.filter(p => p.statusSpk === 'Aktif')));
-  return <DataTable title="Tabel SPK" columns={PRODUKSI_COLUMNS_AKTIF} rows={rows} actions={[]} dateKey="target" />;
+  const [editSpk, setEditSpk] = useState(null);
+
+  return (
+    <div>
+      <DataTable
+        title="Tabel SPK"
+        subtitle={`${rows.length} SPK aktif — Edit untuk koreksi data salah input, Hapus untuk menghapus SPK sepenuhnya`}
+        columns={PRODUKSI_COLUMNS_AKTIF}
+        rows={rows}
+        actions={['edit', 'delete']}
+        onEdit={row => setEditSpk(row)}
+        onDelete={row => deleteRow('produksi', row.id)}
+        dateKey="target"
+      />
+      {editSpk && <SpkEditModal spk={editSpk} onClose={() => setEditSpk(null)} />}
+    </div>
+  );
 }
 
 export function ArsipSpkTab() {

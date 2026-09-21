@@ -19,15 +19,19 @@ function StatusPill({ status }) {
   return <span style={{ background: c.bg, color: c.color, fontWeight: 700, fontSize: 11, padding: '3px 10px', borderRadius: 20 }}>{status}</span>;
 }
 
-export default function NotaSpkDetailModal({ noNota, onClose }) {
+export default function NotaSpkDetailModal({ noNota, fallbackId, onClose }) {
   const { data, settings } = useData();
   const { notifySuccess, notifyError } = useNotify();
   const reportRef = useRef(null);
   const [busy, setBusy] = useState(false);
   const [expanded, setExpanded] = useState(() => new Set());
 
-  const nota = data.penjualan.find(p => p.noNota === noNota);
-  const spkList = data.produksi.filter(p => p.noNota === noNota);
+  const nota = noNota ? data.penjualan.find(p => p.noNota === noNota) : null;
+  const spkList = noNota
+    ? data.produksi.filter(p => p.noNota === noNota)
+    : data.produksi.filter(p => p.id === fallbackId);
+  const tanpaNota = !noNota;
+  const fileLabel = tanpaNota ? (spkList[0]?.noOrder ?? 'SPK') : noNota;
 
   function toggleExpand(id) {
     setExpanded(prev => {
@@ -47,7 +51,7 @@ export default function NotaSpkDetailModal({ noNota, onClose }) {
     try {
       const canvas = await captureCanvas();
       const link = document.createElement('a');
-      link.download = `SPK_${noNota}.jpg`;
+      link.download = `SPK_${fileLabel}.jpg`;
       link.href = canvas.toDataURL('image/jpeg', 0.95);
       link.click();
       notifySuccess('Gambar JPG tersimpan.');
@@ -78,7 +82,7 @@ export default function NotaSpkDetailModal({ noNota, onClose }) {
         pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
         heightLeft -= pageH;
       }
-      pdf.save(`SPK_${noNota}.pdf`);
+      pdf.save(`SPK_${fileLabel}.pdf`);
       notifySuccess('PDF tersimpan.');
     } catch {
       notifyError('Gagal membuat PDF. Coba lagi.');
@@ -91,7 +95,7 @@ export default function NotaSpkDetailModal({ noNota, onClose }) {
     <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="modal-card" style={{ maxWidth: 720, background: 'transparent', border: 'none', boxShadow: 'none', padding: 0 }}>
         <div className="a4-modal-topbar">
-          <b>Laporan SPK — {noNota}</b>
+          <b>{tanpaNota ? `Detail SPK — ${spkList[0]?.noOrder ?? '-'}` : `Laporan SPK — ${noNota}`}</b>
           <button type="button" className="a4-modal-x" onClick={onClose}>✕</button>
         </div>
 
@@ -101,19 +105,19 @@ export default function NotaSpkDetailModal({ noNota, onClose }) {
               <div className="a4-company">{settings.namaUsaha}</div>
               <div className="a4-address">{settings.alamat}</div>
             </div>
-            <div className="a4-doctitle">LAPORAN SPK<br /><span>per Nota Penjualan</span></div>
+            <div className="a4-doctitle">{tanpaNota ? 'DETAIL SPK' : 'LAPORAN SPK'}<br /><span>{tanpaNota ? 'Tanpa Nota Penjualan' : 'per Nota Penjualan'}</span></div>
           </div>
           <div className="a4-dash" />
 
           <div className="a4-nota-info">
-            <div><span className="lbl">No. Nota</span><b>{noNota}</b></div>
+            <div><span className="lbl">No. Nota</span><b>{tanpaNota ? '— (tidak terkait nota)' : noNota}</b></div>
             <div><span className="lbl">Tanggal</span><b>{nota?.tanggal ?? '-'}</b></div>
-            <div><span className="lbl">Pelanggan</span><b>{nota?.pelanggan ?? '-'}</b></div>
-            <div><span className="lbl">Total Nota</span><b>Rp{Math.round(nota?.total ?? 0).toLocaleString('id-ID')}</b></div>
+            <div><span className="lbl">Pelanggan</span><b>{nota?.pelanggan ?? spkList[0]?.pelanggan ?? '-'}</b></div>
+            <div><span className="lbl">Total Nota</span><b>{tanpaNota ? '-' : `Rp${Math.round(nota?.total ?? 0).toLocaleString('id-ID')}`}</b></div>
           </div>
 
           <div className="a4-dash" />
-          <div className="a4-section-title">Daftar SPK ({spkList.length})</div>
+          <div className="a4-section-title">{tanpaNota ? 'Detail SPK' : `Daftar SPK (${spkList.length})`}</div>
 
           {spkList.length === 0 ? (
             <p style={{ fontSize: 12, color: '#888', padding: '10px 0' }}>Belum ada SPK yang diciptakan untuk nota ini.</p>
