@@ -3,6 +3,19 @@
 
 export const CHANGELOG = [
   {
+    version: '0.21.0',
+    tanggal: '2026-09-21',
+    judul: 'CRUD Lengkap Kalkulasi HPP + Lembar Verifikasi A4 (Share/JPG/PDF)',
+    perubahan: [
+      'Kalkulasi HPP sekarang CRUD lengkap — dulu cuma bisa Tambah, sekarang ada Lihat, Edit, dan Hapus',
+      'Tombol Lihat (mata) baru — lembar verifikasi gaya A4: Judul, kolom No/Uraian/Nilai/Ket, Total HPP, ringkasan Harga Jual-HPP-Margin, dan bagian bawah 4 kolom persetujuan (Dibuat/Diperiksa/Disetujui/Diketahui Oleh)',
+      'Tombol Share di lembar verifikasi — pakai Web Share API kalau didukung perangkat, otomatis unduh gambar sebagai cadangan kalau tidak',
+      'Simpan JPG dan Simpan PDF juga tersedia, sama seperti Laporan SPK per Nota',
+      'Tombol Edit — koreksi rincian item (nama/qty/satuan/harga) kalau ada salah input, Produk & Harga Jual tetap terkunci (ikut SPK/Nota)',
+      'Catatan jujur: edit HPP TIDAK otomatis mengoreksi stok yang sudah terlanjur terpotong saat pertama disimpan — kalau perlu, sesuaikan manual lewat Stok Opname',
+    ],
+  },
+  {
     version: '0.20.0',
     tanggal: '2026-09-21',
     judul: 'SPK: Edit & Hapus di Tabel SPK + Fix Bug View Tanpa Nota',
