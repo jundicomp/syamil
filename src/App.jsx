@@ -1,10 +1,11 @@
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
 import AppShell from './components/layout/AppShell';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import HomeRedirect from './components/layout/HomeRedirect';
 import LoginPage from './pages/login/LoginPage';
 import ProfilSayaPage from './pages/profil/ProfilSayaPage';
 import PelangganSupplierPage from './pages/pelangganSupplier/PelangganSupplierPage';
@@ -37,7 +38,7 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route element={<AppShell />}>
-                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/" element={<HomeRedirect />} />
                   <Route path="/pelanggan-supplier" element={<PelangganSupplierPage />} />
                   <Route path="/profil-saya" element={<ProfilSayaPage />} />
                   <Route path="/produk" element={<ProdukPage />} />

@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
+import { firstAccessiblePath } from '../../data/navConfig';
 
 export default function LoginPage() {
-  const { data, settings } = useData();
+  const { data, settings, hakAkses } = useData();
   const { login } = useAuth();
   const navigate = useNavigate();
   const akunAktif = data.pengguna.filter(p => p.status === 'Aktif');
@@ -18,7 +19,7 @@ export default function LoginPage() {
     if (!user) { setError('Pilih akun terlebih dahulu.'); return; }
     if (!password.trim()) { setError('Isi password (bebas — ini akun demo).'); return; }
     login(user);
-    navigate('/dashboard');
+    navigate(firstAccessiblePath(user.role, hakAkses));
   }
 
   return (

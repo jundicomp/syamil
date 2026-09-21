@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.23.0',
+    tanggal: '2026-09-21',
+    judul: 'Hak Akses Sungguhan — Sidebar & Route Digerbang per Role',
+    perubahan: [
+      'Hak Akses matriks sekarang BENAR-BENAR menggerbang, bukan cuma visual — sidebar cuma nampilin menu yang role user itu punya izin, grup yang kosong otomatis hilang',
+      'Coba akses langsung lewat URL ke halaman yang tidak diizinkan? Otomatis dialihkan + notifikasi kenapa',
+      'Kalkulasi HPP jadi contoh nyata — modul "Kalkulasi HPP" dipisah dari "Produksi" di matriks, jadi bisa dikunci khusus Owner/Admin walau role lain tetap boleh buka Alur SPK/Laporan Produksi',
+      'Redirect halaman utama ("/") dan setelah Login sekarang pintar — otomatis ke halaman pertama yang boleh diakses role itu (bukan hardcode /dashboard yang bakal gagal buat role selain Owner/Admin)',
+      'navConfig.js dipetakan ulang: tiap grup/item punya field "modul" yang cocok ke HAK_AKSES_MODULES',
+    ],
+  },
+  {
     version: '0.22.0',
     tanggal: '2026-09-21',
     judul: 'Kartu Stok Bisa Di-share + Dashboard Keuangan Infografis + Unduh Laporan Lengkap',

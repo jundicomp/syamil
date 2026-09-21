@@ -26,7 +26,7 @@ export default function KalkulasiHppPage() {
     <div>
       <DataTable
         title="Kalkulasi HPP"
-        subtitle="⚠ Akses terbatas — mestinya cuma Owner/Admin (belum ada login sungguhan) · klik ikon mata untuk lembar verifikasi"
+        subtitle="🔒 Akses terbatas Owner/Admin — sudah ditegakkan lewat Hak Akses · klik ikon mata untuk lembar verifikasi"
         columns={COLUMNS}
         rows={rows}
         actions={['view', 'edit', 'delete']}

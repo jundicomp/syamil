@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getAllNavGroups } from '../../data/navConfig';
+import { getAllNavGroups, modulForItem } from '../../data/navConfig';
 import { CURRENT_VERSION } from '../../data/changelog';
 import { useData } from '../../context/DataContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/NotificationContext';
 import Icon from '../common/Icon';
 
@@ -11,13 +12,19 @@ function formatBuildTime(iso) {
 }
 
 export default function Sidebar({ collapsed }) {
-  const groups = getAllNavGroups();
   const location = useLocation();
   const navigate = useNavigate();
-  const { settings } = useData();
+  const { settings, hakAkses } = useData();
+  const { user } = useAuth();
   const { notifyError } = useNotify();
   const [openGroup, setOpenGroup] = useState(null);
   const [flyoutGroup, setFlyoutGroup] = useState(null);
+
+  // Cuma tampilkan grup/item yang role user ini punya izin — Owner biasanya lihat semua.
+  const izinRole = hakAkses[user?.role] || {};
+  const groups = getAllNavGroups()
+    .map(g => ({ ...g, items: g.items.filter(it => izinRole[modulForItem(g, it)]) }))
+    .filter(g => g.items.length > 0);
 
   // Grup yang berisi halaman aktif otomatis terbuka — sisanya tertutup (accordion).
   useEffect(() => {

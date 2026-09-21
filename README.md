@@ -38,7 +38,7 @@ Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigras
 ### Langkah lanjutan yang masuk akal (di luar 7 fase awal)
 - Sambungkan Google Sheets sungguhan (kerangkanya sudah ada, lihat "Bagian 2" di bawah)
 - Tutup gap Piutang/Hutang di atas
-- Login sungguhan + penegakan Hak Akses per halaman (sekarang cuma matriks visual, belum menggerbang navigasi)
+- ~~Login sungguhan + penegakan Hak Akses per halaman~~ ✅ **Selesai (v0.23.0)** — Sidebar & route sekarang digerbang sungguhan sesuai role, termasuk Kalkulasi HPP yang dikunci Owner/Admin
 
 ### Catatan cakupan Export Excel/PDF
 Diterapkan ke semua tabel data (lewat komponen `DataTable`, atau `ExportButtons` untuk tabel kustom seperti Buku Kas & Dashboard Marketing). **Sengaja dilewati**: matriks Hak Akses (tabel User) dan modal Cek Stok Bahan (POS) — keduanya bukan "laporan" yang biasa diekspor, cuma alat bantu interaktif/lihat cepat.
