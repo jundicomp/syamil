@@ -36,9 +36,9 @@ export const NAV = [
   {
     group: 'Laporan Keuangan', color: 'purple',
     items: [
+      { key: 'dashboard', label: 'Dashboard', icon: 'home', path: '/dashboard' },
       { key: 'laporanKeuangan', label: 'Laporan Keuangan', icon: 'wallet', path: '/laporan-keuangan' },
       { key: 'neraca', label: 'Laporan Neraca', icon: 'scale', path: '/neraca' },
-      { key: 'dashboard', label: 'Dashboard', icon: 'home', path: '/dashboard' },
     ],
   },
 ];

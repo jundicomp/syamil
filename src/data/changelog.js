@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.22.0',
+    tanggal: '2026-09-21',
+    judul: 'Kartu Stok Bisa Di-share + Dashboard Keuangan Infografis + Unduh Laporan Lengkap',
+    perubahan: [
+      'Kartu Stok dirombak jadi laporan A4 (sama seperti Laporan SPK & HPP) — ada saldo berjalan tiap pergerakan, bisa Share/Simpan JPG/Simpan PDF',
+      'Dashboard (Laporan Keuangan) dipindah ke atas menu Laporan Keuangan',
+      'Dashboard diperkaya jadi infografis: 6 kartu ringkasan, grafik Kas Masuk vs Keluar (+ pecahan Toko/Bank), grafik Piutang vs Hutang, grafik Status SPK, dan daftar Bahan Stok Menipis',
+      'Tombol baru "Unduh Laporan Keuangan Lengkap" di Dashboard — satu PDF berisi Laba Rugi, Cashflow, Neraca (portrait), plus lampiran detail Buku Kas/Piutang/Hutang (landscape, karena kolomnya lebih lebar)',
+      'Bisa pilih rentang tanggal untuk Laba Rugi/Cashflow/Buku Kas — Neraca, Piutang, Hutang tetap tampil posisi saat ini (snapshot, bukan per periode)',
+    ],
+  },
+  {
     version: '0.21.0',
     tanggal: '2026-09-21',
     judul: 'CRUD Lengkap Kalkulasi HPP + Lembar Verifikasi A4 (Share/JPG/PDF)',
