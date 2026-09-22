@@ -74,6 +74,7 @@ export default function DataTable({
 
   function renderCell(row, col) {
     const val = row[col.key];
+    if (col.render) return col.render(row);
     if (col.type === 'currency') {
       return (
         <span className="curr-cell">

@@ -27,7 +27,19 @@ export const seedProduk = withIds([
   { nama: 'Stiker Vinyl A3', kategori: 'Stiker', satuan: 'lembar', harga: 12000, tipe: 'Tetap' },
   { nama: 'Buku Yasin', kategori: 'Cetak Digital', satuan: 'pcs', harga: 25000, tipe: 'Tetap' },
   { nama: 'Spanduk Digital', kategori: 'Banner', satuan: 'm²', harga: 40000, tipe: 'Tetap' },
-  { nama: 'Print Laser', kategori: 'Cetak Digital', satuan: 'Lembar', harga: 0, tipe: 'Matriks Harga' },
+  {
+    nama: 'Print Laser', kategori: 'Cetak Digital', satuan: 'Lembar', harga: 0, tipe: 'Matriks Harga',
+    hargaMatrix: {
+      satuan: 'Lembar',
+      tiers: [{ min: 1, max: 10 }, { min: 11, max: 25 }, { min: 26, max: null }],
+      bahan: [
+        { nama: 'HVS', harga: [{ satu: 2000, dua: 3200 }, { satu: 1600, dua: 2900 }, { satu: 1400, dua: 2600 }] },
+        { nama: 'K120', harga: [{ satu: 2200, dua: 3500 }, { satu: 1800, dua: 3100 }, { satu: 1600, dua: 2700 }] },
+        { nama: 'K150', harga: [{ satu: 2300, dua: 3600 }, { satu: 1900, dua: 3200 }, { satu: 1700, dua: 2800 }] },
+        { nama: 'K210', harga: [{ satu: 2500, dua: 3800 }, { satu: 2100, dua: 3400 }, { satu: 1900, dua: 3000 }] },
+      ],
+    },
+  },
 ]);
 
 export const seedBahanBaku = withIds([

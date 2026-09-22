@@ -27,7 +27,7 @@ Lihat `checklist-migrasi-react.md` untuk daftar lengkap modul & fase.
 Semua halaman di sidebar sekarang aktif — tidak ada lagi alert "belum dimigrasi".
 
 ### Catatan jujur (gap yang masih sama seperti versi HTML, belum ditutup)
-- **Matriks Harga** (harga bertingkat per jumlah/ukuran) di POS belum otomatis — harga bisa diedit manual dulu.
+- ~~Matriks Harga (harga bertingkat per jumlah/ukuran) belum otomatis~~ ✅ **Editor selesai (v0.24.0)** — tiap Produk "Matriks Harga" punya editor tier+bahan sendiri. Catatan: POS masih belum otomatis LOOKUP dari matriks ini saat transaksi (harga tetap diisi manual di keranjang) — itu langkah lanjutan yang beda lagi.
 - **QRIS** baru jadi pilihan metode bayar, belum menampilkan gambar QRIS dari Pengaturan.
 - **"Ciptakan SPK"** disederhanakan — pilih 1 Nota + 1 Produk manual, belum auto-pecah beberapa SPK dari nota multi-item.
 - **Kalkulasi HPP** belum benar-benar dibatasi ke role Owner/Admin — belum ada sistem login sungguhan.

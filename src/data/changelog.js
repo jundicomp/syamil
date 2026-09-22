@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.24.0',
+    tanggal: '2026-09-21',
+    judul: 'Matriks Harga Produk — Editor Tier & Tabel Harga per Bahan (persis HTML)',
+    perubahan: [
+      'Produk bertipe "Matriks Harga": kolom Harga di tabel jadi tombol "📊 Lihat Matriks" (bukan angka Rp)',
+      'MatrixHargaModal baru: atur Satuan Hitung, Tingkatan Jumlah (tambah/hapus, opsi "Tanpa batas"), dan Tabel Harga per Bahan (baris = jenis bahan, kolom = tingkatan × Satu Sisi/Dua Sisi)',
+      'Setelah menambah Produk baru dengan Tipe "Matriks Harga", editor matriksnya otomatis terbuka — persis alur HTML',
+      'DataTable: kolom sekarang bisa punya render kustom per-baris (col.render), dipakai untuk tombol Lihat Matriks ini — bisa dipakai lagi di tabel lain ke depannya',
+      'Data contoh "Print Laser" dilengkapi matriks harga terisi (4 jenis kertas × 3 tingkatan × 2 sisi) supaya langsung ada contoh nyata',
+    ],
+  },
+  {
     version: '0.23.0',
     tanggal: '2026-09-21',
     judul: 'Hak Akses Sungguhan — Sidebar & Route Digerbang per Role',

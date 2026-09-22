@@ -2,14 +2,9 @@ import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
 import FormModal from '../../components/common/FormModal';
+import MatrixHargaModal from './MatrixHargaModal';
+import Icon from '../../components/common/Icon';
 
-const PRODUK_COLUMNS = [
-  { key: 'nama', label: 'Nama' },
-  { key: 'kategori', label: 'Kategori', type: 'badge' },
-  { key: 'satuan', label: 'Satuan' },
-  { key: 'harga', label: 'Harga', type: 'currency', align: 'r' },
-  { key: 'tipe', label: 'Tipe', type: 'badge' },
-];
 const PRODUK_FIELDS = [
   { key: 'nama', label: 'Nama', type: 'text' },
   { key: 'kategori', label: 'Kategori', type: 'text' },
@@ -21,11 +16,32 @@ const PRODUK_FIELDS = [
 export default function ProdukPage() {
   const { data, addRow, updateRow, deleteRow } = useData();
   const [modal, setModal] = useState(null);
+  const [matrixProduk, setMatrixProduk] = useState(null);
+
+  const PRODUK_COLUMNS = [
+    { key: 'nama', label: 'Nama' },
+    { key: 'kategori', label: 'Kategori', type: 'badge' },
+    { key: 'satuan', label: 'Satuan' },
+    {
+      key: 'harga', label: 'Harga', type: 'currency', align: 'r',
+      render: row => row.tipe === 'Matriks Harga'
+        ? <button type="button" className="matrix-link" onClick={() => setMatrixProduk(row)}><Icon name="grid" size={12} /> Lihat Matriks</button>
+        : `Rp${Math.round(row.harga || 0).toLocaleString('id-ID')}`,
+    },
+    { key: 'tipe', label: 'Tipe', type: 'badge' },
+  ];
 
   function handleSave(values) {
-    if (modal.row) updateRow('produk', modal.row.id, values);
-    else addRow('produk', values);
-    setModal(null);
+    if (modal.row) {
+      updateRow('produk', modal.row.id, values);
+      setModal(null);
+    } else {
+      const ids = data.produk.map(r => r.id);
+      const newId = (ids.length ? Math.max(...ids) : 0) + 1;
+      addRow('produk', values);
+      setModal(null);
+      if (values.tipe === 'Matriks Harga') setMatrixProduk({ ...values, id: newId });
+    }
   }
 
   return (
@@ -49,6 +65,7 @@ export default function ProdukPage() {
           onClose={() => setModal(null)}
         />
       )}
+      {matrixProduk && <MatrixHargaModal produk={matrixProduk} onClose={() => setMatrixProduk(null)} />}
     </div>
   );
 }
