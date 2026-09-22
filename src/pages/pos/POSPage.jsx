@@ -58,7 +58,7 @@ export default function POSPage() {
     if (confirmedItems.length === 0) { notifyError('Belum ada item dikonfirmasi untuk disimpan.'); return; }
     addRow('posDraft', {
       tanggal: todayID(), customer, kodeMarketing,
-      items: confirmedItems.map(({ produk, ket, qty, satuan, harga }) => ({ produk, ket, qty, satuan, harga })),
+      items: confirmedItems.map(({ produk, ket, qty, satuan, harga, bahanMatrix, sisiMatrix }) => ({ produk, ket, qty, satuan, harga, bahanMatrix, sisiMatrix })),
       subtotal,
     });
     resetTransaksi();
@@ -80,7 +80,7 @@ export default function POSPage() {
     const sale = {
       tanggal: todayID(), noNota, pelanggan: customer, total: payment.total,
       status: payment.status, dpDibayar: payment.dpDibayar, sisaBayar: payment.sisaBayar,
-      kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga }) => ({ produk, qty, satuan, harga })),
+      kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga, bahanMatrix, sisiMatrix }) => ({ produk, qty, satuan, harga, bahanMatrix, sisiMatrix })),
     };
     addRow('penjualan', sale);
     addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`, payment.metodeBayar);

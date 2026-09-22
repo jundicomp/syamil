@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.25.0',
+    tanggal: '2026-09-22',
+    judul: 'POS: Harga Otomatis dari Matriks Harga (Bahan + Sisi + Tingkatan Jumlah)',
+    perubahan: [
+      'Pilih produk bertipe "Matriks Harga" di POS — muncul pilihan Bahan dan Sisi Cetak (Satu/Dua Sisi) langsung di bawah baris item',
+      'Harga otomatis terhitung dari matriks (bahan × tingkatan jumlah sesuai qty × sisi cetak) — field Satuan & Harga otomatis terkunci (tidak bisa diketik manual) selama Matriks Harga dipakai',
+      'Ganti qty, bahan, atau sisi cetak — harga langsung update otomatis, termasuk kalau qty naik/turun melewati batas tingkatan',
+      'Info bahan + sisi yang dipilih ikut tampil di struk (live preview & histori keranjang), serta ikut tersimpan di transaksi/draft — sebelumnya field ini kebuang saat disimpan',
+      'matrixPricing.js baru: findTierIndexForQty() + lookupMatrixPrice(), portir dari findTierIndexForQty() versi HTML',
+    ],
+  },
+  {
     version: '0.24.0',
     tanggal: '2026-09-21',
     judul: 'Matriks Harga Produk — Editor Tier & Tabel Harga per Bahan (persis HTML)',

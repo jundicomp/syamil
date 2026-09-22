@@ -28,6 +28,7 @@ export default function LiveStrukPreview({ customer, customerInfo, kodeMarketing
         ) : items.map((it, i) => (
           <div key={i} style={{ marginBottom: 3 }}>
             <div>{it.produk}</div>
+            {it.bahanMatrix && <div style={{ fontSize: 10, opacity: .7 }}>{it.bahanMatrix} · {it.sisiMatrix === 'dua' ? 'Dua Sisi' : 'Satu Sisi'}</div>}
             <div className="row"><span>{it.qty} x {fmt(it.harga)}</span><span>Rp{fmt(it.qty * it.harga)}</span></div>
           </div>
         ))}
