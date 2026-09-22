@@ -6,10 +6,10 @@ function withIds(rows) {
 }
 
 export const seedPelanggan = withIds([
-  { nama: 'Toko Sinar Jaya', kontak: '0812-3456-7890', alamat: 'Jl. Merdeka No. 12, Bandung', kota: 'Bandung', kategori: 'Ritel', marketingTerkait: 'Fajar Ramadhan' },
-  { nama: 'CV Abadi Sentosa', kontak: '0813-2211-4455', alamat: 'Jl. Ahmad Yani No. 45, Bandung', kota: 'Bandung', kategori: 'Bisnis', marketingTerkait: '-' },
-  { nama: 'UD Makmur Jaya', kontak: '0857-1234-9988', alamat: 'Jl. Kopo No. 8, Bandung', kota: 'Bandung', kategori: 'Bisnis', marketingTerkait: 'Nia Kusuma' },
-  { nama: 'Pelanggan Umum', kontak: '-', alamat: '-', kota: '-', kategori: 'Ritel', marketingTerkait: '-' },
+  { nama: 'Toko Sinar Jaya', kontak: '0812-3456-7890', alamat: 'Jl. Merdeka No. 12, Bandung', kota: 'Bandung', kategori: 'Ritel', marketingTerkait: 'Fajar Ramadhan', batasKredit: 2000000 },
+  { nama: 'CV Abadi Sentosa', kontak: '0813-2211-4455', alamat: 'Jl. Ahmad Yani No. 45, Bandung', kota: 'Bandung', kategori: 'Bisnis', marketingTerkait: '-', batasKredit: 5000000 },
+  { nama: 'UD Makmur Jaya', kontak: '0857-1234-9988', alamat: 'Jl. Kopo No. 8, Bandung', kota: 'Bandung', kategori: 'Bisnis', marketingTerkait: 'Nia Kusuma', batasKredit: 0 },
+  { nama: 'Pelanggan Umum', kontak: '-', alamat: '-', kota: '-', kategori: 'Ritel', marketingTerkait: '-', batasKredit: 0 },
 ]);
 
 export const seedSupplier = withIds([

@@ -175,7 +175,7 @@ export default function POSPage() {
       </div>
 
       {showCekStok && <CekStokModal onClose={() => setShowCekStok(false)} />}
-      {showPayment && <PaymentModal subtotal={subtotal} onClose={() => setShowPayment(false)} onConfirm={handleConfirmPayment} />}
+      {showPayment && <PaymentModal subtotal={subtotal} customer={customer} onClose={() => setShowPayment(false)} onConfirm={handleConfirmPayment} />}
       {showDraftList && <DraftListModal onClose={() => setShowDraftList(false)} onResume={handleResumeDraft} />}
     </div>
   );

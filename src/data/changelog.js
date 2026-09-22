@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.28.0',
+    tanggal: '2026-09-22',
+    judul: '4 Fitur Piutang Sekaligus: Batas Kredit, Aging, Kartu Piutang, WA Reminder',
+    perubahan: [
+      '1) Batas Kredit per Pelanggan — field baru di data Pelanggan, POS otomatis peringatkan (dan minta konfirmasi) kalau transaksi DP/Hutang bakal bikin piutang pelanggan itu lewat batas',
+      '2) Aging Piutang — panel ringkasan umur piutang (0-30 / 31-60 / 61-90 / >90 hari) di tab Piutang, plus kolom "Umur" berwarna di tiap baris nota',
+      '3) Kartu Piutang per Pelanggan — tombol Lihat (mata) baru di tabel Pelanggan, laporan A4 riwayat SEMUA nota (lunas+belum) untuk 1 pelanggan, bisa Share/JPG/PDF',
+      '4) Pengingat WhatsApp — tombol 💬 di tiap baris piutang Belum Lunas, buka WA dengan pesan pengingat siap kirim (perlu No. HP/WA terisi di data Pelanggan)',
+    ],
+  },
+  {
     version: '0.27.0',
     tanggal: '2026-09-22',
     judul: 'POS: DP Boleh Rp0 (Full Hutang) + Bayar Gabungan Beberapa Nota',

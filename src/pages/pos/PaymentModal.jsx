@@ -1,21 +1,31 @@
 import { useState } from 'react';
+import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
-export default function PaymentModal({ subtotal, onClose, onConfirm }) {
+export default function PaymentModal({ subtotal, customer, onClose, onConfirm }) {
+  const { data } = useData();
   const { notifyError } = useNotify();
   const [diskon, setDiskon] = useState(0);
   const [payStatus, setPayStatus] = useState('Lunas');
   const [dpAmount, setDpAmount] = useState(0);
   const [metodeBayar, setMetodeBayar] = useState('Tunai');
+  const [overrideBatasKredit, setOverrideBatasKredit] = useState(false);
 
   const total = Math.max(0, subtotal - diskon);
   const sisaBayar = payStatus === 'DP' ? Math.max(0, total - dpAmount) : 0;
   const dpValid = payStatus !== 'DP' || (dpAmount >= 0 && dpAmount < total);
 
+  const pelangganInfo = data.pelanggan.find(p => p.nama === customer);
+  const batasKredit = pelangganInfo?.batasKredit || 0;
+  const piutangBerjalan = data.piutang.filter(p => p.pelanggan === customer && p.status === 'Belum Lunas').reduce((s, p) => s + p.sisa, 0);
+  const piutangSetelahIni = piutangBerjalan + sisaBayar;
+  const lewatBatasKredit = batasKredit > 0 && payStatus === 'DP' && piutangSetelahIni > batasKredit;
+
   function handleConfirm() {
     if (!dpValid) { notifyError('Jumlah DP harus 0 atau lebih, dan kurang dari total (kalau pas totalnya, pilih Lunas saja).'); return; }
+    if (lewatBatasKredit && !overrideBatasKredit) { notifyError('Piutang pelanggan ini akan melebihi batas kredit. Centang konfirmasi kalau tetap mau lanjut.'); return; }
     onConfirm({
       diskon, total,
       status: payStatus,
@@ -67,6 +77,18 @@ export default function PaymentModal({ subtotal, onClose, onConfirm }) {
                 ? <>Tidak bayar apa-apa sekarang — <b style={{ color: 'var(--total-red)' }}>seluruh Rp{fmt(total)}</b> jadi piutang.</>
                 : <>Sisa bayar (jadi piutang): <b style={{ color: 'var(--total-red)' }}>Rp{fmt(sisaBayar)}</b></>}
             </div>
+            {batasKredit > 0 && (
+              <div style={{ fontSize: 11, color: lewatBatasKredit ? 'var(--total-red)' : 'var(--text-faint)', marginTop: 4 }}>
+                {lewatBatasKredit ? '⚠ ' : ''}Piutang {customer} setelah ini: <b>Rp{fmt(piutangSetelahIni)}</b> / batas Rp{fmt(batasKredit)}
+                {lewatBatasKredit && ' — melebihi batas kredit!'}
+              </div>
+            )}
+            {lewatBatasKredit && (
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--total-red)', marginTop: 6, cursor: 'pointer' }}>
+                <input type="checkbox" checked={overrideBatasKredit} onChange={e => setOverrideBatasKredit(e.target.checked)} />
+                Tetap lanjutkan walau melebihi batas kredit
+              </label>
+            )}
           </div>
         )}
 

@@ -3,12 +3,14 @@ import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
 import DataTable from '../../components/common/DataTable';
 import FormModal from '../../components/common/FormModal';
+import KartuPiutangModal from './KartuPiutangModal';
 
 const PELANGGAN_COLUMNS = [
   { key: 'nama', label: 'Nama' },
   { key: 'kota', label: 'Kota' },
   { key: 'kontak', label: 'No. HP/WA' },
   { key: 'kategori', label: 'Kategori', type: 'badge' },
+  { key: 'batasKredit', label: 'Batas Kredit', type: 'currency', align: 'r' },
   { key: 'marketingTerkait', label: 'Marketing Terkait' },
   { key: 'alamat', label: 'Alamat' },
 ];
@@ -38,6 +40,7 @@ export default function PelangganSupplierPage() {
   const { promptDialog, notifyError } = useNotify();
   const [modal, setModal] = useState(null); // { key, row|null }
   const [kategoriFilter, setKategoriFilter] = useState('Semua');
+  const [riwayatPelanggan, setRiwayatPelanggan] = useState(null);
 
   const isPelanggan = tab === 'pelanggan';
   const dataKey = isPelanggan ? 'pelanggan' : 'supplier';
@@ -48,6 +51,7 @@ export default function PelangganSupplierPage() {
     { key: 'kota', label: 'Kota', type: 'text' },
     { key: 'kontak', label: 'No. HP/WA', type: 'text' },
     { key: 'kategori', label: 'Kategori', type: 'select', options: pelangganKategoriList },
+    { key: 'batasKredit', label: 'Batas Kredit (Rp, 0 = tanpa batas)', type: 'number' },
     { key: 'marketingTerkait', label: 'Marketing Terkait', type: 'text' },
     { key: 'alamat', label: 'Alamat', type: 'textarea' },
   ];
@@ -98,8 +102,9 @@ export default function PelangganSupplierPage() {
         title={isPelanggan ? 'Pelanggan' : 'Supplier'}
         columns={columns}
         rows={rows}
-        actions={['edit', 'delete']}
+        actions={isPelanggan ? ['view', 'edit', 'delete'] : ['edit', 'delete']}
         onAdd={() => setModal({ key: dataKey, row: null })}
+        onView={row => setRiwayatPelanggan(row)}
         onEdit={row => setModal({ key: dataKey, row })}
         onDelete={row => deleteRow(dataKey, row.id)}
       />
@@ -113,6 +118,7 @@ export default function PelangganSupplierPage() {
           onClose={() => setModal(null)}
         />
       )}
+      {riwayatPelanggan && <KartuPiutangModal pelanggan={riwayatPelanggan} onClose={() => setRiwayatPelanggan(null)} />}
     </div>
   );
 }
