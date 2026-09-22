@@ -12,10 +12,10 @@ export default function PaymentModal({ subtotal, onClose, onConfirm }) {
 
   const total = Math.max(0, subtotal - diskon);
   const sisaBayar = payStatus === 'DP' ? Math.max(0, total - dpAmount) : 0;
-  const dpValid = payStatus !== 'DP' || (dpAmount > 0 && dpAmount < total);
+  const dpValid = payStatus !== 'DP' || (dpAmount >= 0 && dpAmount < total);
 
   function handleConfirm() {
-    if (!dpValid) { notifyError('Jumlah DP harus lebih dari 0 dan kurang dari total.'); return; }
+    if (!dpValid) { notifyError('Jumlah DP harus 0 atau lebih, dan kurang dari total (kalau pas totalnya, pilih Lunas saja).'); return; }
     onConfirm({
       diskon, total,
       status: payStatus,
@@ -50,16 +50,22 @@ export default function PaymentModal({ subtotal, onClose, onConfirm }) {
           <label>Status Pembayaran</label>
           <div style={{ display: 'flex', gap: 8 }}>
             <button type="button" className={payStatus === 'Lunas' ? 'btn-gold' : 'btn-outline'} style={{ flex: 1 }} onClick={() => setPayStatus('Lunas')}>Lunas</button>
-            <button type="button" className={payStatus === 'DP' ? 'btn-gold' : 'btn-outline'} style={{ flex: 1 }} onClick={() => setPayStatus('DP')}>DP</button>
+            <button type="button" className={payStatus === 'DP' ? 'btn-gold' : 'btn-outline'} style={{ flex: 1 }} onClick={() => setPayStatus('DP')}>DP / Hutang</button>
           </div>
         </div>
 
         {payStatus === 'DP' && (
           <div className="f-field">
-            <label>Jumlah DP Dibayar</label>
-            <input type="number" value={dpAmount} onChange={e => setDpAmount(Number(e.target.value))} />
-            <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 6 }}>
-              Sisa bayar: <b style={{ color: 'var(--total-red)' }}>Rp{fmt(sisaBayar)}</b>
+            <label>Jumlah Dibayar Sekarang</label>
+            <input type="number" min="0" value={dpAmount} onChange={e => setDpAmount(Number(e.target.value))} />
+            <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+              <button type="button" className="btn-outline" style={{ padding: '4px 10px', fontSize: 10.5 }} onClick={() => setDpAmount(0)}>Rp0 (Full Hutang)</button>
+              <button type="button" className="btn-outline" style={{ padding: '4px 10px', fontSize: 10.5 }} onClick={() => setDpAmount(Math.round(total / 2))}>50%</button>
+            </div>
+            <div style={{ fontSize: 11.5, color: 'var(--text-faint)', marginTop: 8 }}>
+              {dpAmount === 0
+                ? <>Tidak bayar apa-apa sekarang — <b style={{ color: 'var(--total-red)' }}>seluruh Rp{fmt(total)}</b> jadi piutang.</>
+                : <>Sisa bayar (jadi piutang): <b style={{ color: 'var(--total-red)' }}>Rp{fmt(sisaBayar)}</b></>}
             </div>
           </div>
         )}

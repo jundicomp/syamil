@@ -83,7 +83,9 @@ export default function POSPage() {
       kodeMarketing, items: confirmedItems.map(({ produk, qty, satuan, harga, bahanMatrix, sisiMatrix }) => ({ produk, qty, satuan, harga, bahanMatrix, sisiMatrix })),
     };
     addRow('penjualan', sale);
-    addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`, payment.metodeBayar);
+    if (payment.dpDibayar > 0) {
+      addBukuKasEntry('Masuk', payment.dpDibayar, `Penjualan ${noNota} (${payment.metodeBayar}) — ${customer}`, payment.metodeBayar);
+    }
 
     if (payment.status === 'DP') {
       addRow('piutang', {

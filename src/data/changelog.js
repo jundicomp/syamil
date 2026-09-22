@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.27.0',
+    tanggal: '2026-09-22',
+    judul: 'POS: DP Boleh Rp0 (Full Hutang) + Bayar Gabungan Beberapa Nota',
+    perubahan: [
+      'FIX: dulu jumlah DP di POS wajib lebih dari 0 — sekarang boleh Rp0, buat pelanggan yang ambil barang dulu bayar belakangan sepenuhnya',
+      'Tombol pintasan "Rp0 (Full Hutang)" dan "50%" di form DP',
+      'FIX: kalau DP diisi Rp0, sistem tidak lagi bikin catatan Buku Kas Rp0 yang sia-sia',
+      'Fitur baru "Bayar Gabungan" di tab Piutang Pelanggan — pilih 1 pelanggan, centang beberapa nota yang mau dilunasi sekaligus, bayar dalam 1 transaksi (1 catatan Kas Masuk, bukan berkali-kali)',
+      'Kalau jumlah dibayar kurang dari total nota terpilih, otomatis dibagi berurutan dari nota paling lama dulu',
+    ],
+  },
+  {
     version: '0.26.0',
     tanggal: '2026-09-22',
     judul: 'Kategori Pelanggan Bisa Dibuat Sendiri + Filter & Export per Kategori',

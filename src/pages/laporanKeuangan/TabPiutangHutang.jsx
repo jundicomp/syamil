@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import PiutangTerimaModal from './PiutangTerimaModal';
+import PiutangGabunganModal from './PiutangGabunganModal';
 import HutangBayarModal from '../pembelian/HutangBayarModal';
 import Currency from '../../components/common/Currency';
 
@@ -8,6 +9,7 @@ export default function TabPiutangHutang() {
   const { data } = useData();
   const [sub, setSub] = useState('piutang');
   const [terimaModal, setTerimaModal] = useState(null);
+  const [gabunganModal, setGabunganModal] = useState(false);
   const [bayarModal, setBayarModal] = useState(null);
 
   const totalPiutang = data.piutang.filter(p => p.status === 'Belum Lunas').reduce((s, p) => s + p.sisa, 0);
@@ -21,9 +23,12 @@ export default function TabPiutangHutang() {
         <div className="stat-card"><div className="lbl">Posisi Bersih (Piutang &minus; Hutang)</div><div className="val"><Currency value={totalPiutang - totalHutang} /></div></div>
       </div>
 
-      <div className="subtab-switch" style={{ marginBottom: 14 }}>
-        <button className={sub === 'piutang' ? 'active' : ''} onClick={() => setSub('piutang')}>Piutang Pelanggan</button>
-        <button className={sub === 'hutang' ? 'active' : ''} onClick={() => setSub('hutang')}>Hutang Supplier</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+        <div className="subtab-switch" style={{ marginBottom: 0 }}>
+          <button className={sub === 'piutang' ? 'active' : ''} onClick={() => setSub('piutang')}>Piutang Pelanggan</button>
+          <button className={sub === 'hutang' ? 'active' : ''} onClick={() => setSub('hutang')}>Hutang Supplier</button>
+        </div>
+        {sub === 'piutang' && <button className="btn-outline" style={{ padding: '7px 14px', fontSize: 11.5 }} onClick={() => setGabunganModal(true)}>💰 Bayar Gabungan</button>}
       </div>
 
       {sub === 'piutang' ? (
@@ -77,6 +82,7 @@ export default function TabPiutangHutang() {
       )}
 
       {terimaModal && <PiutangTerimaModal piutang={terimaModal} onClose={() => setTerimaModal(null)} />}
+      {gabunganModal && <PiutangGabunganModal onClose={() => setGabunganModal(false)} />}
       {bayarModal && <HutangBayarModal hutang={bayarModal} onClose={() => setBayarModal(null)} />}
     </div>
   );
