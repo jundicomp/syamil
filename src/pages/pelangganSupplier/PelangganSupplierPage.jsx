@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { useNotify } from '../../context/NotificationContext';
 import DataTable from '../../components/common/DataTable';
 import FormModal from '../../components/common/FormModal';
 
@@ -10,14 +11,6 @@ const PELANGGAN_COLUMNS = [
   { key: 'kategori', label: 'Kategori', type: 'badge' },
   { key: 'marketingTerkait', label: 'Marketing Terkait' },
   { key: 'alamat', label: 'Alamat' },
-];
-const PELANGGAN_FIELDS = [
-  { key: 'nama', label: 'Nama', type: 'text' },
-  { key: 'kota', label: 'Kota', type: 'text' },
-  { key: 'kontak', label: 'No. HP/WA', type: 'text' },
-  { key: 'kategori', label: 'Kategori', type: 'select', options: ['Bisnis', 'Ritel'] },
-  { key: 'marketingTerkait', label: 'Marketing Terkait', type: 'text' },
-  { key: 'alamat', label: 'Alamat', type: 'textarea' },
 ];
 
 const SUPPLIER_COLUMNS = [
@@ -41,18 +34,39 @@ const SUPPLIER_FIELDS = [
 
 export default function PelangganSupplierPage() {
   const [tab, setTab] = useState('pelanggan');
-  const { data, addRow, updateRow, deleteRow } = useData();
+  const { data, addRow, updateRow, deleteRow, pelangganKategoriList, addPelangganKategori } = useData();
+  const { promptDialog, notifyError } = useNotify();
   const [modal, setModal] = useState(null); // { key, row|null }
+  const [kategoriFilter, setKategoriFilter] = useState('Semua');
 
   const isPelanggan = tab === 'pelanggan';
   const dataKey = isPelanggan ? 'pelanggan' : 'supplier';
   const columns = isPelanggan ? PELANGGAN_COLUMNS : SUPPLIER_COLUMNS;
-  const fields = isPelanggan ? PELANGGAN_FIELDS : SUPPLIER_FIELDS;
+
+  const pelangganFields = [
+    { key: 'nama', label: 'Nama', type: 'text' },
+    { key: 'kota', label: 'Kota', type: 'text' },
+    { key: 'kontak', label: 'No. HP/WA', type: 'text' },
+    { key: 'kategori', label: 'Kategori', type: 'select', options: pelangganKategoriList },
+    { key: 'marketingTerkait', label: 'Marketing Terkait', type: 'text' },
+    { key: 'alamat', label: 'Alamat', type: 'textarea' },
+  ];
+  const fields = isPelanggan ? pelangganFields : SUPPLIER_FIELDS;
+
+  const pelangganRows = kategoriFilter === 'Semua' ? data.pelanggan : data.pelanggan.filter(p => p.kategori === kategoriFilter);
+  const rows = isPelanggan ? pelangganRows : data.supplier;
 
   function handleSave(values) {
     if (modal.row) updateRow(dataKey, modal.row.id, values);
     else addRow(dataKey, values);
     setModal(null);
+  }
+
+  async function handleTambahKategori() {
+    const nama = await promptDialog('Nama kategori pelanggan baru (mis. Grosir, VIP, Instansi):');
+    if (nama === null) return;
+    if (!nama.trim()) { notifyError('Nama kategori wajib diisi.'); return; }
+    addPelangganKategori(nama.trim());
   }
 
   return (
@@ -68,10 +82,22 @@ export default function PelangganSupplierPage() {
         <button className={!isPelanggan ? 'active' : ''} onClick={() => setTab('supplier')}>Supplier</button>
       </div>
 
+      {isPelanggan && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '2px 0 14px' }}>
+          <label style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--text-soft)' }}>Filter Kategori</label>
+          <select value={kategoriFilter} onChange={e => setKategoriFilter(e.target.value)} style={{ maxWidth: 180 }}>
+            <option value="Semua">Semua Kategori</option>
+            {pelangganKategoriList.map(k => <option key={k} value={k}>{k}</option>)}
+          </select>
+          <button type="button" className="btn-outline" style={{ padding: '7px 12px', fontSize: 11.5 }} onClick={handleTambahKategori}>+ Kategori Baru</button>
+          {kategoriFilter !== 'Semua' && <span style={{ fontSize: 11.5, color: 'var(--text-faint)' }}>{pelangganRows.length} pelanggan · Excel/PDF ikut kategori terpilih</span>}
+        </div>
+      )}
+
       <DataTable
         title={isPelanggan ? 'Pelanggan' : 'Supplier'}
         columns={columns}
-        rows={data[dataKey]}
+        rows={rows}
         actions={['edit', 'delete']}
         onAdd={() => setModal({ key: dataKey, row: null })}
         onEdit={row => setModal({ key: dataKey, row })}

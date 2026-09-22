@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.26.0',
+    tanggal: '2026-09-22',
+    judul: 'Kategori Pelanggan Bisa Dibuat Sendiri + Filter & Export per Kategori',
+    perubahan: [
+      'Kategori Pelanggan sekarang bisa ditambah sendiri — tombol "+ Kategori Baru" di halaman Pelanggan & Supplier, default-nya: Umum, Reseller, Tetap, Bisnis, Ritel',
+      'Dropdown "Filter Kategori" baru di atas tabel Pelanggan — pilih 1 kategori, tabel langsung nyaring cuma pelanggan kategori itu',
+      'Export Excel/PDF otomatis ikut kategori yang lagi difilter — pilih "Reseller" lalu Export, hasilnya cuma pelanggan Reseller',
+      'Form Tambah/Edit Pelanggan: pilihan Kategori sekarang ambil dari daftar yang bisa berkembang ini, bukan cuma 2 pilihan tetap (Bisnis/Ritel) seperti sebelumnya',
+    ],
+  },
+  {
     version: '0.25.0',
     tanggal: '2026-09-22',
     judul: 'POS: Harga Otomatis dari Matriks Harga (Bahan + Sisi + Tingkatan Jumlah)',

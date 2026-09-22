@@ -205,6 +205,7 @@ export const seedHppCalc = withIds([
 // ===== Fase 6 — Marketing =====
 
 export const STRATEGI_JENIS_LIST_DEFAULT = ['Kunjungan langsung', 'Telepon/WA', 'Sosial media'];
+export const PELANGGAN_KATEGORI_DEFAULT = ['Umum', 'Reseller', 'Tetap', 'Bisnis', 'Ritel'];
 
 export const seedStrategiMarketing = withIds([
   { userMarketing: 'Nia Kusuma', tanggal: '11 Agu 2026', jenis: 'Sosial media', catatan: 'Boost iklan Instagram area Bandung', ajukanAnggaran: true, jumlahAnggaran: 150000, statusPengajuan: 'Menunggu' },
