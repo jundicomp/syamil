@@ -3,6 +3,21 @@
 
 export const CHANGELOG = [
   {
+    version: '0.29.0',
+    tanggal: '2026-09-22',
+    judul: 'Persiapan Google Sheets: 27 Tab, Auto-Setup, Strategi Loading Cepat',
+    perubahan: [
+      'Code.gs dibangun ulang total — kerangka lama cuma cover 7 tabel, sekarang lengkap 27 tab sesuai seluruh data yang ada (Pelanggan sampai PosDraft)',
+      'Fungsi setupSheets() baru — jalankan sekali dari editor Apps Script, otomatis bikin semua 27 tab dengan header kolom yang benar. Tidak perlu bikin tab manual satu-satu',
+      '27 tab dibagi 2 kelompok demi kecepatan: 10 tab Master Data (kecil, diambil sekaligus di awal) vs 17 tab Data Transaksi (terus bertambah, diambil satu-satu per halaman)',
+      'Dukungan otomatis untuk field kompleks (items, history, hargaMatrix, dll) — disimpan sebagai JSON di 1 sel, otomatis di-parse balik saat dibaca',
+      'HakAkses disimpan sebagai matriks (baris=role, kolom=modul), Settings & AnggaranMarketing sebagai key-value — bukan tabel baris biasa',
+      'sheetsAdapter.js disinkronkan penuh dengan skema baru, tambah fetchMasterTables()/fetchTable() terpisah buat dukung strategi loading bertahap',
+      'README diperbarui: instruksi lengkap 6 langkah setup, termasuk penjelasan strategi Master vs Transaksi',
+      'Catatan: ini baru KERANGKA — belum otomatis aktif, DataContext.jsx masih pakai data lokal sampai Sheet sungguhan sudah dibuat & di-deploy',
+    ],
+  },
+  {
     version: '0.28.0',
     tanggal: '2026-09-22',
     judul: '4 Fitur Piutang Sekaligus: Batas Kredit, Aging, Kartu Piutang, WA Reminder',

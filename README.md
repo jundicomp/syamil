@@ -72,17 +72,23 @@ Setiap kali saya lanjutkan fase berikutnya, saya akan commit lagi di repo lokal 
 
 ## Bagian 2 — Menyalakan Google Sheets sebagai Database
 
-Ini **belum aktif** — proyek masih pakai data di memori (`src/data/seedData.js`). Sudah saya siapkan kerangkanya (backend + adapter), tapi Sheet-nya sendiri cuma bisa dibuat di akun Google Anda. Langkahnya:
+Ini **belum aktif** — proyek masih pakai data di memori (`src/data/seedData.js`). Sudah saya siapkan kerangkanya lengkap (27 tab, backend, adapter), tapi Sheet-nya sendiri cuma bisa dibuat di akun Google Anda, dan saya belum menyambungkan `DataContext.jsx` ke sana (lihat langkah 5). Langkahnya:
 
-1. **Buat Google Sheet baru**, buat 7 tab dengan nama & kolom header persis seperti ini (lihat komentar di `google-apps-script/Code.gs` untuk daftar lengkap kolomnya):
-   `Pelanggan`, `Supplier`, `Produk`, `BahanBaku`, `Promosi`, `Kampanye`, `Leads`
+1. **Buat 1 Google Sheet baru** (kosong, judul bebas — mis. "Syamil Database"). Cuma perlu 1 file, bukan banyak file — isinya nanti otomatis jadi 27 tab.
 2. Buka **Extensions > Apps Script** dari Sheet itu, hapus kode default, **paste isi file `google-apps-script/Code.gs`** dari proyek ini.
-3. Klik **Deploy > New deployment** → pilih tipe **Web app** → Execute as: **Me**, Who has access: **Anyone**. Deploy, lalu salin URL yang muncul (`https://script.google.com/macros/s/xxx/exec`).
-4. Di proyek React, buat file `.env` (copy dari `.env.example`), isi:
+3. Di dropdown fungsi (sebelah tombol ▶ Run), pilih **`setupSheets`**, klik **Run**. Ini otomatis membuat semua 27 tab dengan header kolom yang benar — Anda **tidak perlu** bikin tab satu-satu manual. Sekali klik, selesai.
+4. **Deploy > New deployment** → pilih tipe **Web app** → Execute as: **Me**, Who has access: **Anyone**. Deploy, salin URL yang muncul (`https://script.google.com/macros/s/xxx/exec`).
+5. Di proyek React, buat file `.env` (copy dari `.env.example`), isi:
    ```
    VITE_SHEETS_API_URL=https://script.google.com/macros/s/xxx/exec
    ```
-5. **Beri tahu saya** setelah langkah di atas selesai — saya akan sambungkan `DataContext.jsx` supaya benar-benar memanggil `src/data/sheetsAdapter.js`, gantikan data lokal. Ini sengaja belum saya sambungkan otomatis karena saya tidak bisa mengetes terhadap Sheet Anda yang sungguhan dari sini.
+6. **Beri tahu saya** setelah langkah di atas selesai — saya akan sambungkan `DataContext.jsx` supaya benar-benar memanggil `src/data/sheetsAdapter.js`, gantikan data lokal. Ini sengaja belum saya sambungkan otomatis karena saya tidak bisa mengetes terhadap Sheet Anda yang sungguhan dari sini.
+
+**Soal kecepatan loading** — 27 tab dibagi 2 kelompok:
+- **10 tab Master Data** (Pelanggan, Supplier, Produk, BahanBaku, Pengguna, Settings, HakAkses, dll) — kecil, jarang berubah, diambil **sekaligus dalam 1 request** pas aplikasi pertama dibuka.
+- **17 tab Data Transaksi** (Penjualan, Produksi, StokLedger, BukuKas, dll) — ini yang terus bertambah seiring waktu (bisa jadi ribuan baris). Diambil **satu-satu**, cuma pas halaman yang butuh itu dibuka — bukan diborong semua di awal.
+
+Kalau nanti kerasa masih lambat meski sudah dipecah begitu, opsi lanjutannya: pakai Google Sheets API v4 + service account (lebih cepat dari Apps Script Web App, tapi setup-nya lebih teknis) — bisa kita bahas kalau sudah sampai situ.
 
 ## Bagian 3 — Deploy ke GitHub Pages (kenapa tadi blank)
 
