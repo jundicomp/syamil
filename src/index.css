@@ -224,6 +224,12 @@ button{color:inherit;font-family:inherit;}
 .item-row .row-actions{display:flex;gap:6px;}
 .form-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:520px;}
 .settings-section-label{display:block;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-deep);margin:18px 0 10px;}
+
+.changelog-head{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;padding:16px 20px;cursor:pointer;text-align:left;color:var(--text);}
+.changelog-head:hover{background:var(--panel-2);}
+.changelog-chevron{font-size:12px;color:var(--text-faint);transition:transform .2s;flex:0 0 auto;}
+.changelog-chevron.open{transform:rotate(180deg);}
+.changelog-list{margin:0;padding:0 20px 16px 46px;font-size:12.5px;color:var(--text-soft);line-height:1.7;}
 .settings-section-label:first-child{margin-top:0;}
 .logo-upload-box{display:flex;align-items:center;gap:14px;background:var(--panel-2);border:1.5px dashed var(--line);border-radius:12px;padding:14px;cursor:pointer;margin-bottom:6px;}
 .logo-preview{width:56px;height:56px;border-radius:10px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;}

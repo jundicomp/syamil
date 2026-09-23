@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.33.0',
+    tanggal: '2026-09-23',
+    judul: 'Changelog: Bisa Digulung, Khusus Superadmin, Bisa Diunduh',
+    perubahan: [
+      'Tiap entri versi sekarang bisa digulung/dibuka (accordion) — defaultnya cuma versi terbaru yang terbuka, sisanya digulung. Klik judul buat buka/tutup',
+      'Halaman Changelog sekarang cuma bisa diakses akun Superadmin — tombol di footer sidebar juga otomatis hilang buat role lain',
+      'Tombol Unduh Excel dan Unduh PDF baru di pojok kanan atas — isi lengkap semua versi & perubahan, siap dibagikan/diarsipkan',
+    ],
+  },
+  {
     version: '0.32.1',
     tanggal: '2026-09-23',
     judul: 'Fix: Nama Usaha (dan Field Pengaturan Lain) Kepotong di Google Sheets',

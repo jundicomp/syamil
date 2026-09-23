@@ -135,14 +135,16 @@ export default function Sidebar({ collapsed }) {
       )}
 
       <div className="nav-bottom">
-        <button
-          onClick={() => navigate('/changelog')}
-          title="Lihat Changelog"
-          className="version-footer"
-        >
-          <span className="v">v{CURRENT_VERSION}</span>
-          {!collapsed && <span className="t">Push: {formatBuildTime(__BUILD_TIME__)}</span>}
-        </button>
+        {user?.role === 'Superadmin' && (
+          <button
+            onClick={() => navigate('/changelog')}
+            title="Lihat Changelog"
+            className="version-footer"
+          >
+            <span className="v">v{CURRENT_VERSION}</span>
+            {!collapsed && <span className="t">Push: {formatBuildTime(__BUILD_TIME__)}</span>}
+          </button>
+        )}
       </div>
     </aside>
   );
