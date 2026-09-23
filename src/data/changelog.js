@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.32.1',
+    tanggal: '2026-09-23',
+    judul: 'Fix: Nama Usaha (dan Field Pengaturan Lain) Kepotong di Google Sheets',
+    perubahan: [
+      'AKAR MASALAH: field Pengaturan (Nama Usaha, Alamat, dll) kirim ke Google Sheets SETIAP HURUF diketik — puluhan permintaan hampir bersamaan, yang selesai belakangan malah bisa isinya cuma beberapa huruf pertama (balapan/race condition)',
+      'Sekarang ditunda (debounce) 900ms — baru benar-benar kirim ke Sheets setelah berhenti mengetik, bukan tiap huruf',
+      'Berlaku untuk semua field di Pengaturan Sistem > Perusahaan & Keuangan (Nama Usaha, Alamat, Rekening, dll)',
+    ],
+  },
+  {
     version: '0.32.0',
     tanggal: '2026-09-23',
     judul: 'Login: Username/Password (Bukan Dropdown Lagi) + Akun Superadmin',

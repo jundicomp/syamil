@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import {
   seedPelanggan, seedSupplier, seedProduk, seedBahanBaku,
   seedPromosi, seedKampanye, seedLeads,
@@ -39,6 +39,7 @@ export function DataProvider({ children }) {
   const [bukuKas, setBukuKas] = useState([]);
 
   const [sheetsLoading, setSheetsLoading] = useState(SHEETS_ON);
+  const settingsSyncTimers = useRef({});
   const [sheetsError, setSheetsError] = useState(null);
 
   // ===== Ambil semua data dari Google Sheets sekali di awal (kalau tersambung) =====
@@ -115,7 +116,15 @@ export function DataProvider({ children }) {
   const updateSettings = useCallback((patch) => {
     setSettings(prev => ({ ...prev, ...patch }));
     if (SHEETS_ON) {
-      Object.entries(patch).forEach(([k, v]) => syncBackground(setKvRemote('settings', k, v)));
+      Object.entries(patch).forEach(([k, v]) => {
+        // Debounce per-field — kalau field ini diketik lagi sebelum 900ms, batalkan
+        // kiriman lama dan tunggu lagi. Cegah puluhan request race per huruf yang diketik.
+        if (settingsSyncTimers.current[k]) clearTimeout(settingsSyncTimers.current[k]);
+        settingsSyncTimers.current[k] = setTimeout(() => {
+          syncBackground(setKvRemote('settings', k, v));
+          delete settingsSyncTimers.current[k];
+        }, 900);
+      });
     }
   }, []);
 
