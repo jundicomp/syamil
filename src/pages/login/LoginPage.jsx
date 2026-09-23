@@ -10,18 +10,34 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const { status: sheetsStatus } = useSheetsStatus();
-  const akunAktif = data.pengguna.filter(p => p.status === 'Aktif');
-  const [userId, setUserId] = useState(akunAktif[0]?.id ?? '');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
-    const user = akunAktif.find(p => p.id === Number(userId));
-    if (!user) { setError('Pilih akun terlebih dahulu.'); return; }
-    if (!password.trim()) { setError('Isi password (bebas — ini akun demo).'); return; }
-    login(user);
-    navigate(firstAccessiblePath(user.role, hakAkses));
+    const u = username.trim();
+    if (!u) { setError('Isi username terlebih dahulu.'); return; }
+    if (!password.trim()) { setError('Isi password terlebih dahulu.'); return; }
+
+    // Login utama — akses penuh ke semua modul.
+    if (u.toLowerCase() === 'admin' && password === '123456') {
+      const superadmin = { id: 0, nama: 'Admin', email: 'admin', hp: '', role: 'Superadmin', status: 'Aktif', kodeMarketing: '-', fotoDataUrl: null };
+      login(superadmin);
+      navigate(firstAccessiblePath('Superadmin', hakAkses));
+      return;
+    }
+
+    // Akun staf lain yang didaftarkan lewat Pengaturan Sistem > User & Hak Akses
+    // (password bebas untuk sekarang — belum ada verifikasi password sungguhan).
+    const user = data.pengguna.find(p => p.status === 'Aktif' && (p.nama.toLowerCase() === u.toLowerCase() || p.email?.toLowerCase() === u.toLowerCase()));
+    if (user) {
+      login(user);
+      navigate(firstAccessiblePath(user.role, hakAkses));
+      return;
+    }
+
+    setError('Username tidak ditemukan.');
   }
 
   return (
@@ -60,19 +76,17 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="modal-card" style={{ maxWidth: 'none' }}>
           <div className="f-field">
-            <label>Masuk Sebagai</label>
-            <select value={userId} onChange={e => setUserId(e.target.value)}>
-              {akunAktif.map(p => <option key={p.id} value={p.id}>{p.nama} — {p.role}</option>)}
-            </select>
+            <label>Username</label>
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="admin" autoFocus />
           </div>
           <div className="f-field">
             <label>Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Bebas — ini akun demo" />
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••" />
           </div>
           {error && <p style={{ color: 'var(--total-red)', fontSize: 11.5, margin: '0 0 10px' }}>{error}</p>}
           <button type="submit" className="btn-gold" style={{ width: '100%', padding: 12 }}>Masuk</button>
           <p style={{ fontSize: 10.5, color: 'var(--text-faint)', textAlign: 'center', marginTop: 14 }}>
-            ⚠ Ini akun dummy untuk demo — belum ada verifikasi password sungguhan.
+            ⚠ Belum ada verifikasi password sungguhan — sekadar gerbang awal.
           </p>
         </form>
       </div>

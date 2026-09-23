@@ -47,9 +47,10 @@ export const seedPengguna = withIds([
 export const seedNotifikasi = [];
 export const seedAuditTrail = [];
 
-export const HAK_AKSES_ROLES = ['Owner', 'Admin', 'Kasir', 'Gudang', 'Marketing'];
+export const HAK_AKSES_ROLES = ['Superadmin', 'Owner', 'Admin', 'Kasir', 'Gudang', 'Marketing'];
 export const HAK_AKSES_MODULES = ['Penjualan', 'Pembelian', 'Produksi', 'Kalkulasi HPP', 'Marketing', 'Laporan Keuangan', 'Pengaturan'];
 export const seedHakAkses = {
+  Superadmin: { Penjualan: true, Pembelian: true, Produksi: true, 'Kalkulasi HPP': true, Marketing: true, 'Laporan Keuangan': true, Pengaturan: true },
   Owner: { Penjualan: true, Pembelian: true, Produksi: true, 'Kalkulasi HPP': true, Marketing: true, 'Laporan Keuangan': true, Pengaturan: true },
   Admin: { Penjualan: true, Pembelian: true, Produksi: true, 'Kalkulasi HPP': true, Marketing: true, 'Laporan Keuangan': true, Pengaturan: false },
   Kasir: { Penjualan: true, Pembelian: false, Produksi: false, 'Kalkulasi HPP': false, Marketing: false, 'Laporan Keuangan': false, Pengaturan: false },

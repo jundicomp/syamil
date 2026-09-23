@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.32.0',
+    tanggal: '2026-09-23',
+    judul: 'Login: Username/Password (Bukan Dropdown Lagi) + Akun Superadmin',
+    perubahan: [
+      'Halaman Login dirombak — dropdown "Masuk Sebagai" dihapus, diganti input Username + Password biasa',
+      'Login utama: username "admin", password "123456" — otomatis masuk sebagai Superadmin (akses penuh ke semua modul)',
+      'Role baru "Superadmin" ditambahkan ke Hak Akses (di atas Owner, akses semua modul termasuk Pengaturan)',
+      'Akun staf lain yang didaftarkan lewat Pengaturan Sistem > User & Hak Akses tetap bisa login — ketik nama atau email mereka sebagai username (password masih bebas, belum ada verifikasi sungguhan)',
+    ],
+  },
+  {
     version: '0.31.3',
     tanggal: '2026-09-23',
     judul: 'Fix: Status Sering Nyangkut di Kuning Padahal Sudah Tersambung',
