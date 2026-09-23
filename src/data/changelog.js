@@ -3,6 +3,15 @@
 
 export const CHANGELOG = [
   {
+    version: '0.35.1',
+    tanggal: '2026-09-23',
+    judul: 'Fix: "Pak Budi" Masih Muncul di Kalkulasi HPP & Ciptakan SPK',
+    perubahan: [
+      'Ketemu 2 tempat yang kelewat dari perbaikan Topbar dulu — Kalkulasi HPP dan Ciptakan SPK masih hardcode "Pak Budi" sebagai "Dibuat Oleh", padahal seharusnya nama user yang benar-benar login',
+      'Sudah diganti pakai nama akun yang aktif — sudah disapu ke seluruh aplikasi, dipastikan tidak ada nama contoh lama (Siti Aminah, Andi Saputra, dkk) yang masih nyangkut di tempat lain',
+    ],
+  },
+  {
     version: '0.35.0',
     tanggal: '2026-09-23',
     judul: 'Marketing: Leaderboard Bulan Ini vs Total Beneran Beda + Filter Tanggal',

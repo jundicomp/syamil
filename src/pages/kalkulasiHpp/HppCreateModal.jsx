@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/NotificationContext';
 import { todayID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
 export default function HppCreateModal({ onClose }) {
+  const { user } = useAuth();
   const { data, addRow, addStokMovement } = useData();
   const { notifyError, notifySuccess } = useNotify();
   const spkAktif = data.produksi.filter(p => p.statusSpk === 'Aktif');
@@ -53,7 +55,7 @@ export default function HppCreateModal({ onClose }) {
 
     addRow('hppCalc', {
       noOrder, produk: spk.produk, pelanggan: spk.pelanggan, tanggal: todayID(),
-      hargaJual, items: validItems, totalHpp, dibuatOleh: 'Pak Budi',
+      hargaJual, items: validItems, totalHpp, dibuatOleh: user?.nama || '-',
     });
 
     // Baris "Stok Gudang" otomatis mengurangi stok bahan baku.

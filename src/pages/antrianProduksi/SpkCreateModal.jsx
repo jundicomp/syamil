@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/NotificationContext';
 
 /**
@@ -17,6 +18,7 @@ function getRemainingItemsForNota(nota, produksiList) {
 }
 
 export default function SpkCreateModal({ onClose }) {
+  const { user } = useAuth();
   const { data, addRow } = useData();
   const { notifyError, notifySuccess } = useNotify();
 
@@ -88,7 +90,7 @@ export default function SpkCreateModal({ onClose }) {
       addRow('produksi', {
         noOrder, statusSpk: 'Aktif', noNota, produk: produkNama,
         pelanggan: notaTerpilih.pelanggan, tahap: 'Desain',
-        target, pic, detail, dibuatOleh: 'Pak Budi', history: [],
+        target, pic, detail, dibuatOleh: user?.nama || '-', history: [],
       });
       createdOrders.push(noOrder);
     });
