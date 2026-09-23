@@ -82,7 +82,12 @@ Ini **belum aktif** — proyek masih pakai data di memori (`src/data/seedData.js
    ```
    VITE_SHEETS_API_URL=https://script.google.com/macros/s/xxx/exec
    ```
-6. **Beri tahu saya** setelah langkah di atas selesai — saya akan sambungkan `DataContext.jsx` supaya benar-benar memanggil `src/data/sheetsAdapter.js`, gantikan data lokal. Ini sengaja belum saya sambungkan otomatis karena saya tidak bisa mengetes terhadap Sheet Anda yang sungguhan dari sini.
+   Ini **cukup untuk coba di komputer sendiri** (`npm run dev`), tapi **BELUM cukup untuk yang ter-deploy** di GitHub Pages — lihat langkah 6.
+6. **Kalau deploy lewat GitHub Actions** (seperti proyek ini): file `.env` tidak pernah ikut ke GitHub (sengaja, demi keamanan), jadi GitHub Actions perlu tahu URL-nya lewat jalur lain — **GitHub Secret**:
+   1. Buka repo Anda di GitHub → **Settings** → **Secrets and variables** → **Actions**
+   2. **New repository secret** → Name: `VITE_SHEETS_API_URL` → Value: URL Web App Anda (yang sama seperti di `.env`) → **Add secret**
+   3. Push kode terbaru (yang sudah menyertakan `deploy.yml` versi baru) → GitHub Actions otomatis jalan ulang, kali ini bawa URL-nya
+7. Setelah Secret ditambahkan dan Actions selesai jalan ulang — buka webnya, badge di Topbar harusnya pulse hijau. `DataContext.jsx` sudah tersambung ke `src/data/sheetsAdapter.js` sejak v0.31.0 (tidak perlu langkah tambahan lagi di sisi kode).
 
 **Soal kecepatan loading** — 27 tab dibagi 2 kelompok:
 - **10 tab Master Data** (Pelanggan, Supplier, Produk, BahanBaku, Pengguna, Settings, HakAkses, dll) — kecil, jarang berubah, diambil **sekaligus dalam 1 request** pas aplikasi pertama dibuka.

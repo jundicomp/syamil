@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.31.1',
+    tanggal: '2026-09-23',
+    judul: 'Fix: Deploy GitHub Actions Tidak Tahu URL Google Sheets',
+    perubahan: [
+      'FIX AKAR MASALAH kenapa web ter-deploy belum tersambung Sheets: file .env di komputer sendiri TIDAK ikut ke GitHub (sengaja, demi keamanan), jadi GitHub Actions build tanpa tahu URL sama sekali',
+      'deploy.yml diperbaiki — build sekarang ambil VITE_SHEETS_API_URL dari GitHub Secret',
+      'README: langkah baru menambahkan GitHub Secret (Settings > Secrets and variables > Actions)',
+    ],
+  },
+  {
     version: '0.31.0',
     tanggal: '2026-09-23',
     judul: 'DataContext Tersambung ke Google Sheets Sungguhan',
