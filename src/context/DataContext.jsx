@@ -53,7 +53,10 @@ export function DataProvider({ children }) {
           ...prev,
           pelanggan: all.pelanggan ?? [], supplier: all.supplier ?? [], produk: all.produk ?? [],
           bahanBaku: all.bahanBaku ?? [], promosi: all.promosi ?? [], kampanye: all.kampanye ?? [],
-          leads: all.leads ?? [], pengguna: all.pengguna ?? [], notifikasi: all.notifikasi ?? [],
+          leads: all.leads ?? [], notifikasi: all.notifikasi ?? [],
+          // pengguna sengaja TIDAK ditimpa kalau Sheets masih kosong — supaya tetap ada
+          // akun Owner default buat login, sampai Anda isi tab Pengguna di Sheet sungguhan.
+          pengguna: all.pengguna?.length > 0 ? all.pengguna : prev.pengguna,
           auditTrail: all.auditTrail ?? [], penjualan: all.penjualan ?? [], produksi: all.produksi ?? [],
           stokLedger: all.stokLedger ?? [], pembelian: all.pembelian ?? [], hppCalc: all.hppCalc ?? [],
           strategiMarketing: all.strategiMarketing ?? [], stokOpname: all.stokOpname ?? [],
