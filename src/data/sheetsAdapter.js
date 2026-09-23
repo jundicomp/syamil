@@ -89,3 +89,9 @@ export async function toggleHakAksesRemote(role, modul, value) {
   const res = await fetch(BASE_URL, { method: 'POST', body: JSON.stringify({ action: 'toggleHakAkses', row: { role, modul, value } }) });
   return res.json();
 }
+/** Lupa password — kirim password sementara ke email itu (lewat MailApp di Code.gs). */
+export async function requestPasswordReset(email) {
+  assertConfigured();
+  const res = await fetch(BASE_URL, { method: 'POST', body: JSON.stringify({ action: 'forgotPassword', row: { email } }) });
+  return res.json();
+}

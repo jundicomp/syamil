@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.36.0',
+    tanggal: '2026-09-23',
+    judul: 'Lupa Password — Kirim Password Sementara ke Email',
+    perubahan: [
+      'Halaman Login: link baru "Lupa password?" — masukkan email, password sementara otomatis dikirim ke email itu',
+      'Dikirim lewat MailApp bawaan Google Apps Script (dari akun Google pemilik Sheet ini sendiri) — tidak perlu layanan email pihak ketiga',
+      'Code.gs: kolom "password" baru di sheet Pengguna, aksi forgotPassword baru (cari akun by email, buat password acak, simpan, kirim email)',
+      'Akun yang belum pernah reset password tetap bisa login pakai password apa saja (seperti sebelumnya) — begitu direset sekali, password itu jadi wajib cocok persis',
+      'PENTING: perlu update Code.gs + deploy ulang, DAN tambah kolom "password" manual di tab Pengguna Sheet yang sudah ada (atau pakai template Excel baru untuk yang belum setup)',
+    ],
+  },
+  {
     version: '0.35.2',
     tanggal: '2026-09-23',
     judul: 'Sapuan Sisa Data Dummy: Breadcrumb & Tanggal Simulasi Mati',

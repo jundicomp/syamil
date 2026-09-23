@@ -30,7 +30,7 @@ const SCHEMA = {
   Supplier: ['id', 'nama', 'pic', 'tipeSupplier', 'kategoriBahan', 'kontak', 'alamat', 'kota'],
   Produk: ['id', 'nama', 'kategori', 'satuan', 'harga', 'tipe', 'hargaMatrix'],
   BahanBaku: ['id', 'nama', 'satuan', 'hargaBeli', 'supplier', 'stokMinimum', 'stok'],
-  Pengguna: ['id', 'nama', 'email', 'hp', 'role', 'status', 'kodeMarketing', 'fotoDataUrl'],
+  Pengguna: ['id', 'nama', 'email', 'hp', 'role', 'status', 'kodeMarketing', 'fotoDataUrl', 'password'],
   Settings: ['key', 'value'], // key-value, nilai kompleks (rekening, logoPlacement) disimpan JSON di 'value'
   HakAkses: ['role', 'Penjualan', 'Pembelian', 'Produksi', 'Kalkulasi HPP', 'Marketing', 'Laporan Keuangan', 'Pengaturan'],
   StrategiJenisList: ['jenis'],
@@ -100,6 +100,7 @@ function doPost(e) {
   const { action, table, id, row } = body;
 
   if (action === 'toggleHakAkses') return jsonOut(updateHakAkses(row.role, row.modul, row.value));
+  if (action === 'forgotPassword') return jsonOut(forgotPassword(row.email));
 
   if (!SCHEMA[table]) return jsonOut({ error: 'Tabel tidak dikenal: ' + table });
 
@@ -231,6 +232,44 @@ function updateHakAkses(role, modul, value) {
     }
   }
   return { error: 'Role tidak ditemukan: ' + role };
+}
+
+/**
+ * Lupa password: cari akun berdasarkan email di sheet Pengguna, buat password
+ * sementara acak, simpan ke kolom "password", kirim ke email itu lewat MailApp
+ * (dikirim dari akun Google pemilik Apps Script ini — tidak butuh layanan email lain).
+ */
+function forgotPassword(email) {
+  if (!email) return { error: 'Email wajib diisi.' };
+  const sheet = getSheet('Pengguna');
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const emailCol = headers.indexOf('email');
+  const namaCol = headers.indexOf('nama');
+  const statusCol = headers.indexOf('status');
+  const passCol = headers.indexOf('password');
+
+  for (let r = 1; r < values.length; r++) {
+    if (String(values[r][emailCol]).toLowerCase() === String(email).toLowerCase()) {
+      if (values[r][statusCol] !== 'Aktif') return { error: 'Akun ini nonaktif — hubungi Owner/Admin.' };
+      const nama = values[r][namaCol];
+      const passwordBaru = Math.random().toString(36).slice(-4).toUpperCase() + Math.floor(1000 + Math.random() * 9000);
+      sheet.getRange(r + 1, passCol + 1).setValue(passwordBaru);
+
+      MailApp.sendEmail({
+        to: email,
+        subject: 'Password Baru — Sistem Percetakan',
+        body:
+          'Halo ' + nama + ',\n\n' +
+          'Anda meminta reset password. Password sementara Anda:\n\n' +
+          '    ' + passwordBaru + '\n\n' +
+          'Gunakan ini untuk login, lalu segera ganti lewat halaman Profil Saya.\n\n' +
+          'Kalau Anda tidak meminta ini, abaikan saja email ini — password lama Anda tidak berubah kecuali lewat proses ini.',
+      });
+      return { ok: true };
+    }
+  }
+  return { error: 'Email tidak ditemukan di sistem.' };
 }
 
 function updateRow(table, id, patch) {
