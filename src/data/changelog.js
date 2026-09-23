@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.34.1',
+    tanggal: '2026-09-23',
+    judul: 'Import Excel Sekarang Dukung Produk Matriks Harga Juga',
+    perubahan: [
+      'Template Excel Produk sekarang punya 2 sheet: "Produk Tetap" (seperti sebelumnya) dan "Produk Matriks" (baru)',
+      'Sheet Produk Matriks: 1 baris per kombinasi Tingkatan×Bahan — baris dengan "Nama Produk" sama otomatis digabung jadi 1 matriks lengkap (banyak bahan, banyak tingkatan)',
+      'Tingkat Max dikosongkan = otomatis jadi tingkatan "tanpa batas" (tier terakhir)',
+      'Pratinjau hasil import: produk Matriks ditampilkan "X bahan × Y tingkat" (bukan harga tunggal), produk Tetap tetap tampilkan Rp seperti biasa',
+      'Bisa isi salah satu sheet saja atau dua-duanya sekaligus dalam 1 file yang sama',
+    ],
+  },
+  {
     version: '0.34.0',
     tanggal: '2026-09-23',
     judul: 'Skeleton Loading Premium, Import Produk dari Excel, Ukuran List Diseragamkan',

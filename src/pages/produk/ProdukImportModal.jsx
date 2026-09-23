@@ -44,9 +44,10 @@ export default function ProdukImportModal({ onClose }) {
         </div>
 
         <p style={{ fontSize: 12, color: 'var(--text-soft)', marginTop: -4 }}>
-          Kolom yang dibaca: <b>Nama, Kategori, Satuan, Harga</b>. Semua produk yang diimpor otomatis
-          bertipe "Tetap" — produk Matriks Harga tetap perlu disiapkan satu-satu (matriksnya butuh
-          input tier + bahan yang tidak muat di 1 baris Excel).
+          Template-nya ada <b>2 sheet</b>: <b>"Produk Tetap"</b> (1 baris = 1 produk, harga langsung)
+          dan <b>"Produk Matriks"</b> (beberapa baris per produk — 1 baris per kombinasi Tingkatan×Bahan,
+          baris dengan "Nama Produk" sama otomatis digabung jadi 1 matriks). Isi salah satu sheet saja
+          atau dua-duanya, sesuai kebutuhan.
         </p>
 
         <button type="button" className="btn-outline" style={{ width: '100%', marginBottom: 14 }} onClick={downloadProdukTemplate}>
@@ -67,7 +68,7 @@ export default function ProdukImportModal({ onClose }) {
             </div>
             {hasil.invalid.length > 0 && (
               <div style={{ maxHeight: 100, overflowY: 'auto', fontSize: 11, color: 'var(--text-faint)' }}>
-                {hasil.invalid.map((x, i) => <div key={i}>Baris {x.baris}: {x.alasan}</div>)}
+                {hasil.invalid.map((x, i) => <div key={i}>{x.sheet} · Baris {x.baris}: {x.alasan}</div>)}
               </div>
             )}
             {hasil.valid.length > 0 && (
@@ -75,7 +76,11 @@ export default function ProdukImportModal({ onClose }) {
                 {hasil.valid.slice(0, 8).map((p, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, padding: '3px 0' }}>
                     <span>{p.nama} <span style={{ color: 'var(--text-faint)' }}>({p.kategori})</span></span>
-                    <span>Rp{fmt(p.harga)}</span>
+                    <span>
+                      {p.tipe === 'Matriks Harga'
+                        ? `${p.hargaMatrix.bahan.length} bahan × ${p.hargaMatrix.tiers.length} tingkat`
+                        : `Rp${fmt(p.harga)}`}
+                    </span>
                   </div>
                 ))}
                 {hasil.valid.length > 8 && <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 4 }}>+{hasil.valid.length - 8} lainnya...</div>}
