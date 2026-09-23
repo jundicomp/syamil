@@ -98,6 +98,9 @@ function doGet(e) {
 function doPost(e) {
   const body = JSON.parse(e.postData.contents);
   const { action, table, id, row } = body;
+
+  if (action === 'toggleHakAkses') return jsonOut(updateHakAkses(row.role, row.modul, row.value));
+
   if (!SCHEMA[table]) return jsonOut({ error: 'Tabel tidak dikenal: ' + table });
 
   if (KV_TABLES.includes(table)) {
@@ -203,12 +206,31 @@ function readHakAkses() {
 function addRow(table, row) {
   const sheet = getSheet(table);
   const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-  const lastRow = sheet.getLastRow();
-  const existingIds = lastRow > 1 ? sheet.getRange(2, 1, lastRow - 1, 1).getValues().flat().filter(v => v !== '') : [];
-  const newId = (existingIds.length ? Math.max(...existingIds) : 0) + 1;
-  const fullRow = { id: newId, ...row };
+  let newId = row.id;
+  if (newId === undefined || newId === null) {
+    // Fallback: cuma dipakai kalau client tidak kirim id (harusnya selalu kirim).
+    const lastRow = sheet.getLastRow();
+    const existingIds = lastRow > 1 ? sheet.getRange(2, 1, lastRow - 1, 1).getValues().flat().filter(v => v !== '') : [];
+    newId = (existingIds.length ? Math.max(...existingIds) : 0) + 1;
+  }
+  const fullRow = { ...row, id: newId };
   sheet.appendRow(headers.map(h => stringifyCell(fullRow[h])));
   return { ok: true, id: newId };
+}
+
+function updateHakAkses(role, modul, value) {
+  const sheet = getSheet('HakAkses');
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const modulCol = headers.indexOf(modul);
+  if (modulCol < 0) return { error: 'Modul tidak dikenal: ' + modul };
+  for (let r = 1; r < values.length; r++) {
+    if (values[r][0] === role) {
+      sheet.getRange(r + 1, modulCol + 1).setValue(value);
+      return { ok: true };
+    }
+  }
+  return { error: 'Role tidak ditemukan: ' + role };
 }
 
 function updateRow(table, id, patch) {

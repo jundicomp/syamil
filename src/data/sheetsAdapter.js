@@ -84,3 +84,8 @@ export async function addToListRemote(key, value) {
   const res = await fetch(BASE_URL, { method: 'POST', body: JSON.stringify({ action: 'add', table: TABLE_NAME[key], row: { value } }) });
   return res.json();
 }
+export async function toggleHakAksesRemote(role, modul, value) {
+  assertConfigured();
+  const res = await fetch(BASE_URL, { method: 'POST', body: JSON.stringify({ action: 'toggleHakAkses', row: { role, modul, value } }) });
+  return res.json();
+}

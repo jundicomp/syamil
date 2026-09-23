@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.31.0',
+    tanggal: '2026-09-23',
+    judul: 'DataContext Tersambung ke Google Sheets Sungguhan',
+    perubahan: [
+      'DataContext.jsx sekarang benar-benar memanggil Google Sheets — begitu aplikasi dibuka, semua 27 tabel diambil sekali di awal (ada layar "Memuat data..." sebentar)',
+      'Semua aksi (tambah/edit/hapus data, ganti Pengaturan, toggle Hak Akses, tambah kategori/jenis, transaksi Buku Kas, pergerakan Stok) sekarang otomatis tersinkron ke Sheets di belakang layar — kalau sinkron gagal, tidak mengganggu pemakaian lokal (dicatat di console saja)',
+      'Code.gs: fungsi addRow() diperbaiki supaya pakai id yang sudah ditentukan aplikasi (bukan hitung ulang sendiri) — mencegah id lokal & Sheets jadi tidak sinkron',
+      'Code.gs: aksi baru toggleHakAkses buat nulis balik matriks Hak Akses ke Sheets (sebelumnya cuma bisa dibaca, belum bisa ditulis)',
+      'PENTING: kalau file Code.gs di Apps Script Anda masih versi lama, perlu di-update + deploy ulang dulu (lihat 2 perubahan di atas) supaya sinkron berjalan benar',
+    ],
+  },
+  {
     version: '0.30.0',
     tanggal: '2026-09-23',
     judul: 'Data Dikosongkan (Siap Pakai Sungguhan) + Indikator Koneksi Google Sheets',

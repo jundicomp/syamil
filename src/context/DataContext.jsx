@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import {
   seedPelanggan, seedSupplier, seedProduk, seedBahanBaku,
   seedPromosi, seedKampanye, seedLeads,
@@ -7,50 +7,93 @@ import {
   seedStrategiMarketing, seedAnggaranMarketing, STRATEGI_JENIS_LIST_DEFAULT, PELANGGAN_KATEGORI_DEFAULT,
 } from '../data/seedData';
 import { todayID } from '../utils/dateUtils';
+import {
+  fetchAllTables, addRowRemote, updateRowRemote, deleteRowRemote,
+  setKvRemote, addToListRemote, toggleHakAksesRemote,
+} from '../data/sheetsAdapter';
 
 const DataContext = createContext(null);
 
+const SHEETS_ON = !!import.meta.env.VITE_SHEETS_API_URL;
+
+// Kunci di `data` yang punya tabel sendiri di Sheets (dipetakan sheetsAdapter.TABLE_NAME).
+// posDraft & rekonsiliasiKas & piutang sengaja mulai kosong lokal juga kalau Sheets belum ada baris untuknya.
+function seedLocalData() {
+  return {
+    pelanggan: seedPelanggan, supplier: seedSupplier, produk: seedProduk, bahanBaku: seedBahanBaku,
+    promosi: seedPromosi, kampanye: seedKampanye, leads: seedLeads,
+    pengguna: seedPengguna, notifikasi: seedNotifikasi, auditTrail: seedAuditTrail,
+    penjualan: seedPenjualan, produksi: seedProduksi, stokLedger: seedStokLedger,
+    pembelian: seedPembelian, hppCalc: seedHppCalc, strategiMarketing: seedStrategiMarketing,
+    stokOpname: seedStokOpname, posDraft: [], hutang: seedHutang, piutang: [], rekonsiliasiKas: [],
+  };
+}
+
 export function DataProvider({ children }) {
-  const [data, setData] = useState({
-    pelanggan: seedPelanggan,
-    supplier: seedSupplier,
-    produk: seedProduk,
-    bahanBaku: seedBahanBaku,
-    promosi: seedPromosi,
-    kampanye: seedKampanye,
-    leads: seedLeads,
-    pengguna: seedPengguna,
-    notifikasi: seedNotifikasi,
-    auditTrail: seedAuditTrail,
-    penjualan: seedPenjualan,
-    produksi: seedProduksi,
-    stokLedger: seedStokLedger,
-    pembelian: seedPembelian,
-    hppCalc: seedHppCalc,
-    strategiMarketing: seedStrategiMarketing,
-    stokOpname: seedStokOpname,
-    posDraft: [],
-    hutang: seedHutang,
-    piutang: [],
-    rekonsiliasiKas: [],
-  });
+  const [data, setData] = useState(seedLocalData);
   const [settings, setSettings] = useState(seedSettings);
   const [hakAkses, setHakAkses] = useState(seedHakAkses);
-  const [anggaranMarketing] = useState(seedAnggaranMarketing);
+  const [anggaranMarketing, setAnggaranMarketing] = useState(seedAnggaranMarketing);
   const [strategiJenisList, setStrategiJenisList] = useState(STRATEGI_JENIS_LIST_DEFAULT);
   const [pelangganKategoriList, setPelangganKategoriList] = useState(PELANGGAN_KATEGORI_DEFAULT);
-  // Buku Kas belum punya halaman sendiri (Fase 7) — tapi transaksi Lunas/DP di POS
-  // dan Pembelian Lunas sudah otomatis tercatat ke sini dari sekarang.
   const [bukuKas, setBukuKas] = useState([]);
 
-  // Tambah baris baru — id otomatis (max id + 1), sama seperti pola versi HTML.
+  const [sheetsLoading, setSheetsLoading] = useState(SHEETS_ON);
+  const [sheetsError, setSheetsError] = useState(null);
+
+  // ===== Ambil semua data dari Google Sheets sekali di awal (kalau tersambung) =====
+  useEffect(() => {
+    if (!SHEETS_ON) return;
+    let batal = false;
+    (async () => {
+      try {
+        const all = await fetchAllTables();
+        if (batal) return;
+        setData(prev => ({
+          ...prev,
+          pelanggan: all.pelanggan ?? [], supplier: all.supplier ?? [], produk: all.produk ?? [],
+          bahanBaku: all.bahanBaku ?? [], promosi: all.promosi ?? [], kampanye: all.kampanye ?? [],
+          leads: all.leads ?? [], pengguna: all.pengguna ?? [], notifikasi: all.notifikasi ?? [],
+          auditTrail: all.auditTrail ?? [], penjualan: all.penjualan ?? [], produksi: all.produksi ?? [],
+          stokLedger: all.stokLedger ?? [], pembelian: all.pembelian ?? [], hppCalc: all.hppCalc ?? [],
+          strategiMarketing: all.strategiMarketing ?? [], stokOpname: all.stokOpname ?? [],
+          posDraft: all.posDraft ?? [], hutang: all.hutang ?? [], piutang: all.piutang ?? [],
+          rekonsiliasiKas: all.rekonsiliasiKas ?? [],
+        }));
+        if (all.settings && Object.keys(all.settings).length > 0) setSettings(prev => ({ ...prev, ...all.settings }));
+        if (all.hakAkses && Object.keys(all.hakAkses).length > 0) setHakAkses(all.hakAkses);
+        if (all.anggaranMarketing && Object.keys(all.anggaranMarketing).length > 0) setAnggaranMarketing(all.anggaranMarketing);
+        if (all.strategiJenisList?.length > 0) setStrategiJenisList(all.strategiJenisList);
+        if (all.pelangganKategoriList?.length > 0) setPelangganKategoriList(all.pelangganKategoriList);
+        setBukuKas(all.bukuKas ?? []);
+      } catch (err) {
+        console.error('Gagal memuat data dari Google Sheets, tetap pakai data lokal:', err);
+        if (!batal) setSheetsError(err.message || 'Gagal memuat dari Google Sheets');
+      } finally {
+        if (!batal) setSheetsLoading(false);
+      }
+    })();
+    return () => { batal = true; };
+  }, []);
+
+  // Sinkron ke Sheets di belakang layar — gagal cuma dicatat di console, tidak mengganggu pemakaian lokal.
+  function syncBackground(promise) {
+    if (!SHEETS_ON) return;
+    promise.catch(err => console.error('Gagal sinkron ke Google Sheets:', err));
+  }
+
+  // Tambah baris baru — id otomatis (max id + 1) dihitung di sini (client), lalu dikirim
+  // apa adanya ke Sheets supaya id lokal & Sheets selalu sama persis.
   const addRow = useCallback((key, row) => {
+    let newRow;
     setData(prev => {
       const arr = prev[key];
       const ids = arr.map(r => r.id);
       const newId = (ids.length ? Math.max(...ids) : 0) + 1;
-      return { ...prev, [key]: [{ id: newId, ...row }, ...arr] };
+      newRow = { id: newId, ...row };
+      return { ...prev, [key]: [newRow, ...arr] };
     });
+    syncBackground(addRowRemote(key, newRow));
   }, []);
 
   const updateRow = useCallback((key, id, patch) => {
@@ -58,18 +101,28 @@ export function DataProvider({ children }) {
       ...prev,
       [key]: prev[key].map(r => (r.id === id ? { ...r, ...patch } : r)),
     }));
+    syncBackground(updateRowRemote(key, id, patch));
   }, []);
 
   const deleteRow = useCallback((key, id) => {
     setData(prev => ({ ...prev, [key]: prev[key].filter(r => r.id !== id) }));
+    syncBackground(deleteRowRemote(key, id));
   }, []);
 
   const updateSettings = useCallback((patch) => {
     setSettings(prev => ({ ...prev, ...patch }));
+    if (SHEETS_ON) {
+      Object.entries(patch).forEach(([k, v]) => syncBackground(setKvRemote('settings', k, v)));
+    }
   }, []);
 
   const toggleHakAkses = useCallback((role, mod) => {
-    setHakAkses(prev => ({ ...prev, [role]: { ...prev[role], [mod]: !prev[role][mod] } }));
+    let newValue;
+    setHakAkses(prev => {
+      newValue = !prev[role][mod];
+      return { ...prev, [role]: { ...prev[role], [mod]: newValue } };
+    });
+    syncBackground(toggleHakAksesRemote(role, mod, newValue));
   }, []);
 
   /**
@@ -78,31 +131,51 @@ export function DataProvider({ children }) {
    * menambah/mengurangi stok bahan baku SEKALIGUS mencatatnya ke Kartu Stok.
    */
   const addStokMovement = useCallback((bahanNama, tipe, qty, satuan, referensi, keterangan) => {
+    let entry, bahanUpdate;
     setData(prev => {
-      const bahanBaku = prev.bahanBaku.map(b =>
-        b.nama === bahanNama ? { ...b, stok: b.stok + (tipe === 'Masuk' ? qty : -qty) } : b
-      );
+      const bahanBaku = prev.bahanBaku.map(b => {
+        if (b.nama !== bahanNama) return b;
+        bahanUpdate = { id: b.id, stok: b.stok + (tipe === 'Masuk' ? qty : -qty) };
+        return { ...b, stok: bahanUpdate.stok };
+      });
       const ledgerIds = prev.stokLedger.map(r => r.id);
       const newId = (ledgerIds.length ? Math.max(...ledgerIds) : 0) + 1;
-      const entry = {
-        id: newId, tanggal: todayID(), bahan: bahanNama, tipe, qty, satuan, referensi, keterangan,
-      };
+      entry = { id: newId, tanggal: todayID(), bahan: bahanNama, tipe, qty, satuan, referensi, keterangan };
       return { ...prev, bahanBaku, stokLedger: [entry, ...prev.stokLedger] };
     });
+    syncBackground(addRowRemote('stokLedger', entry));
+    if (bahanUpdate) syncBackground(updateRowRemote('bahanBaku', bahanUpdate.id, { stok: bahanUpdate.stok }));
   }, []);
 
   const addBukuKasEntry = useCallback((tipe, jumlah, keterangan, metodeBayar) => {
     const jenisKas = metodeBayar === 'Tunai' ? 'Toko' : metodeBayar ? 'Bank' : 'Toko';
-    setBukuKas(prev => [{ id: prev.length + 1, tanggal: todayID(), tipe, jumlah, keterangan, jenisKas }, ...prev]);
+    let entry;
+    setBukuKas(prev => {
+      const ids = prev.map(r => r.id);
+      const newId = (ids.length ? Math.max(...ids) : 0) + 1;
+      entry = { id: newId, tanggal: todayID(), tipe, jumlah, keterangan, jenisKas };
+      return [entry, ...prev];
+    });
+    syncBackground(addRowRemote('bukuKas', entry));
   }, []);
 
   const addStrategiJenis = useCallback((jenis) => {
     setStrategiJenisList(prev => (prev.includes(jenis) ? prev : [...prev, jenis]));
+    syncBackground(addToListRemote('strategiJenisList', jenis));
   }, []);
 
   const addPelangganKategori = useCallback((kategori) => {
     setPelangganKategoriList(prev => (prev.includes(kategori) ? prev : [...prev, kategori]));
+    syncBackground(addToListRemote('pelangganKategoriList', kategori));
   }, []);
+
+  if (sheetsLoading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0F0F12', color: '#F1EFE7', fontSize: 13 }}>
+        Memuat data dari Google Sheets...
+      </div>
+    );
+  }
 
   return (
     <DataContext.Provider value={{
@@ -111,6 +184,7 @@ export function DataProvider({ children }) {
       bukuKas, addBukuKasEntry,
       anggaranMarketing, strategiJenisList, addStrategiJenis,
       pelangganKategoriList, addPelangganKategori,
+      sheetsError,
     }}>
       {children}
     </DataContext.Provider>
