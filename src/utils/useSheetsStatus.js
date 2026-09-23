@@ -2,15 +2,16 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 
 const BASE_URL = import.meta.env.VITE_SHEETS_API_URL;
 const CEK_ULANG_MS = 30000; // cek ulang tiap 30 detik
-const BATAS_KUAT_MS = 1500; // respons di bawah ini = kuat (hijau)
-const BATAS_LEMAH_MS = 4000; // respons di bawah ini (tapi di atas kuat) = lemah (kuning), di atasnya/gagal = putus (merah)
+const BATAS_KUAT_MS = 3000; // respons di bawah ini = kuat (hijau)
+const BATAS_LEMAH_MS = 8000; // respons di bawah ini (tapi di atas kuat) = lemah (kuning), di atasnya/gagal = putus (merah)
+const BATAS_ABORT_MS = 12000; // batas keras nunggu — Apps Script kadang lambat "bangun" (cold start) beberapa detik pertama
 
 /**
  * Status: 'checking' | 'connected' | 'weak' | 'disconnected' | 'unconfigured'
  * - unconfigured: VITE_SHEETS_API_URL belum diisi sama sekali (belum setup)
- * - connected: terjawab cepat (<1.5 detik)
- * - weak: terjawab tapi lambat (1.5-4 detik)
- * - disconnected: gagal atau lebih dari 4 detik
+ * - connected: terjawab cepat (<3 detik)
+ * - weak: terjawab tapi lambat (3-8 detik)
+ * - disconnected: gagal atau lebih dari 8 detik
  */
 export function useSheetsStatus() {
   const [status, setStatus] = useState(BASE_URL ? 'checking' : 'unconfigured');
@@ -23,15 +24,16 @@ export function useSheetsStatus() {
     const mulai = Date.now();
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), BATAS_LEMAH_MS + 1000);
+      const timeoutId = setTimeout(() => controller.abort(), BATAS_ABORT_MS);
       const res = await fetch(BASE_URL, { signal: controller.signal });
       clearTimeout(timeoutId);
       const durasi = Date.now() - mulai;
-      if (!res.ok) { setStatus('disconnected'); }
+      if (!res.ok) { console.warn('[Sheets] respons tidak OK, status:', res.status); setStatus('disconnected'); }
       else if (durasi < BATAS_KUAT_MS) { setStatus('connected'); }
       else if (durasi < BATAS_LEMAH_MS) { setStatus('weak'); }
       else { setStatus('disconnected'); }
-    } catch {
+    } catch (err) {
+      console.error('[Sheets] gagal terhubung —', err.name + ':', err.message);
       setStatus('disconnected');
     } finally {
       setLastCheck(new Date());
