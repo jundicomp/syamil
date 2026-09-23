@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.35.2',
+    tanggal: '2026-09-23',
+    judul: 'Sapuan Sisa Data Dummy: Breadcrumb & Tanggal Simulasi Mati',
+    perubahan: [
+      'AppShell: breadcrumb default "Percetakan Jaya" (nama usaha contoh lama) dihapus — sekaligus ketahuan halaman Profil Saya & Changelog selama ini salah label breadcrumb (nunjukin nama grup halaman lain), sekarang sudah benar',
+      'dateUtils.js: konstanta APP_TODAY (tanggal simulasi 12 Agustus 2026, sudah tidak dipakai di mana pun sejak transaksi pakai tanggal sungguhan) dihapus, sisa kode mati',
+      'Sudah disapu menyeluruh ke seluruh kode — dipastikan tidak ada lagi nama usaha, pelanggan, tanggal simulasi, atau nomor dokumen contoh lama yang masih nyangkut sebagai nilai aktif/default',
+    ],
+  },
+  {
     version: '0.35.1',
     tanggal: '2026-09-23',
     judul: 'Fix: "Pak Budi" Masih Muncul di Kalkulasi HPP & Ciptakan SPK',

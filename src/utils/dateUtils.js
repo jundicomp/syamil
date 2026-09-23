@@ -1,9 +1,6 @@
 export const BULAN_SINGKAT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 export const BULAN_LENGKAP = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-// "Hari ini" simulasi aplikasi — konsisten dengan data contoh yang dianchor ke 12 Agustus 2026.
-export const APP_TODAY = new Date(2026, 7, 12);
-
 /** Tanggal hari ini SUNGGUHAN (dari jam komputer/server), format "12 Sep 2026" — dipakai untuk transaksi baru. */
 export function todayID() {
   const d = new Date();

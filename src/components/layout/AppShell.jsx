@@ -19,11 +19,13 @@ export default function AppShell() {
   // Di HP, sidebar otomatis mode ikon-saja — tombol hamburger cuma relevan di desktop.
   const collapsed = isMobile || manualCollapsed;
 
-  let crumb = 'Percetakan Jaya', title = 'Beranda';
+  let crumb = '', title = 'Beranda';
   for (const g of groups) {
     const item = g.items.find(it => it.path === location.pathname);
     if (item) { crumb = g.group; title = item.label; break; }
   }
+  if (location.pathname === '/profil-saya') { crumb = 'Akun'; title = 'Profil Saya'; }
+  if (location.pathname === '/changelog') { crumb = 'Sistem'; title = 'Changelog'; }
 
   return (
     <div className="app-shell">
