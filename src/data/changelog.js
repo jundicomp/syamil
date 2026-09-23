@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.31.2',
+    tanggal: '2026-09-23',
+    judul: 'Fix: Status Koneksi Sheets Kedip Putus-Nyambung',
+    perubahan: [
+      'AKAR MASALAH: halaman auto-reload penuh tiap kali status "pulih" dari putus ke tersambung — kalau koneksinya wajar naik-turun sedikit (lumrah buat Apps Script cold start), reload itu jadi kerasa app-nya putus-nyambung terus',
+      'Status "putus" sekarang baru ditandai kalau gagal 2x berturut-turut (bukan 1x kedipan sesaat) — kedipan tunggal dianggap "lemah" dulu, bukan langsung merah',
+      'Auto-reload halaman DIHAPUS untuk kedipan sesaat — cuma jalan kalau tadinya benar-benar putus beberapa kali berturut-turut lalu pulih (outage sungguhan, bukan jitter biasa)',
+    ],
+  },
+  {
     version: '0.31.1',
     tanggal: '2026-09-23',
     judul: 'Fix: Deploy GitHub Actions Tidak Tahu URL Google Sheets',
