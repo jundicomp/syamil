@@ -11,6 +11,7 @@ import {
   fetchAllTables, addRowRemote, updateRowRemote, deleteRowRemote,
   setKvRemote, addToListRemote, toggleHakAksesRemote,
 } from '../data/sheetsAdapter';
+import SkeletonLoader from '../components/common/SkeletonLoader';
 
 const DataContext = createContext(null);
 
@@ -182,11 +183,7 @@ export function DataProvider({ children }) {
   }, []);
 
   if (sheetsLoading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0F0F12', color: '#F1EFE7', fontSize: 13 }}>
-        Memuat data dari Google Sheets...
-      </div>
-    );
+    return <SkeletonLoader />;
   }
 
   return (

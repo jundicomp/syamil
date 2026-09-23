@@ -3,6 +3,17 @@
 
 export const CHANGELOG = [
   {
+    version: '0.34.0',
+    tanggal: '2026-09-23',
+    judul: 'Skeleton Loading Premium, Import Produk dari Excel, Ukuran List Diseragamkan',
+    perubahan: [
+      'SkeletonLoader baru — layar loading awal (pas ambil data dari Sheets) sekarang meniru bentuk sidebar+topbar+konten dengan animasi shimmer, bukan cuma teks "Memuat..."',
+      'Produk: tombol "Import dari Excel" baru — unduh template, isi, upload, sistem validasi tiap baris (Nama/Kategori/Satuan/Harga wajib), pratinjau sebelum diimpor. Catatan: cuma untuk produk tipe Tetap, produk Matriks Harga tetap harus satu-satu manual',
+      'FIX performa: modul import Excel Produk sebelumnya bikin ukuran unduhan awal aplikasi melonjak dari ~490KB ke 1.36MB (library Excel ke-bundle langsung, bukan lazy) — sekarang dikembalikan jadi lazy-load, cuma diunduh pas tombol Import diklik',
+      'Ukuran dropdown/list diseragamkan di seluruh aplikasi — Filter Kategori Pelanggan dan pemilih "jumlah baris per halaman" di semua tabel yang sebelumnya lebih kecil dari standar, sekarang konsisten',
+    ],
+  },
+  {
     version: '0.33.0',
     tanggal: '2026-09-23',
     judul: 'Changelog: Bisa Digulung, Khusus Superadmin, Bisa Diunduh',

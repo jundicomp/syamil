@@ -88,13 +88,13 @@ export default function PelangganSupplierPage() {
 
       {isPelanggan && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '2px 0 14px' }}>
-          <label style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--text-soft)' }}>Filter Kategori</label>
-          <select value={kategoriFilter} onChange={e => setKategoriFilter(e.target.value)} style={{ maxWidth: 180 }}>
+          <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-soft)' }}>Filter Kategori</label>
+          <select value={kategoriFilter} onChange={e => setKategoriFilter(e.target.value)} style={{ maxWidth: 200 }}>
             <option value="Semua">Semua Kategori</option>
             {pelangganKategoriList.map(k => <option key={k} value={k}>{k}</option>)}
           </select>
-          <button type="button" className="btn-outline" style={{ padding: '7px 12px', fontSize: 11.5 }} onClick={handleTambahKategori}>+ Kategori Baru</button>
-          {kategoriFilter !== 'Semua' && <span style={{ fontSize: 11.5, color: 'var(--text-faint)' }}>{pelangganRows.length} pelanggan · Excel/PDF ikut kategori terpilih</span>}
+          <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={handleTambahKategori}>+ Kategori Baru</button>
+          {kategoriFilter !== 'Semua' && <span style={{ fontSize: 11, color: 'var(--text-faint)' }}>{pelangganRows.length} pelanggan · Excel/PDF ikut kategori terpilih</span>}
         </div>
       )}
 

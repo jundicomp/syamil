@@ -203,7 +203,7 @@ export default function DataTable({
           <select
             value={pageSize}
             onChange={e => handlePageSizeChange(Number(e.target.value))}
-            style={{ width: 'auto', padding: '4px 8px', fontSize: 11.5 }}
+            style={{ width: 'auto', padding: '6px 11px', fontSize: 11 }}
           >
             {PAGE_SIZE_OPTIONS.map(n => <option key={n} value={n}>{n} baris</option>)}
           </select>

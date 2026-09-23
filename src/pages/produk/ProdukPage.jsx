@@ -3,6 +3,7 @@ import { useData } from '../../context/DataContext';
 import DataTable from '../../components/common/DataTable';
 import FormModal from '../../components/common/FormModal';
 import MatrixHargaModal from './MatrixHargaModal';
+import ProdukImportModal from './ProdukImportModal';
 import Icon from '../../components/common/Icon';
 
 const PRODUK_FIELDS = [
@@ -17,6 +18,7 @@ export default function ProdukPage() {
   const { data, addRow, updateRow, deleteRow } = useData();
   const [modal, setModal] = useState(null);
   const [matrixProduk, setMatrixProduk] = useState(null);
+  const [importModal, setImportModal] = useState(false);
 
   const PRODUK_COLUMNS = [
     { key: 'nama', label: 'Nama' },
@@ -46,6 +48,9 @@ export default function ProdukPage() {
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+        <button type="button" className="btn-outline" style={{ padding: '6px 11px', fontSize: 11 }} onClick={() => setImportModal(true)}>⬆ Import dari Excel</button>
+      </div>
       <DataTable
         title="Produk"
         subtitle="Data master produk untuk transaksi penjualan — bahan baku sekarang di modul Stok"
@@ -66,6 +71,7 @@ export default function ProdukPage() {
         />
       )}
       {matrixProduk && <MatrixHargaModal produk={matrixProduk} onClose={() => setMatrixProduk(null)} />}
+      {importModal && <ProdukImportModal onClose={() => setImportModal(false)} />}
     </div>
   );
 }
