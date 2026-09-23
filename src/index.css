@@ -148,14 +148,32 @@ button{color:inherit;font-family:inherit;}
 @media (max-width:880px){
   .main{min-width:0;}
   .topbar{padding:12px 14px;gap:8px;}
-  .sheet-pill{display:none;}
+  .sheet-badge{width:28px;height:28px;}
   .kasir-chip b{display:none;}
 }
 
 .hamburger{display:flex;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel);align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;color:inherit;}
 .hamburger svg{width:17px;height:17px;stroke:#FF8C42;}
-.sheet-pill{display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:11.5px;color:var(--text-soft);flex:0 0 auto;}
-.sheet-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto;}
+.sheet-badge{display:flex;align-items:center;justify-content:center;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 10px;flex:0 0 auto;cursor:default;}
+.badge-letter{font-size:11px;font-weight:800;color:var(--text-soft);}
+.pulse-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;position:relative;}
+.pulse-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;animation:pulseRing 1.8s ease-out infinite;}
+.status-connected .pulse-dot{background:#2FAE6D;}
+.status-connected .pulse-dot::after{background:#2FAE6D;}
+.status-weak .pulse-dot{background:#E0923C;}
+.status-weak .pulse-dot::after{background:#E0923C;animation-duration:1.1s;}
+.status-disconnected .pulse-dot{background:#E1665A;}
+.status-disconnected .pulse-dot::after{display:none;}
+.status-unconfigured .pulse-dot{background:var(--text-faint);}
+.status-unconfigured .pulse-dot::after{display:none;}
+.status-checking .pulse-dot{background:var(--text-faint);}
+.status-checking .pulse-dot::after{display:none;}
+@keyframes pulseRing{0%{opacity:.55;transform:scale(1);}100%{opacity:0;transform:scale(2.2);}}
+
+.login-conn-status{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;font-size:11.5px;color:var(--text-soft);}
+.login-conn-status.status-connected{color:#2FAE6D;}
+.login-conn-status.status-weak{color:#E0923C;}
+.login-conn-status.status-disconnected{color:var(--text-faint);}
 
 .icon-btn.act-view{border-color:rgba(76,155,232,.35);color:#5CA6E8;}
 .icon-btn.act-view svg{stroke:#5CA6E8;}

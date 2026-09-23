@@ -3,6 +3,18 @@
 
 export const CHANGELOG = [
   {
+    version: '0.30.0',
+    tanggal: '2026-09-23',
+    judul: 'Data Dikosongkan (Siap Pakai Sungguhan) + Indikator Koneksi Google Sheets',
+    perubahan: [
+      'Semua data demo/dummy dikosongkan — Pelanggan, Supplier, Produk, BahanBaku, Penjualan, Produksi, Pembelian, Piutang/Hutang, BukuKas, dan lainnya sekarang mulai dari nol',
+      'Yang TETAP ada (bukan data dummy, konfigurasi sistem): 1 akun login "Owner", Settings kosong siap diisi, Hak Akses, daftar kategori/jenis',
+      'Indikator koneksi Google Sheets baru — badge kompak (pulse + huruf "D") di Topbar: hijau=tersambung cepat, kuning=tersambung tapi lambat, merah=tidak tersambung, abu=belum diatur',
+      'Auto cek ulang koneksi tiap 30 detik — kalau baru pulih dari putus ke tersambung, halaman otomatis dimuat ulang',
+      'Halaman Login sekarang menampilkan status koneksi Google Sheets (pulse hijau + keterangan) sebelum form — form tetap bisa dipakai walau belum tersambung (supaya mode lokal/testing tidak terkunci)',
+    ],
+  },
+  {
     version: '0.29.0',
     tanggal: '2026-09-22',
     judul: 'Persiapan Google Sheets: 27 Tab, Auto-Setup, Strategi Loading Cepat',

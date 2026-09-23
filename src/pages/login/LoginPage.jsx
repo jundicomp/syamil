@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
 import { firstAccessiblePath } from '../../data/navConfig';
+import { useSheetsStatus } from '../../utils/useSheetsStatus';
 
 export default function LoginPage() {
   const { data, settings, hakAkses } = useData();
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { status: sheetsStatus } = useSheetsStatus();
   const akunAktif = data.pengguna.filter(p => p.status === 'Aktif');
   const [userId, setUserId] = useState(akunAktif[0]?.id ?? '');
   const [password, setPassword] = useState('');
@@ -43,6 +45,17 @@ export default function LoginPage() {
           </div>
           <h1 style={{ color: 'var(--text)', fontSize: 20, fontWeight: 700, margin: 0 }}>{settings.namaUsaha}</h1>
           <p style={{ color: 'var(--text-faint)', fontSize: 12, margin: '4px 0 0' }}>Sistem Terpadu</p>
+        </div>
+
+        <div className={`login-conn-status status-${sheetsStatus}`}>
+          <span className="pulse-dot" />
+          <span>
+            {sheetsStatus === 'connected' && 'Google Sheets tersambung'}
+            {sheetsStatus === 'weak' && 'Google Sheets tersambung (koneksi lambat)'}
+            {sheetsStatus === 'checking' && 'Memeriksa koneksi...'}
+            {sheetsStatus === 'unconfigured' && 'Google Sheets belum diatur — pakai data lokal'}
+            {sheetsStatus === 'disconnected' && 'Google Sheets tidak tersambung — pakai data lokal'}
+          </span>
         </div>
 
         <form onSubmit={handleSubmit} className="modal-card" style={{ maxWidth: 'none' }}>
