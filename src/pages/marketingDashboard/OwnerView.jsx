@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import LeaderboardBlock, { computeLeaderboard } from './LeaderboardBlock';
 import ExportButtons from '../../components/common/ExportButtons';
+import DateRangeFilter from '../../components/common/DateRangeFilter';
+import { parseTanggalID, inRange } from '../../utils/dateUtils';
 
 const KODE_EXPORT_COLUMNS = [
   { key: 'nama', label: 'Nama' },
@@ -28,10 +31,17 @@ export default function OwnerView() {
   const ranked = computeLeaderboard(marketers, data.penjualan);
 
   const totalTarget = ranked.reduce((s, m) => s + m.target, 0);
-  const totalCapaian = ranked.reduce((s, m) => s + m.omzet, 0);
+  const totalCapaian = ranked.reduce((s, m) => s + m.omzetBulanIni, 0);
   const terpakai = data.strategiMarketing.filter(s => s.statusPengajuan === 'Disetujui').reduce((s, x) => s + (x.jumlahAnggaran || 0), 0);
 
-  const pending = data.strategiMarketing.filter(s => s.statusPengajuan === 'Menunggu');
+  const [rangePending, setRangePending] = useState({ from: null, to: null });
+  const [rangeStrategi, setRangeStrategi] = useState({ from: null, to: null });
+
+  const pending = data.strategiMarketing
+    .filter(s => s.statusPengajuan === 'Menunggu')
+    .filter(s => inRange(parseTanggalID(s.tanggal), rangePending.from, rangePending.to));
+  const strategiTerfilter = data.strategiMarketing
+    .filter(s => inRange(parseTanggalID(s.tanggal), rangeStrategi.from, rangeStrategi.to));
 
   function setujui(id) { updateRow('strategiMarketing', id, { statusPengajuan: 'Disetujui' }); }
   function tolak(id) { updateRow('strategiMarketing', id, { statusPengajuan: 'Ditolak' }); }
@@ -65,8 +75,9 @@ export default function OwnerView() {
 
         <div className="table-wrap" style={{ padding: '18px 20px' }}>
           <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 4 }}>Antrean Persetujuan Anggaran</label>
-          <div className="page-sub" style={{ marginBottom: 12 }}>Ditolak tetap tersimpan sebagai catatan, tidak dihapus.</div>
-          {pending.length === 0 ? <p style={{ fontSize: 12, color: 'var(--text-faint)' }}>Tidak ada pengajuan menunggu.</p> : pending.map(s => (
+          <div className="page-sub" style={{ marginBottom: 10 }}>Ditolak tetap tersimpan sebagai catatan, tidak dihapus.</div>
+          <DateRangeFilter from={rangePending.from} to={rangePending.to} onChange={setRangePending} />
+          {pending.length === 0 ? <p style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 10 }}>Tidak ada pengajuan menunggu.</p> : pending.map(s => (
             <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 0', borderBottom: '1px solid var(--line-soft)' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <b style={{ fontSize: 12.5, display: 'block' }}>{s.userMarketing} — {s.jenis}</b>
@@ -82,12 +93,13 @@ export default function OwnerView() {
       <div className="table-wrap" style={{ padding: '18px 20px', marginTop: 16 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 12 }}>Semua Strategi Marketing</label>
-          <ExportButtons title="Semua Strategi Marketing" columns={STRATEGI_EXPORT_COLUMNS} rows={data.strategiMarketing} />
+          <ExportButtons title="Semua Strategi Marketing" columns={STRATEGI_EXPORT_COLUMNS} rows={strategiTerfilter} />
         </div>
-        <table className="data-table">
+        <DateRangeFilter from={rangeStrategi.from} to={rangeStrategi.to} onChange={setRangeStrategi} />
+        <table className="data-table" style={{ marginTop: 10 }}>
           <thead><tr><th>Tanggal</th><th>User</th><th>Jenis</th><th>Catatan</th><th>Status</th></tr></thead>
           <tbody>
-            {data.strategiMarketing.map(s => (
+            {strategiTerfilter.length === 0 ? <tr><td colSpan={5} className="empty-row">Tidak ada data pada periode ini.</td></tr> : strategiTerfilter.map(s => (
               <tr key={s.id}>
                 <td>{s.tanggal}</td><td>{s.userMarketing}</td><td>{s.jenis}</td><td>{s.catatan}</td>
                 <td><StatusBadge status={s.statusPengajuan} /></td>

@@ -3,7 +3,8 @@ import { useData } from '../../context/DataContext';
 import { useNotify } from '../../context/NotificationContext';
 import LeaderboardBlock, { computeLeaderboard } from './LeaderboardBlock';
 import ExportButtons from '../../components/common/ExportButtons';
-import { todayID } from '../../utils/dateUtils';
+import DateRangeFilter from '../../components/common/DateRangeFilter';
+import { todayID, parseTanggalID, inRange } from '../../utils/dateUtils';
 
 const SALES_EXPORT_COLUMNS = [
   { key: 'tanggal', label: 'Tanggal' },
@@ -31,13 +32,19 @@ export default function PersonalView({ nama }) {
   const { notifyError, notifySuccess, promptDialog } = useNotify();
   const user = data.pengguna.find(p => p.nama === nama);
   const marketers = data.pengguna.filter(p => p.role === 'Marketing' && p.status === 'Aktif');
-  const ranked = computeLeaderboard(marketers, data.penjualan);
-  const me = ranked.find(m => m.nama === nama) || { omzet: 0, target: user.targetBulanan };
+  const ranked = computeLeaderboard(marketers, data.penjualan).sort((a, b) => b.omzetBulanIni - a.omzetBulanIni);
+  const me = ranked.find(m => m.nama === nama) || { omzetBulanIni: 0, omzetTotal: 0, target: user.targetBulanan };
   const rank = Math.max(1, ranked.findIndex(m => m.nama === nama) + 1);
-  const pct = me.target ? Math.round((me.omzet / me.target) * 100) : 0;
+  const pct = me.target ? Math.round((me.omzetBulanIni / me.target) * 100) : 0;
 
-  const mySales = data.penjualan.filter(p => p.kodeMarketing === user.kodeMarketing);
-  const myStrategi = data.strategiMarketing.filter(s => s.userMarketing === nama);
+  const [rangeSales, setRangeSales] = useState({ from: null, to: null });
+  const [rangeStrategi, setRangeStrategi] = useState({ from: null, to: null });
+  const mySales = data.penjualan
+    .filter(p => p.kodeMarketing === user.kodeMarketing)
+    .filter(p => inRange(parseTanggalID(p.tanggal), rangeSales.from, rangeSales.to));
+  const myStrategi = data.strategiMarketing
+    .filter(s => s.userMarketing === nama)
+    .filter(s => inRange(parseTanggalID(s.tanggal), rangeStrategi.from, rangeStrategi.to));
 
   const [jenis, setJenis] = useState(strategiJenisList[0]);
   const [catatan, setCatatan] = useState('');
@@ -69,7 +76,7 @@ export default function PersonalView({ nama }) {
     <div>
       <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: 18 }}>
         <div className="stat-card"><div className="lbl">Target Saya</div><div className="val">Rp{fmt(me.target)}</div></div>
-        <div className="stat-card"><div className="lbl">Capaian Saya</div><div className="val">Rp{fmt(me.omzet)}</div></div>
+        <div className="stat-card"><div className="lbl">Capaian Saya</div><div className="val">Rp{fmt(me.omzetBulanIni)}</div></div>
         <div className="stat-card"><div className="lbl">Persentase</div><div className="val">{pct}%</div></div>
         <div className="stat-card"><div className="lbl">Peringkat</div><div className="val">#{rank} dari {ranked.length}</div></div>
       </div>
@@ -81,11 +88,12 @@ export default function PersonalView({ nama }) {
           <label className="settings-section-label" style={{ marginTop: 0, marginBottom: 4 }}>Penjualan Saya</label>
           <ExportButtons title={`Penjualan Saya - ${nama}`} columns={SALES_EXPORT_COLUMNS} rows={mySales} />
         </div>
-        <div className="page-sub" style={{ marginBottom: 12 }}>Cuma transaksi berkode {user.kodeMarketing} — bukan seluruh Laporan Penjualan.</div>
-        <table className="data-table">
+        <div className="page-sub" style={{ marginBottom: 10 }}>Cuma transaksi berkode {user.kodeMarketing} — bukan seluruh Laporan Penjualan.</div>
+        <DateRangeFilter from={rangeSales.from} to={rangeSales.to} onChange={setRangeSales} />
+        <table className="data-table" style={{ marginTop: 10 }}>
           <thead><tr><th>Tanggal</th><th>No. Nota</th><th>Pelanggan</th><th className="r">Total</th><th>Status</th></tr></thead>
           <tbody>
-            {mySales.length === 0 ? <tr><td colSpan={5} className="empty-row">Belum ada transaksi.</td></tr> : mySales.map(s => (
+            {mySales.length === 0 ? <tr><td colSpan={5} className="empty-row">Tidak ada transaksi pada periode ini.</td></tr> : mySales.map(s => (
               <tr key={s.id}><td>{s.tanggal}</td><td>{s.noNota}</td><td>{s.pelanggan}</td><td className="r">Rp{fmt(s.total)}</td><td><StatusBadge status={s.status} /></td></tr>
             ))}
           </tbody>
@@ -114,10 +122,11 @@ export default function PersonalView({ nama }) {
         )}
         <button className="btn-gold" style={{ marginBottom: 16 }} onClick={handleSubmitStrategi}>Simpan Strategi</button>
 
-        <table className="data-table">
+        <DateRangeFilter from={rangeStrategi.from} to={rangeStrategi.to} onChange={setRangeStrategi} />
+        <table className="data-table" style={{ marginTop: 10 }}>
           <thead><tr><th>Tanggal</th><th>Jenis</th><th>Catatan</th><th>Status</th></tr></thead>
           <tbody>
-            {myStrategi.length === 0 ? <tr><td colSpan={4} className="empty-row">Belum ada strategi.</td></tr> : myStrategi.map(s => (
+            {myStrategi.length === 0 ? <tr><td colSpan={4} className="empty-row">Tidak ada data pada periode ini.</td></tr> : myStrategi.map(s => (
               <tr key={s.id}><td>{s.tanggal}</td><td>{s.jenis}</td><td>{s.catatan}</td><td><StatusBadge status={s.statusPengajuan} /></td></tr>
             ))}
           </tbody>

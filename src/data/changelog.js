@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.35.0',
+    tanggal: '2026-09-23',
+    judul: 'Marketing: Leaderboard Bulan Ini vs Total Beneran Beda + Filter Tanggal',
+    perubahan: [
+      'FIX Leaderboard: tab "Bulan Ini" dan "Akumulasi Total" sebelumnya nunjukin angka yang SAMA PERSIS (cuma beda tampilan progress bar) — sekarang beneran dihitung terpisah, omzet bulan berjalan vs sepanjang waktu, dan urutan rangking ikut berubah sesuai tab yang aktif',
+      'Filter rentang tanggal baru di 4 tabel Marketing yang belum punya: Antrean Persetujuan Anggaran, Semua Strategi Marketing (Dashboard Owner), Penjualan Saya, dan Strategi Saya (Lihat Sebagai/Personal View)',
+      'Export Excel/PDF di tabel-tabel itu otomatis ikut rentang tanggal yang difilter',
+    ],
+  },
+  {
     version: '0.34.1',
     tanggal: '2026-09-23',
     judul: 'Import Excel Sekarang Dukung Produk Matriks Harga Juga',

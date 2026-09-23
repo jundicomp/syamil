@@ -1,17 +1,34 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { parseTanggalID } from '../../utils/dateUtils';
 
 function fmt(n) { return Math.round(n || 0).toLocaleString('id-ID'); }
 
+/** Hitung omzet BULAN INI dan omzet TOTAL (akumulasi) terpisah per marketer — dua angka beda, bukan cuma satu dipakai dua kali. */
 export function computeLeaderboard(marketers, penjualan) {
+  const now = new Date();
+  const bulanIni = now.getMonth();
+  const tahunIni = now.getFullYear();
+
   return marketers.map(m => {
-    const omzet = penjualan.filter(p => p.kodeMarketing === m.kodeMarketing).reduce((s, p) => s + p.total, 0);
-    return { nama: m.nama, kode: m.kodeMarketing, omzet, target: m.targetBulanan || 0 };
-  }).sort((a, b) => b.omzet - a.omzet);
+    const milikMarketer = penjualan.filter(p => p.kodeMarketing === m.kodeMarketing);
+    const omzetTotal = milikMarketer.reduce((s, p) => s + p.total, 0);
+    const omzetBulanIni = milikMarketer.reduce((s, p) => {
+      const t = parseTanggalID(p.tanggal);
+      const masukBulanIni = t && t.getMonth() === bulanIni && t.getFullYear() === tahunIni;
+      return masukBulanIni ? s + p.total : s;
+    }, 0);
+    return { nama: m.nama, kode: m.kodeMarketing, omzetBulanIni, omzetTotal, target: m.targetBulanan || 0 };
+  });
 }
 
 export default function LeaderboardBlock({ ranked, viewerName }) {
   const [tab, setTab] = useState('bulan');
-  const maxOmzet = Math.max(...ranked.map(m => m.omzet), 1);
+  const daftar = useMemo(() => {
+    const key = tab === 'bulan' ? 'omzetBulanIni' : 'omzetTotal';
+    return [...ranked].sort((a, b) => b[key] - a[key]);
+  }, [ranked, tab]);
+  const omzetAktif = m => (tab === 'bulan' ? m.omzetBulanIni : m.omzetTotal);
+  const maxOmzet = Math.max(...daftar.map(omzetAktif), 1);
 
   return (
     <div className="table-wrap" style={{ padding: '18px 20px', marginBottom: 18 }}>
@@ -23,10 +40,11 @@ export default function LeaderboardBlock({ ranked, viewerName }) {
         </div>
       </div>
 
-      {ranked.map((m, i) => {
+      {daftar.map((m, i) => {
         const isMe = m.nama === viewerName;
-        const pct = m.target ? Math.round((m.omzet / m.target) * 100) : 0;
-        const barPct = tab === 'bulan' ? Math.min(100, pct) : Math.round((m.omzet / maxOmzet) * 100);
+        const omzet = omzetAktif(m);
+        const pct = m.target ? Math.round((omzet / m.target) * 100) : 0;
+        const barPct = tab === 'bulan' ? Math.min(100, pct) : Math.round((omzet / maxOmzet) * 100);
         return (
           <div
             key={m.nama}
@@ -53,7 +71,7 @@ export default function LeaderboardBlock({ ranked, viewerName }) {
               </div>
             )}
             <div style={{ fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap', minWidth: 130, textAlign: 'right' }}>
-              Rp{fmt(m.omzet)} {tab === 'bulan' && <span style={{ fontWeight: 500, color: 'var(--text-faint)' }}>{pct}%</span>}
+              Rp{fmt(omzet)} {tab === 'bulan' && <span style={{ fontWeight: 500, color: 'var(--text-faint)' }}>{pct}%</span>}
             </div>
           </div>
         );
