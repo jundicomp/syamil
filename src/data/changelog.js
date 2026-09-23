@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.31.3',
+    tanggal: '2026-09-23',
+    judul: 'Fix: Status Sering Nyangkut di Kuning Padahal Sudah Tersambung',
+    perubahan: [
+      'AKAR MASALAH: status "lemah" (kuning) sebelumnya dipicu kalau respons Apps Script lebih dari 3 detik — padahal Apps Script itu wajar butuh beberapa detik cold start, jadi sering nyangkut kuning walau sebenarnya berhasil tersambung',
+      'Disederhanakan: SELAMA respons berhasil (dalam 12 detik), langsung hijau — tidak peduli cepat atau agak lambat',
+      'Kuning sekarang cuma muncul kalau baru gagal 1x (lagi dicoba ulang, belum tentu putus beneran)',
+    ],
+  },
+  {
     version: '0.31.2',
     tanggal: '2026-09-23',
     judul: 'Fix: Status Koneksi Sheets Kedip Putus-Nyambung',

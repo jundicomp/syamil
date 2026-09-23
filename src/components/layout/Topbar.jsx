@@ -50,7 +50,7 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
       <div className="spacer" />
       <div className={`sheet-badge status-${sheetsStatus}`} title={
         sheetsStatus === 'connected' ? 'Google Sheets tersambung' :
-        sheetsStatus === 'weak' ? 'Google Sheets tersambung tapi lambat' :
+        sheetsStatus === 'weak' ? 'Mencoba menyambungkan ke Google Sheets...' :
         sheetsStatus === 'unconfigured' ? 'Google Sheets belum diatur — pakai data lokal' :
         sheetsStatus === 'checking' ? 'Memeriksa koneksi Google Sheets...' :
         'Google Sheets tidak tersambung — pakai data lokal'

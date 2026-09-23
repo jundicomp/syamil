@@ -51,7 +51,7 @@ export default function LoginPage() {
           <span className="pulse-dot" />
           <span>
             {sheetsStatus === 'connected' && 'Google Sheets tersambung'}
-            {sheetsStatus === 'weak' && 'Google Sheets tersambung (koneksi lambat)'}
+            {sheetsStatus === 'weak' && 'Mencoba menyambungkan ke Google Sheets...'}
             {sheetsStatus === 'checking' && 'Memeriksa koneksi...'}
             {sheetsStatus === 'unconfigured' && 'Google Sheets belum diatur — pakai data lokal'}
             {sheetsStatus === 'disconnected' && 'Google Sheets tidak tersambung — pakai data lokal'}
