@@ -147,10 +147,6 @@ export default function LoginPage() {
             </button>
           </form>
         )}
-
-        <p style={{ fontSize: 10.5, color: 'var(--text-faint)', textAlign: 'center', marginTop: 14 }}>
-          ⚠ Login admin/123456 selalu berfungsi terlepas dari koneksi Sheets.
-        </p>
       </div>
     </div>
   );

@@ -3,6 +3,14 @@
 
 export const CHANGELOG = [
   {
+    version: '0.36.1',
+    tanggal: '2026-09-23',
+    judul: 'Hapus Petunjuk Login admin/123456 dari Halaman Login',
+    perubahan: [
+      'Teks "Login admin/123456 selalu berfungsi..." dihapus dari halaman Login — kredensial bootstrap tidak perlu terpampang di halaman publik',
+    ],
+  },
+  {
     version: '0.36.0',
     tanggal: '2026-09-23',
     judul: 'Lupa Password — Kirim Password Sementara ke Email',
