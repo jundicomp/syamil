@@ -6,6 +6,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import AppShell from './components/layout/AppShell';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import HomeRedirect from './components/layout/HomeRedirect';
+import DocumentMeta from './components/common/DocumentMeta';
 import LoginPage from './pages/login/LoginPage';
 import ProfilSayaPage from './pages/profil/ProfilSayaPage';
 import PelangganSupplierPage from './pages/pelangganSupplier/PelangganSupplierPage';
@@ -30,6 +31,7 @@ import NeracaPage from './pages/neraca/NeracaPage';
 export default function App() {
   return (
     <DataProvider>
+      <DocumentMeta />
       <ThemeProvider>
         <AuthProvider>
           <NotificationProvider>

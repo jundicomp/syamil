@@ -3,6 +3,16 @@
 
 export const CHANGELOG = [
   {
+    version: '0.37.0',
+    tanggal: '2026-09-23',
+    judul: 'Judul Tab Browser & Favicon Sekarang Ikut Nama Usaha/Logo',
+    perubahan: [
+      'Judul tab browser dulu statis "Percetakan Jaya" — sekarang otomatis ikut Nama Usaha yang diisi di Pengaturan Sistem > Perusahaan, dan otomatis update tiap kali diganti',
+      'Favicon (ikon kecil di tab browser) diganti dari "petir" ungu jadi ikon printer sederhana warna emas — dan otomatis ganti jadi Logo Anda sendiri begitu diupload di Pengaturan Sistem > Perusahaan',
+      'DocumentMeta.jsx baru — komponen tanpa tampilan, cuma urus judul tab & favicon di belakang layar',
+    ],
+  },
+  {
     version: '0.36.1',
     tanggal: '2026-09-23',
     judul: 'Hapus Petunjuk Login admin/123456 dari Halaman Login',
