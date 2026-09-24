@@ -3,6 +3,15 @@
 
 export const CHANGELOG = [
   {
+    version: '0.38.0',
+    tanggal: '2026-09-23',
+    judul: 'Loading Awal Disederhanakan — Pulse + Tulisan Berkedip',
+    perubahan: [
+      'Layar loading awal (skeleton yang meniru sidebar+topbar+konten) diganti jadi lebih sederhana — titik pulse berkedip + tulisan "Loading" berkedip, biar tidak terkesan macet/hang',
+      'CSS skeleton lama (.skel-*, shimmer bergerak) dibersihkan, diganti animasi kedip sederhana (blinkPulse)',
+    ],
+  },
+  {
     version: '0.37.1',
     tanggal: '2026-09-23',
     judul: 'Teks Status Koneksi Sheets Disederhanakan Jadi "Connecting"',
