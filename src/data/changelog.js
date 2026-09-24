@@ -3,6 +3,15 @@
 
 export const CHANGELOG = [
   {
+    version: '0.37.1',
+    tanggal: '2026-09-23',
+    judul: 'Teks Status Koneksi Sheets Disederhanakan Jadi "Connecting"',
+    perubahan: [
+      'Semua variasi teks status koneksi Google Sheets (tersambung, lemah, memeriksa, belum diatur, tidak tersambung) diseragamkan jadi satu tulisan: "Connecting" — di badge Topbar dan halaman Login',
+      'Warna pulse dot tetap ikut status sebenarnya (hijau/kuning/merah/abu) — cuma tulisannya yang diseragamkan',
+    ],
+  },
+  {
     version: '0.37.0',
     tanggal: '2026-09-23',
     judul: 'Judul Tab Browser & Favicon Sekarang Ikut Nama Usaha/Logo',

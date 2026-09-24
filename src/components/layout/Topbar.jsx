@@ -48,13 +48,7 @@ export default function Topbar({ crumb, title, collapsed, onToggleCollapsed }) {
         <h1 className="page-title-top">{title}</h1>
       </div>
       <div className="spacer" />
-      <div className={`sheet-badge status-${sheetsStatus}`} title={
-        sheetsStatus === 'connected' ? 'Google Sheets tersambung' :
-        sheetsStatus === 'weak' ? 'Mencoba menyambungkan ke Google Sheets...' :
-        sheetsStatus === 'unconfigured' ? 'Google Sheets belum diatur — pakai data lokal' :
-        sheetsStatus === 'checking' ? 'Memeriksa koneksi Google Sheets...' :
-        'Google Sheets tidak tersambung — pakai data lokal'
-      }>
+      <div className={`sheet-badge status-${sheetsStatus}`} title="Connecting">
         <span className="pulse-dot" />
         <span className="badge-letter">D</span>
       </div>
